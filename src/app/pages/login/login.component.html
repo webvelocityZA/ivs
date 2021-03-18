@@ -1,0 +1,34 @@
+<div class="block md:flex h-screen w-screen bg-white">
+  <div class="w-1/2 bg-yellow-500" style="background: url('assets/img/login-bg.jpg'); background-size: cover;">
+    <div class="h-full w-full bg-black opacity-75"></div>
+  </div>
+  <div class="w-1/2 flex flex-col items justify-center p-4">
+    <div class="text-center">
+      <span class="font-semibold px-2 text-3xl">Login</span>
+    </div>
+    <form #loginForm="ngForm" (submit)="login(loginForm)" class="mt-6">
+      <div class="w-full md:w-full lg:w-full md:px-2 block">
+        <mat-form-field appearance="fill">
+          <mat-label>User Name</mat-label>
+          <input matInput placeholder="User Name" name="userName" ngModel #userNameInput="ngModel" required userName>
+          <mat-icon matSuffix>perm_identity</mat-icon>
+          <mat-error *ngIf="userNameInput.hasError('required')">User Name is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="w-full md:w-full lg:w-full md:px-2 block">
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your password</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <div class="mx-2 text-right">
+        <button mat-raised-button color="primary" type="submit" (click)="login(loginForm)">Log In</button>
+      </div>
+    </form>
+  </div>
+</div>
+

@@ -1,0 +1,41 @@
+<div class="h-screen flex flex-col">
+  <div class="w-full bg-gray-300 flex-1 flex items-center flex-col justify-center">
+    <img src="assets/img/gems-ivs-logo.png" alt="">
+    <span class="mt-4 font-semibold text-2xl">Intelligems Vaccination System</span>
+  </div>
+  <div class="w-full flex-1 bg-white flex justify-center items-center flex-wrap">
+
+    <div routerLink="/register" class="w-full md:w-44 h-44 m-4 bg-white shadow-lg rounded-lg landing-card cursor-pointer" style="background: url('https://provider.mhg.co.za/provider_login/login_bg.jpg'); background-size: cover; background-position: right;">
+      <div class="w-full h-full bg-black opacity-80 shadow-2xl relative rounded-lg">
+        <div class="absolute bottom-0 pl-3 pb-3">
+          <span class="text-white text-xs block tracking-widest leading-3">I AM A</span>
+          <span class="text-white font-bold text-2xl tracking-wider">MEMBER</span>
+        </div>
+      </div>
+    </div>
+    <div  routerLink="/login" class="w-full md:w-44 h-44 m-4 bg-white shadow-lg rounded-lg landing-card cursor-pointer" style="background: url('https://provider.mhg.co.za/provider_login/login_bg.jpg'); background-size: cover; background-position: right;">
+      <div class="w-full h-full bg-black opacity-80 shadow-2xl relative rounded-lg">
+        <div class="absolute bottom-0 pl-3 pb-3">
+          <span class="text-white text-xs block tracking-widest leading-3">I AM AN</span>
+          <span class="text-white font-bold text-2xl tracking-wider">ADMIN</span>
+        </div>
+      </div>
+    </div>
+    <div (click)="joinGEMS()" class="w-full md:w-44 h-44 m-4 bg-white shadow-lg rounded-lg landing-card cursor-pointer" style="background: url('https://provider.mhg.co.za/provider_login/login_bg.jpg'); background-size: cover; background-position: right;">
+      <div class="w-full h-full bg-black opacity-80 shadow-2xl relative rounded-lg">
+        <div class="absolute bottom-0 pl-3 pb-3">
+          <span class="text-white text-xs block tracking-widest leading-3">JOIN</span>
+          <span class="text-white font-bold text-2xl tracking-wider">GEMS</span>
+        </div>
+      </div>
+    </div>
+    <div routerLink="/feedback" class="w-full md:w-44 h-44 m-4 bg-white shadow-lg rounded-lg landing-card cursor-pointer" style="background: url('https://provider.mhg.co.za/provider_login/login_bg.jpg'); background-size: cover; background-position: right;">
+      <div class="w-full h-full bg-black opacity-80 shadow-2xl relative rounded-lg">
+        <div class="absolute bottom-0 pl-3 pb-3">
+          <span class="text-white text-xs block tracking-widest leading-3">LEAVE</span>
+          <span class="text-white font-bold text-2xl tracking-wider">FEEDBACK</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

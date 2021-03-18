@@ -1,0 +1,9 @@
+mat-sidenav-container, mat-sidenav-content, mat-sidenav {
+    height: 100%;
+}
+.ivs-spacer {
+    flex: 1 1 auto;
+}
+.side-navigation {
+    @apply w-60;
+}

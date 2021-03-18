@@ -1,0 +1,26 @@
+<div class="p-4 px-16 md:px-40">
+  <div class="text-center my-14">
+    <span class="text-3xl font-semibold text-center">FEEDBACK</span>
+  </div>
+  <div class="w-full md:w-full md:px-2 inline-block">
+    <mat-form-field appearance="outline">
+      <mat-label>Full Name</mat-label>
+      <input matInput placeholder="Last Name" name="fullName" ngModel #fullNameInput="ngModel" required fullName>
+      <mat-error *ngIf="fullNameInput.hasError('required')">Full Name is required</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="w-full md:w-full md:px-2 inline-block">
+    <mat-form-field appearance="outline">
+      <mat-label>Feedback Text</mat-label>
+      <textarea matInput placeholder="Feedback" name="feedback" ngModel #feedbackInput="ngModel" required feedback></textarea>
+      <mat-error *ngIf="fullNameInput.hasError('required')">Full Name is required</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="mx-2">
+    <button mat-raised-button color="primary" type="submit">Submit Feedback</button>
+  </div>
+
+</div>
+
