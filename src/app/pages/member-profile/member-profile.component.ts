@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
-import { Patient } from '../../models/patient.model';
+import {Component, OnInit} from '@angular/core';
+import {NgForm} from '@angular/forms';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {ActivatedRoute, Router} from '@angular/router';
+import {tap} from 'rxjs/operators';
+import {Patient} from '../../models/patient.model';
 import {DataService} from '../../services/data.service';
 
 @Component({
@@ -13,24 +13,25 @@ import {DataService} from '../../services/data.service';
 })
 export class MemberProfileComponent implements OnInit {
   patientData: Patient;
-  patient:any = [];
+  patient: any = [];
   isLoading = false;
   public IVSTabIndex = 0;
-  registered:boolean = false;
-  userExists:boolean = false;
-  idNumber!:number;
+  registered: boolean = false;
+  userExists: boolean = false;
+  idNumber!: number;
   allergies;
   allergiesDescription;
 
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router,  private data: DataService, private _snackBar: MatSnackBar) { }
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, private data: DataService, private snackBar: MatSnackBar) {
+  }
 
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(paramMap => {
       const query = paramMap.get('query');
       console.log(query);
-      if(query !== null)  {
+      if (query !== null) {
         this.data.searchByID(query).subscribe(
           res => {
             console.log(res);
@@ -44,22 +45,22 @@ export class MemberProfileComponent implements OnInit {
                 this.allergies = 'no';
               }
             }
-            
+
           }, err => {
             console.log(err);
           }
-        )
-      }else{
+        );
+      } else {
         this.router.navigateByUrl('/');
       }
-    })
+    });
   }
 
-  checkValidation(e:NgForm) {
+  checkValidation(e: NgForm) {
     console.log(e);
-    if(e.valid === true) {
+    if (e.valid === true) {
       this.navToTab();
-    } else if(e.valid === false) {
+    } else if (e.valid === false) {
       //this.openSnackBar('Please fill all required fields', 'Close');
     } else {
       alert('Something wrong');
@@ -67,7 +68,7 @@ export class MemberProfileComponent implements OnInit {
     console.log(e);
   }
 
-  checkIfIDExists(e:any) {
+  checkIfIDExists(e: any) {
     // console.log(this.data.searchByID(e));
     // console.log(e);
 
@@ -87,25 +88,25 @@ export class MemberProfileComponent implements OnInit {
     this.IVSTabIndex = (this.IVSTabIndex + 1) % tabCount;
   }
 
-  doesPatientHaveAllergies(e:any) {
+  doesPatientHaveAllergies(e: any) {
     console.log(e);
   }
 
-  updatePatient(e:NgForm) {
+  updatePatient(e: NgForm) {
     console.log(e);
-    if(e.valid === true) {
+    if (e.valid === true) {
       this.isLoading = true;
       this.data.updatePatient(e.value.idNumber, e.value.firstName, e.value.lastName, e.value.position, e.value.employer, e.value.mobileNumber, e.value.emailAddress, e.value.schemeName)
-      .pipe(tap(() => {
-        this.router.navigateByUrl('/thank-you');
-      }))
-      .subscribe(res => {
-        this.isLoading = false;
-      }, err => {
-        this.isLoading = false;
-        this.openSnackBar('Update Failed', 'Close');
-      });
-    } else if(e.valid === false) {
+        .pipe(tap(() => {
+          this.router.navigateByUrl('/thank-you');
+        }))
+        .subscribe(res => {
+          this.isLoading = false;
+        }, err => {
+          this.isLoading = false;
+          this.openSnackBar('Update Failed', 'Close');
+        });
+    } else if (e.valid === false) {
       this.openSnackBar('Please fill all required fields', 'Close');
     } else {
       alert('Something wrong');
@@ -115,7 +116,7 @@ export class MemberProfileComponent implements OnInit {
   }
 
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
+    this.snackBar.open(message, action, {
       duration: 5000,
     });
   }
