@@ -9,26 +9,27 @@
           <span class="block text-white font-semibold">astra Zeneca</span>
           <span class="text-gray-200 text-sm leading-tight">2 doses remaining</span>
 
-        <div *ngFor="let instance of patientData"
-             class="bg-gray-200 py-4 px-4 my-2 rounded flex items-center justify-between">
-          <div>
-            <p class="font-semibold">{{instance.title}}</p>
-            <p class="text-sm text-gray-800">{{instance.description}}</p>
-          </div>
-          <div>
-            <svg *ngIf="instance.status === 'completed'" class="w-6 h-6 text-green-600" fill="none"
-                 stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <svg *ngIf="instance.status === 'scheduled'" class="w-6 h-6 text-red-600" fill="none" stroke="currentColor"
-                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-            </svg>
-          </div>
+<!--          <div *ngFor="let instance of patientData"-->
+<!--               class="bg-gray-200 py-4 px-4 my-2 rounded flex items-center justify-between">-->
+<!--            <div>-->
+<!--              <p class="font-semibold">{{instance.title}}</p>-->
+<!--              <p class="text-sm text-gray-800">{{instance.description}}</p>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--              <svg *ngIf="instance.status === 'completed'" class="w-6 h-6 text-green-600" fill="none"-->
+<!--                   stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">-->
+<!--                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+<!--                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>-->
+<!--              </svg>-->
+<!--              <svg *ngIf="instance.status === 'scheduled'" class="w-6 h-6 text-red-600" fill="none"-->
+<!--                   stroke="currentColor"-->
+<!--                   viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">-->
+<!--                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+<!--                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>-->
+<!--              </svg>-->
+<!--            </div>-->
 
-        </div>
+<!--          </div>-->
         </div>
 
 
