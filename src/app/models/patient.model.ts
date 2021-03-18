@@ -54,7 +54,7 @@ interface Registration {
   deletedBy?: string;
 }
 
-interface VaccinationInfo {
+export interface VaccinationInfo {
   id: number;
   memberId: number;
   vaccinationSiteId: number;

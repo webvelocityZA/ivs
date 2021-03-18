@@ -3,7 +3,7 @@ import {NgForm} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
 import {tap} from 'rxjs/operators';
-import {Patient} from '../../models/patient.model';
+import {Patient, VaccinationInfo} from '../../models/patient.model';
 import {DataService} from '../../services/data.service';
 
 @Component({
@@ -13,14 +13,16 @@ import {DataService} from '../../services/data.service';
 })
 export class MemberProfileComponent implements OnInit {
   patientData: Patient;
+  patientVaccinationInfo: VaccinationInfo;
   patient: any = [];
   isLoading = false;
   public IVSTabIndex = 0;
-  registered: boolean = false;
-  userExists: boolean = false;
+  registered = false;
+  userExists = false;
   idNumber!: number;
   allergies;
   allergiesDescription;
+  patientID: number;
 
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private data: DataService, private snackBar: MatSnackBar) {
@@ -30,14 +32,26 @@ export class MemberProfileComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(paramMap => {
       const query = paramMap.get('query');
-      console.log(query);
+      // console.log(query);
       if (query !== null) {
+        // Get Vaccination Info
+        this.getVaccinationInfo(query);
+
         this.data.searchByID(query).subscribe(
           res => {
-            console.log(res);
             const data = res;
             if (data) {
               this.patientData = data[0];
+
+
+              console.log(this.patientData);
+
+              /* Fetch Patient Vacccination History */
+              const patientID = data[0].id;
+              this.getVaccinationInfo(patientID);
+
+
+              /* Patient Allergies */
               if (this.patientData.allergies) {
                 this.allergies = 'yes';
                 this.allergiesDescription = this.patientData.chronicMedication;
@@ -47,7 +61,7 @@ export class MemberProfileComponent implements OnInit {
             }
 
           }, err => {
-            console.log(err);
+            // console.log(err);
           }
         );
       } else {
@@ -57,7 +71,7 @@ export class MemberProfileComponent implements OnInit {
   }
 
   checkValidation(e: NgForm) {
-    console.log(e);
+    // console.log(e);
     if (e.valid === true) {
       this.navToTab();
     } else if (e.valid === false) {
@@ -65,7 +79,7 @@ export class MemberProfileComponent implements OnInit {
     } else {
       alert('Something wrong');
     }
-    console.log(e);
+    // console.log(e);
   }
 
   checkIfIDExists(e: any) {
@@ -89,11 +103,11 @@ export class MemberProfileComponent implements OnInit {
   }
 
   doesPatientHaveAllergies(e: any) {
-    console.log(e);
+    // console.log(e);
   }
 
   updatePatient(e: NgForm) {
-    console.log(e);
+    // console.log(e);
     if (e.valid === true) {
       this.isLoading = true;
       this.data.updatePatient(e.value.idNumber, e.value.firstName, e.value.lastName, e.value.position, e.value.employer, e.value.mobileNumber, e.value.emailAddress, e.value.schemeName)
@@ -111,7 +125,7 @@ export class MemberProfileComponent implements OnInit {
     } else {
       alert('Something wrong');
     }
-    console.log(e);
+    // console.log(e);
 
   }
 
@@ -120,5 +134,17 @@ export class MemberProfileComponent implements OnInit {
       duration: 5000,
     });
   }
+
+
+  getVaccinationInfo = query => {
+    if (query) {
+      this.data.getVaccinationInfo(1).subscribe(res => {
+        // this.data.getVaccinationInfo(query).subscribe(res => {
+        this.patientVaccinationInfo = res;
+        console.table((this.patientVaccinationInfo));
+      });
+    }
+  };
+
 
 }

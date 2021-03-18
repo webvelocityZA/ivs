@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { DataService } from './services/data.service';
+import {Component} from '@angular/core';
+import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {DataService} from './services/data.service';
 
 @Component({
   selector: 'app-root',
@@ -9,15 +9,17 @@ import { DataService } from './services/data.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  isLoggedIn : Observable<boolean>;
+  isLoggedIn: Observable<boolean>;
+  title: any;
 
-  constructor(private data:DataService, private router:Router) { }
+  constructor(private data: DataService, private router: Router) {
+  }
 
   ngOnInit(): void {
     this.isLoggedIn = this.data.isLoggedIn();
   }
 
-  logout() : void {
+  logout(): void {
     localStorage.removeItem('token');
     this.data.isLoginSubject.next(false);
     this.router.navigateByUrl('landing');

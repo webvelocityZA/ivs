@@ -6,6 +6,7 @@ import { DataService } from 'src/app/services/data.service';
 import { Patients } from '../../mocks/patients'; //Demo purposes only
 import { Patient } from 'src/app/models/patient.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { VaccinationSiteStatistics } from 'src/app/models/vaccinationSiteStatistics.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,6 +18,8 @@ export class DashboardComponent implements AfterViewInit {
   displayedColumns: string[] = ['firstName', 'lastName', 'emailAddress'];
   query;
   dataSource;
+  VaccinationSiteStatistics:VaccinationSiteStatistics;
+
 
 
   constructor(private data: DataService, private router: Router, private _snackBar: MatSnackBar) {}
@@ -27,7 +30,7 @@ export class DashboardComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.loadPatients();
-    
+    this.getDashboardStats();
   }
 
   loadPatients() {
@@ -40,6 +43,15 @@ export class DashboardComponent implements AfterViewInit {
     }, err => {
       // this.patients = 'error';
     })
+  }
+
+  getDashboardStats() {
+    const vaccinationSite = 1;
+    this.data.getDashoardStatistics(vaccinationSite)
+    .subscribe(res => {
+      console.log(res);
+      this.VaccinationSiteStatistics = res;
+    });
   }
 
   search(){

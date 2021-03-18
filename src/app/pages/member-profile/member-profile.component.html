@@ -1,47 +1,24 @@
 <div class="w-full p-8">
-  <div class="">
-    <div class="innoculation inline-block w-2/6 shadow-lg border border-gray-100 p-4">
-      <div class="flex items-center bg-gray-800 rounded">
-        <div class="w-10 m-2 mr-4"><img src="assets/img/vaccination.png" alt=""></div>
-
-
+    <div *ngIf="patientVaccinationInfo" class="innoculation inline-block w-1/6 shadow-lg border border-gray-100 p-4">
+      <div class="flex flex-col items-center p-4 bg-gray-800 rounded">
         <div class="flex-grow">
-          <span class="block text-white font-semibold">astra Zeneca</span>
-          <span class="text-gray-200 text-sm leading-tight">2 doses remaining</span>
-
-<!--          <div *ngFor="let instance of patientData"-->
-<!--               class="bg-gray-200 py-4 px-4 my-2 rounded flex items-center justify-between">-->
-<!--            <div>-->
-<!--              <p class="font-semibold">{{instance.title}}</p>-->
-<!--              <p class="text-sm text-gray-800">{{instance.description}}</p>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--              <svg *ngIf="instance.status === 'completed'" class="w-6 h-6 text-green-600" fill="none"-->
-<!--                   stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">-->
-<!--                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
-<!--                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>-->
-<!--              </svg>-->
-<!--              <svg *ngIf="instance.status === 'scheduled'" class="w-6 h-6 text-red-600" fill="none"-->
-<!--                   stroke="currentColor"-->
-<!--                   viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">-->
-<!--                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
-<!--                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>-->
-<!--              </svg>-->
-<!--            </div>-->
-
-<!--          </div>-->
+          <div class="bg-white py-4 px-4 my-2">
+            <strong>Member ID:</strong> <span class="font-semibold">{{patientVaccinationInfo?.memberId}}</span>
+            <br><strong>Inoculated on:</strong> <span
+            class="text-sm text-gray-800">{{patientVaccinationInfo?.inoculatedOn | date:"fullDate"}}</span>
+            <br> <strong>Number of Doses:</strong> <span
+            class="text-sm text-gray-800">{{patientVaccinationInfo?.doseNumber}}</span>
+            <br><strong> Dosage Received: </strong><span
+            class="text-sm text-gray-800">{{patientVaccinationInfo?.dosageRecieved}}</span>
+          </div>
         </div>
 
-
-<!--        <button *ngIf="patient.innoculation.doses - patient.innoculation.dosesCompleted !== 0"-->
-<!--                class="flex w-full mx-auto text-white bg-blue-500 border-0 py-2 px-6 mt-5 focus:outline-none hover:bg-blue-600 rounded-full text-sm justify-center"-->
-<!--                routerLink="/inoculation">New Innoculation-->
-<!--        </button>-->
+        <button
+          class="flex w-full mx-auto text-white bg-blue-500 border-0 py-2 px-6 mt-5 focus:outline-none hover:bg-blue-600 rounded-full text-sm justify-center"
+          routerLink="/inoculation">New Inoculation
+        </button>
       </div>
-
-
     </div>
-  </div>
 
 
   <div *ngIf="patientData" class="p-4 px-10 md:px-4 member-form inline-block w-4/6">
