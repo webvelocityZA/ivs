@@ -31,19 +31,19 @@ export class DataService {
   registerPatient(idNumber, firstName, lastName, position, employer, mobileNumber, emailAddress, schemeName): Observable<any> {
     const postData = {
       id: 0,
-      idNumber: idNumber,
-      firstName: firstName,
-      lastName: lastName,
+      idNumber,
+      firstName,
+      lastName,
       isMember: true,
       confirmed: true,
       city: 'string',
       siteId: 0,
-      mobileNumber: mobileNumber,
-      emailAddress: emailAddress,
+      mobileNumber,
+      emailAddress,
       memberNumber: '12345678',
-      schemeName: schemeName,
-      employer: employer,
-      position: position,
+      schemeName,
+      employer,
+      position,
       allergies: true,
       chronicMedication: 'string',
       vaccinationInfo: [
@@ -79,21 +79,21 @@ export class DataService {
     return this.http.post(`${this.url}/Registration`, postData, {responseType: 'text'});
   }
 
-  updatePatient(idNumber, firstName, lastName, position, employer, mobileNumber, emailAddress, schemeName) {
+  updatePatient = (idNumber, firstName, lastName, position, employer, mobileNumber, emailAddress, schemeName) => {
     const postData = {
       id: 0,
-      idNumber: idNumber,
-      firstName: firstName,
-      lastName: lastName,
+      idNumber,
+      firstName,
+      lastName,
       isMember: true,
       confirmed: true,
       city: 'string',
-      mobileNumber: mobileNumber,
-      emailAddress: emailAddress,
+      mobileNumber,
+      emailAddress,
       memberNumber: 'string',
-      schemeName: schemeName,
-      employer: employer,
-      position: position,
+      schemeName,
+      employer,
+      position,
       allergies: true,
       chronicMedication: 'string',
       appointmentDate: '2021-03-11',
@@ -106,21 +106,19 @@ export class DataService {
       // "deletedBy": "string"
     };
     return this.http.put(`${this.url}/Registration`, postData);
-  }
+  };
 
   loadPatient(): Patient {
     this.currentPatient = Patients[0];
     return this.currentPatient;
   }
 
-  getPatients() {
+  getPatients = () => {
     // return of('string');
     return this.http.get(`${this.url}/Registration`);
   }
 
-  searchResults(term: string) {
-    return Patients;
-  }
+  searchResults = (term: string) => Patients;
 
   getSelectedSearchItem(index: number): Patient {
     return Patients[index];
@@ -136,21 +134,21 @@ export class DataService {
 
   /* Vaccination */
 
-  getVaccinationInfo(ID: any): Observable<VaccinationInfo> {
-    return this.http.get<VaccinationInfo>(`${this.url}/Vaccination/${ID}`);
+  getVaccinationInfo(patientID: any): Observable<VaccinationInfo> {
+    return this.http.get<VaccinationInfo>(`${this.url}/Vaccination/${patientID}`);
   }
 
-  postVaccinationInfo(ID: any): any {
+  postVaccinationInfo(payload: any): any {
     const vacData = {
-      'memberId': ID,
-      'vaccinationSiteId': 1,
-      'vaccinatorid': 1,
-      'feedBack': 'Was Good Service',
-      'repeatInoculatedOn': '2021-03-16T12:42:55.459Z',
-      'inoculatedOn': '2021-03-16T12:42:55.459Z',
-      'dosageRecieved': '560ml',
-      'doseNumber': 1,
-      'vaccinatedDate': '2021-03-16T12:42:55.459Z'
+      memberId: payload.memberId,
+      vaccinationSiteId: 1,
+      vaccinatorid: 1,
+      feedBack: 'Was Good Service',
+      repeatInoculatedOn: '2021-03-16T12:42:55.459Z',
+      inoculatedOn: '2021-03-16T12:42:55.459Z',
+      dosageRecieved: '560ml',
+      doseNumber: 1,
+      vaccinatedDate: '2021-03-16T12:42:55.459Z'
     };
     return this.http.post(`${this.url}/Vaccination/`, vacData);
   }

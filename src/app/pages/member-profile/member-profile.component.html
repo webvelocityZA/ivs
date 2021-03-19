@@ -1,9 +1,9 @@
-<div class="w-full p-8">
-    <div *ngIf="patientVaccinationInfo" class="innoculation inline-block w-1/6 shadow-lg border border-gray-100 p-4">
+<div class="md:flex w-full p-8">
+    <div  class="innoculation sm:w-full w-2/6 shadow-lg border border-gray-100 p-4">
       <div class="flex flex-col items-center p-4 bg-gray-800 rounded">
-        <div class="flex-grow">
+        <div class="flex-grow  w-full">
           <div class="bg-white py-4 px-4 my-2">
-            <strong>Member ID:</strong> <span class="font-semibold">{{patientVaccinationInfo?.memberId}}</span>
+            <strong>Member ID:</strong> <span class="font-semibold">{{memberId}}</span>
             <br><strong>Inoculated on:</strong> <span
             class="text-sm text-gray-800">{{patientVaccinationInfo?.inoculatedOn | date:"fullDate"}}</span>
             <br> <strong>Number of Doses:</strong> <span
@@ -13,20 +13,21 @@
           </div>
         </div>
 
-        <button
+
+        <a *ngIf="patientData"
           class="flex w-full mx-auto text-white bg-blue-500 border-0 py-2 px-6 mt-5 focus:outline-none hover:bg-blue-600 rounded-full text-sm justify-center"
-          routerLink="/inoculation">New Inoculation
-        </button>
+          routerLink="/inoculate" [queryParams]="{userID:patientData?.idNumber, memberId: patientVaccinationInfo?.memberId}">New Inoculation
+        </a>
       </div>
     </div>
 
 
-  <div *ngIf="patientData" class="p-4 px-10 md:px-4 member-form inline-block w-4/6">
+  <div *ngIf="patientData" class="p-4 px-10 md:px-4 member-form  sm:w-full w-4/6">
     <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="IVSTabIndex">
       <mat-tab [disabled]='IVSTabIndex < 0' label="Personal Details">
         <div class="py-4">
           <form #registerForm="ngForm" (submit)="updatePatient(registerForm)" class="mt-6">
-            <div class="w-full md:w-full md:px-2 inline-block">
+            <div class="w-full md:w-1/2 md:px-2 inline-block">
               <mat-form-field appearance="outline">
                 <mat-label>ID Number</mat-label>
                 <input matInput placeholder="ID Number" name="idNumber" ngModel #idNumberInput="ngModel" required

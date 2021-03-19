@@ -23,6 +23,7 @@ export class MemberProfileComponent implements OnInit {
   allergies;
   allergiesDescription;
   patientID: number;
+  memberId: number;
 
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private data: DataService, private snackBar: MatSnackBar) {
@@ -34,17 +35,15 @@ export class MemberProfileComponent implements OnInit {
       const query = paramMap.get('query');
       // console.log(query);
       if (query !== null) {
-        // Get Vaccination Info
-        this.getVaccinationInfo(query);
 
         this.data.searchByID(query).subscribe(
           res => {
             const data = res;
             if (data) {
               this.patientData = data[0];
+              this.memberId = data[0].idNumber;
 
 
-              console.log(this.patientData);
 
               /* Fetch Patient Vacccination History */
               const patientID = data[0].id;
@@ -136,15 +135,11 @@ export class MemberProfileComponent implements OnInit {
   }
 
 
-  getVaccinationInfo = query => {
-    if (query) {
-      this.data.getVaccinationInfo(1).subscribe(res => {
-        // this.data.getVaccinationInfo(query).subscribe(res => {
-        this.patientVaccinationInfo = res;
-        console.table((this.patientVaccinationInfo));
-      });
-    }
-  };
+  getVaccinationInfo = patientID => {
+    this.data.getVaccinationInfo(patientID).subscribe(res => {
+      this.patientVaccinationInfo = res;
+    });
+  }
 
 
 }

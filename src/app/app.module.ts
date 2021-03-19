@@ -48,6 +48,7 @@ import { HomeCardComponent } from './components/home-card/home-card.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ThankYouComponent } from './pages/thank-you/thank-you.component';
 import { MemberProfileComponent } from './pages/member-profile/member-profile.component';
+import { InoculateComponent } from './pages/inoculate/inoculate.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { MemberProfileComponent } from './pages/member-profile/member-profile.co
     SelfRegisterComponent,
     HomeCardComponent,
     ThankYouComponent,
-    MemberProfileComponent
+    MemberProfileComponent,
+    InoculateComponent
   ],
   imports: [
     BrowserModule,

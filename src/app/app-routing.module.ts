@@ -11,6 +11,7 @@ import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { SelfRegisterComponent } from './pages/self-register/self-register.component';
 import { ThankYouComponent } from './pages/thank-you/thank-you.component';
 import { MemberProfileComponent } from './pages/member-profile/member-profile.component';
+import { InoculateComponent } from './pages/inoculate/inoculate.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,11 @@ const routes: Routes = [
   {
     path: 'self-register',
     component: SelfRegisterComponent
+  },
+  {
+    path: 'inoculate',
+    component: InoculateComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'vaccination-history',
