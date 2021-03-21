@@ -25,6 +25,27 @@
         </mat-form-field>
       </div>
 
+
+      <div class="w-full md:w-full lg:w-full md:px-2 block">
+        <mat-form-field appearance="fill">
+          <mat-label>Select Location</mat-label>
+          <input type="text"
+                 placeholder="Select your location"
+                 aria-label="Select your location"
+                 matInput
+                 [formControl]="myControl"
+                 [matAutocomplete]="auto">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+              {{option.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+
+      
+
       <div class="mx-2 text-right">
         <button mat-raised-button color="primary" type="submit" (click)="login(loginForm)">Log In</button>
       </div>

@@ -31,6 +31,9 @@ export class DashboardComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.loadPatients();
     this.getDashboardStats();
+    setInterval(() => {
+      this.getDashboardStats();
+  }, 2000);
   }
 
   loadPatients() {

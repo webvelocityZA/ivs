@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {last} from 'rxjs/operators';
 import {VaccinationSiteStatistics} from '../models/vaccinationSiteStatistics.model';
+import { Centre } from '../models/centre.model';
 
 
 @Injectable({
@@ -155,5 +156,9 @@ export class DataService {
 
   getDashoardStatistics(ID: any): Observable<VaccinationSiteStatistics> {
     return this.http.get<VaccinationSiteStatistics>(`${this.url}/VaccinationSite/Statistics/${ID}`);
+  }
+
+  getAllCentres():Observable<Centre[]> {
+    return this.http.get<Centre[]>(`${this.url}/Centre`);
   }
 }
