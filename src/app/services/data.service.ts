@@ -126,7 +126,7 @@ export class DataService {
     return Patients[index];
   }
 
-  searchByID(ID: any): any {
+  searchByID(ID: any): Observable<any> {
     const searchData = {
       idNumber: ID
     };

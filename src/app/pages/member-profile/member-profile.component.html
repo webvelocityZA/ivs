@@ -148,7 +148,7 @@
 
 
 
-<div class="w-full flex bg-gray-200">
+<div *ngIf="patientData" class="w-full flex bg-gray-200">
   <div class="w-full sm:w-full lg:w-1/2 m-4 p-4 bg-white">
     <span class="font-bold text-2xl">Personal Details</span>
     <hr class="mt-4">
@@ -189,7 +189,7 @@
     
 </div>
 <div class="w-full sm:w-full  lg:w-1/2 m-4 p-4 bg-white">
-  <span class="font-bold text-2xl">Innoculation Details</span>
+  <span class="font-bold text-2xl">Vaccination History</span>
     <hr class="mt-4">
     <div class="inline-block w-1/2">
       <span class="profile-title">Innoculated on:</span>
@@ -202,6 +202,10 @@
     <div class="inline-block w-1/2">
       <span class="profile-title">Dosage Received</span>
       <span class="profile-desc">{{patientVaccinationInfo?.dosageRecieved}}</span>
+    </div>
+    <div class="inline-block w-1/2">
+      <span class="profile-title">Feedback</span>
+      <span class="profile-desc">{{patientVaccinationInfo?.feedBack}}</span>
     </div>
 
     <a *ngIf="patientData"

@@ -27,6 +27,7 @@ export class RegisterNewPatientComponent implements OnInit {
   options: Centre[];
   filteredOptions: Observable<Centre[]>;
   locationID;
+  isIDValid = false;
 
   constructor(public data: DataService, private _snackBar: MatSnackBar, private router: Router) { }
 
@@ -70,19 +71,26 @@ export class RegisterNewPatientComponent implements OnInit {
     console.log(e);
   }
 
-  checkIfIDExists(e:any) {
-    // console.log(this.data.searchByID(e));
-    // console.log(e);
+  checkIfIDExists(e:string) {
+    if (e.length === 13) {
+      this.isIDValid = true;
+    } else {
+      this.isIDValid = false;
+    }
+    if (e.length < 13) { return}
+    this.data.searchByID(e)
+    .subscribe(patient => {
+      console.log(patient);
+      if (patient.length > 0) {
+        // alert('user already registered');
+        this.registered = true;
+      } else {
+        this.registered = false;
+      }
+    }, err => {
+      this.registered = false;
+    })
 
-    // if(this.data.searchByID(e) !== undefined) {
-    //   //this.data.currentPatient = this.data.searchByID(e);
-    //   console.log(this.data.currentPatient);
-    //   this.userExists = true;
-    //   this.idNumber = e;
-    //   console.log(typeof(e));
-    // } else {
-    //   this.userExists = false;
-    // }
   }
 
   navToTab() {
