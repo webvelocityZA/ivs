@@ -143,15 +143,16 @@ export class DataService {
 
   postVaccinationInfo(payload: any): any {
     const vacData = {
+      id: 1,
       memberId: payload.memberId,
-      vaccinationSiteId: 1,
-      vaccinatorid: 1,
+      vaccinationSiteId: 2,
+      vaccinatorid: 2,
       feedBack: 'Was Good Service',
-      repeatInoculatedOn: '2021-03-16T12:42:55.459Z',
-      inoculatedOn: '2021-03-16T12:42:55.459Z',
+      repeatInoculatedOn: '2021-03-24T12:42:55.459Z',
+      inoculatedOn: '2021-03-22T23:42:55.459Z',
       dosageRecieved: '560ml',
-      doseNumber: 1,
-      vaccinatedDate: '2021-03-16T12:42:55.459Z'
+      doseNumber: 2,
+      vaccinatedDate: '2021-03-22T23:42:55.459Z'
     };
     return this.http.post(`${this.url}/Vaccination/`, vacData);
   }

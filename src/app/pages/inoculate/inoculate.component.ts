@@ -44,6 +44,7 @@ constructor(private activatedRoute: ActivatedRoute, public data: DataService, pr
 
 
       const payload = {
+        id: 1,
         memberId: this.memberId,
         vaccinationSiteId: e.value.vaccinationSiteId,
         vaccinatorid: e.value.vaccinatorid,
