@@ -4,22 +4,16 @@
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
       <!-- First Name Column -->
-      <ng-container matColumnDef="firstName">
-        <th mat-header-cell *matHeaderCellDef> First Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+      <ng-container matColumnDef="dosageRecieved">
+        <th mat-header-cell *matHeaderCellDef> Dosage Received </th>
+        <td mat-cell *matCellDef="let element"> {{element.dosageRecieved}} </td>
       </ng-container>
 
       <!-- Last Name Column -->
-      <ng-container matColumnDef="lastName">
-        <th mat-header-cell *matHeaderCellDef> Last Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+      <ng-container matColumnDef="inoculatedOn">
+        <th mat-header-cell *matHeaderCellDef> Inoculated On </th>
+        <td mat-cell *matCellDef="let element"> {{element.inoculatedOn | date: 'fullDate'}} </td>
       </ng-container>
-
-              <!-- Email Column -->
-              <ng-container matColumnDef="emailAddress">
-                <th mat-header-cell *matHeaderCellDef> Email address </th>
-                <td mat-cell *matCellDef="let element"> {{element.emailAddress}} </td>
-              </ng-container>
 
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -29,3 +23,5 @@
     <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
   </div>
 </div>
+
+<div style="height: 100px;"></div>

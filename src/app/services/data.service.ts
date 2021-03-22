@@ -7,6 +7,7 @@ import {HttpClient} from '@angular/common/http';
 import {last} from 'rxjs/operators';
 import {VaccinationSiteStatistics} from '../models/vaccinationSiteStatistics.model';
 import { Centre } from '../models/centre.model';
+import { Vaccination } from '../models/vaccination.model';
 
 
 @Injectable({
@@ -161,5 +162,9 @@ export class DataService {
 
   getAllCentres():Observable<Centre[]> {
     return this.http.get<Centre[]>(`${this.url}/Centre`);
+  }
+
+  getVaccinationHistory():Observable<Vaccination[]> {
+    return this.http.get<Vaccination[]>(`${this.url}/Vaccination`);
   }
 }
