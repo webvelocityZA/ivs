@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { Patient } from 'src/app/models/patient.model';
 import { DataService } from 'src/app/services/data.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
+import { map, startWith, tap } from 'rxjs/operators';
+import { Centre } from 'src/app/models/centre.model';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -21,16 +23,21 @@ export class RegisterNewPatientComponent implements OnInit {
   idNumber!:number;
   allergies;
   allergiesDescription;
+  myControl = new FormControl();
+  options: Centre[];
+  filteredOptions: Observable<Centre[]>;
+  locationID;
 
   constructor(public data: DataService, private _snackBar: MatSnackBar, private router: Router) { }
 
   ngOnInit(): void {
+    this.loadCentres();
   }
 
   registerPatient(e:NgForm) {
     if(e.valid === true) {
       this.isLoading = true;
-      this.data.registerPatient(e.value.idNumber, e.value.firstName, e.value.lastName, e.value.position, e.value.employer, e.value.mobileNumber, e.value.emailAddress, e.value.schemeName)
+      this.data.registerPatient(e.value.idNumber, e.value.firstName, e.value.lastName, e.value.position, e.value.employer, e.value.mobileNumber, e.value.emailAddress, e.value.schemeName, this.locationID)
       .pipe(tap((res) => {
         this.router.navigateByUrl('/thank-you');
         console.log(res);
@@ -90,6 +97,41 @@ export class RegisterNewPatientComponent implements OnInit {
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 5000,
+    });
+  }
+
+
+  loadCentres() {
+    this.data.getAllCentres()
+    .subscribe(centres => {
+      console.log(centres);
+      this.options = centres;
+      this.filteredOptions = this.myControl.valueChanges.pipe(
+        startWith(''),
+        map(value => {
+          console.log(value);
+          return this._filter(value)
+        })
+      );
+    })
+  }
+
+  private _filter(value: string): Centre[] {
+    const filterValue = value.toLowerCase();
+    // console.log(typeof(filterValue));
+
+    return this.options.filter(option => {
+      if(option.name.toLowerCase().indexOf(filterValue) === 0) {
+        // console.log(option);
+        if(filterValue === '') {
+          //this.data.selectedLocation = null;
+        } else {
+          this.locationID = option.name;
+        }
+        
+        console.log(this.data.selectedLocation);
+      };
+      return option.name.toLowerCase().indexOf(filterValue) === 0
     });
   }
 

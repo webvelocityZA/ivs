@@ -16,6 +16,7 @@ export class DataService {
   url = 'http://10.123.142.196:5100/api';
   currentPatient!: Patient;
   isLoginSubject = new BehaviorSubject<boolean>(this.hasToken());
+  selectedLocation:Centre;
 
   constructor(private http: HttpClient) {
   }
@@ -29,7 +30,7 @@ export class DataService {
     return this.isLoginSubject.asObservable();
   }
 
-  registerPatient(idNumber, firstName, lastName, position, employer, mobileNumber, emailAddress, schemeName): Observable<any> {
+  registerPatient(idNumber, firstName, lastName, position, employer, mobileNumber, emailAddress, schemeName, city): Observable<any> {
     const postData = {
       id: 0,
       idNumber,
@@ -37,7 +38,7 @@ export class DataService {
       lastName,
       isMember: true,
       confirmed: true,
-      city: 'string',
+      city: city,
       siteId: 0,
       mobileNumber,
       emailAddress,
@@ -80,7 +81,7 @@ export class DataService {
     return this.http.post(`${this.url}/Registration`, postData, {responseType: 'text'});
   }
 
-  updatePatient = (idNumber, firstName, lastName, position, employer, mobileNumber, emailAddress, schemeName) => {
+  updatePatient = (idNumber, firstName, lastName, position, employer, mobileNumber, emailAddress, schemeName, city?) => {
     const postData = {
       id: 0,
       idNumber,
@@ -88,7 +89,7 @@ export class DataService {
       lastName,
       isMember: true,
       confirmed: true,
-      city: 'string',
+      city: city,
       mobileNumber,
       emailAddress,
       memberNumber: 'string',

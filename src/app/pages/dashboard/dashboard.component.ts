@@ -7,6 +7,7 @@ import { Patients } from '../../mocks/patients'; //Demo purposes only
 import { Patient } from 'src/app/models/patient.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { VaccinationSiteStatistics } from 'src/app/models/vaccinationSiteStatistics.model';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,18 +23,19 @@ export class DashboardComponent implements AfterViewInit {
 
 
 
-  constructor(private data: DataService, private router: Router, private _snackBar: MatSnackBar) {}
+  constructor(private data: DataService, private router: Router, private _snackBar: MatSnackBar, private cookieService: CookieService) {}
 
-   
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
+    console.log(this.cookieService.get('vaccination-centre-name'))
+    console.log(this.data.selectedLocation);
     this.loadPatients();
     this.getDashboardStats();
     setInterval(() => {
       this.getDashboardStats();
-  }, 2000);
+  }, 2000000);
   }
 
   loadPatients() {
@@ -44,12 +46,13 @@ export class DashboardComponent implements AfterViewInit {
       this.dataSource = new MatTableDataSource<any>(this.patients);
       this.dataSource.paginator = this.paginator;
     }, err => {
-      // this.patients = 'error';
     })
   }
 
   getDashboardStats() {
-    const vaccinationSite = 1;
+
+    const vaccinationSite = this.cookieService.get('vaccination-centre-id');
+    
     this.data.getDashoardStatistics(vaccinationSite)
     .subscribe(res => {
       console.log(res);

@@ -42,9 +42,6 @@ export class MemberProfileComponent implements OnInit {
             if (data) {
               this.patientData = data[0];
               this.memberId = data[0].idNumber;
-
-
-
               /* Fetch Patient Vacccination History */
               const patientID = data[0].id;
               this.getVaccinationInfo(patientID);
@@ -138,6 +135,7 @@ export class MemberProfileComponent implements OnInit {
   getVaccinationInfo = patientID => {
     this.data.getVaccinationInfo(patientID).subscribe(res => {
       this.patientVaccinationInfo = res;
+      console.log(res);
     });
   }
 

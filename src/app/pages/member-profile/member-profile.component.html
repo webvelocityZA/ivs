@@ -1,4 +1,4 @@
-<div class="md:flex w-full p-8">
+<!-- <div class="md:flex w-full p-8">
     <div  class="innoculation sm:w-full w-2/6 shadow-lg border border-gray-100 p-4">
       <div class="flex flex-col items-center p-4 bg-gray-800 rounded">
         <div class="flex-grow  w-full">
@@ -139,10 +139,79 @@
       </mat-tab>
     </mat-tab-group>
   </div>
-</div>
+</div> -->
 
 
 <div class="h-screen w-full flex items-center justify-center" *ngIf="!patientData">
   <mat-spinner></mat-spinner>
 </div>
+
+
+
+<div class="w-full flex bg-gray-200">
+  <div class="w-full sm:w-full lg:w-1/2 m-4 p-4 bg-white">
+    <span class="font-bold text-2xl">Personal Details</span>
+    <hr class="mt-4">
+    <div class="inline-block w-1/2">
+      <span class="profile-title">ID Number</span>
+      <span class="profile-desc">{{patientData.idNumber}}</span>
+    </div>
+    <div class="inline-block w-1/2">
+      <span class="profile-title">First Name</span>
+      <span class="profile-desc">{{patientData.firstName}}</span>
+    </div>
+    <div class="inline-block w-1/2">
+      <span class="profile-title">Last Name</span>
+      <span class="profile-desc">{{patientData.lastName}}</span>
+    </div>
+    <div class="inline-block w-1/2">
+      <span class="profile-title">Email Address</span>
+      <span class="profile-desc">{{patientData.emailAddress || 'N/A'}}</span>
+    </div>
+    
+    <div class="inline-block w-1/2">
+      <span class="profile-title">Mobile Number</span>
+      <span class="profile-desc">{{patientData.mobileNumber}}</span>
+    </div>
+    <div class="inline-block w-1/2">
+      <span class="profile-title">Scheme Name</span>
+      <span class="profile-desc">{{patientData.schemeName}}</span>
+    </div>
+    <div class="inline-block w-1/2">
+      <span class="profile-title">Employer</span>
+      <span class="profile-desc">{{patientData.employer}}</span>
+    </div>
+    <div class="inline-block w-1/2">
+      <span class="profile-title">Allergies</span>
+      <span class="profile-desc">{{patientData.allergies}}</span>
+    </div>
+    
+    
+</div>
+<div class="w-full sm:w-full  lg:w-1/2 m-4 p-4 bg-white">
+  <span class="font-bold text-2xl">Innoculation Details</span>
+    <hr class="mt-4">
+    <div class="inline-block w-1/2">
+      <span class="profile-title">Innoculated on:</span>
+      <span class="profile-desc">{{patientVaccinationInfo?.inoculatedOn | date:"fullDate"}}</span>
+    </div>
+    <div class="inline-block w-1/2">
+      <span class="profile-title">Number of doses</span>
+      <span class="profile-desc">{{patientVaccinationInfo?.doseNumber}}</span>
+    </div>
+    <div class="inline-block w-1/2">
+      <span class="profile-title">Dosage Received</span>
+      <span class="profile-desc">{{patientVaccinationInfo?.dosageRecieved}}</span>
+    </div>
+
+    <a *ngIf="patientData"
+          class="flex w-1/2 mx-auto text-white bg-blue-500 border-0 py-2 px-6 mt-5 focus:outline-none hover:bg-blue-600 rounded-full text-sm justify-center"
+          routerLink="/inoculate" [queryParams]="{userID:patientData?.idNumber, memberId: patientVaccinationInfo?.memberId}">New Inoculation
+        </a>
+    
+</div>
+</div>
+
+
+<div style="height: 100px"></div>
 

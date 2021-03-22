@@ -18,7 +18,7 @@
       <div class="w-full md:w-full lg:w-full md:px-2 block">
         <mat-form-field appearance="fill">
           <mat-label>Enter your password</mat-label>
-          <input matInput [type]="hide ? 'password' : 'text'">
+          <input matInput [type]="hide ? 'password' : 'text'" name="userPassword" ngModel #userPasswordInput="ngModel" required userPassword>
           <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
@@ -34,7 +34,8 @@
                  aria-label="Select your location"
                  matInput
                  [formControl]="myControl"
-                 [matAutocomplete]="auto">
+                 [matAutocomplete]="auto"
+                 >
           <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
               {{option.name}}
@@ -42,8 +43,6 @@
           </mat-autocomplete>
         </mat-form-field>
       </div>
-
-
       
 
       <div class="mx-2 text-right">

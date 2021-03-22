@@ -49,6 +49,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ThankYouComponent } from './pages/thank-you/thank-you.component';
 import { MemberProfileComponent } from './pages/member-profile/member-profile.component';
 import { InoculateComponent } from './pages/inoculate/inoculate.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,7 @@ import { InoculateComponent } from './pages/inoculate/inoculate.component';
     HomeCardComponent,
     ThankYouComponent,
     MemberProfileComponent,
-    InoculateComponent
+    InoculateComponent,
   ],
   imports: [
     BrowserModule,
@@ -105,7 +106,7 @@ import { InoculateComponent } from './pages/inoculate/inoculate.component';
     MatRadioModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,3 +2,9 @@ mat-form-field {
   width: 100%;
   display: inline;
 }
+.profile-title {
+  @apply font-semibold text-base text-gray-800 block mt-4;
+}
+.profile-desc {
+  @apply font-medium text-gray-500;
+}
