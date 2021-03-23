@@ -5,7 +5,7 @@ import {DataService} from 'src/app/services/data.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
 import {tap} from 'rxjs/operators';
-import { Vaccine } from 'src/app/models/vaccination.model';
+import {Vaccine} from 'src/app/models/vaccination.model';
 
 
 @Component({
@@ -25,10 +25,10 @@ export class InoculateComponent implements OnInit {
   vaccinatorid: number;
   doseNumber: number;
   options: Vaccine[];
-  selectVaccine:Vaccine;
+  selectVaccine: Vaccine;
   myControl = new FormControl();
 
-constructor(private activatedRoute: ActivatedRoute, public data: DataService, private snackBar: MatSnackBar, private router: Router) {
+  constructor(private activatedRoute: ActivatedRoute, public data: DataService, private snackBar: MatSnackBar, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -42,24 +42,23 @@ constructor(private activatedRoute: ActivatedRoute, public data: DataService, pr
   }
 
 
-  
   private _filter(value: string): Vaccine[] {
+    console.log(  this.data.selectVaccine)
     const filterValue = value.toLowerCase();
     // console.log(typeof(filterValue));
     return this.options.filter(option => {
-      if(option.name.toLowerCase().indexOf(filterValue) === 0) {
+      if (option.name.toLowerCase().indexOf(filterValue) === 0) {
         // console.log(option);
-        if(filterValue === '') {
+        if (filterValue === '') {
           this.data.selectVaccine = null;
         } else {
           this.data.selectVaccine = option;
         }
-        
-      };
-      return option.name.toLowerCase().indexOf(filterValue) === 0
+
+      }
+      return option.name.toLowerCase().indexOf(filterValue) === 0;
     });
   }
-
 
 
   inoculatePatient = (e: NgForm) => {
@@ -99,7 +98,7 @@ constructor(private activatedRoute: ActivatedRoute, public data: DataService, pr
     }
     console.log(e);
 
-  }
+  };
 
   checkValidation = (e: NgForm) => {
     console.log(e);
