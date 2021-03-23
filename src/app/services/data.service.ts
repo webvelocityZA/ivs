@@ -14,7 +14,7 @@ import { Vaccination, Vaccine } from '../models/vaccination.model';
   providedIn: 'root'
 })
 export class DataService {
-  url = 'http://10.123.142.196:5100/api';
+  url = 'http://gems-devevds01:6100/api';
   currentPatient!: Patient;
   isLoginSubject = new BehaviorSubject<boolean>(this.hasToken());
   selectedLocation:Centre;
