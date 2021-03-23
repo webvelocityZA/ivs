@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { Centre } from 'src/app/models/centre.model';
 import { CookieService } from 'ngx-cookie-service';
+import { Vaccine } from 'src/app/models/vaccination.model';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,8 @@ export class LoginComponent implements OnInit {
   options: Centre[];
   filteredOptions: Observable<Centre[]>;
   selectedlocation:Centre;
+  selectVaccine:Vaccine;
+
   
 
   constructor(private data: DataService, private router: Router, private cookieService: CookieService) { }

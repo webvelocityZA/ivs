@@ -51,6 +51,24 @@
             </mat-form-field>
           </div>
 
+          <div class="w-full md:w-1/2 lg:w-1/2 md:px-2 block">
+            <mat-form-field appearance="fill">
+              <mat-label>Select Vaccine</mat-label>
+              <input type="text"
+                     placeholder="Select vaccine"
+                     aria-label="Select vaccine"
+                     matInput
+                     [formControl]="myControl"
+                     [matAutocomplete]="auto"
+                     >
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+                  {{option.name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
 
         </form>
       </div>

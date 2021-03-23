@@ -7,7 +7,7 @@ import {HttpClient} from '@angular/common/http';
 import {last} from 'rxjs/operators';
 import {VaccinationSiteStatistics} from '../models/vaccinationSiteStatistics.model';
 import { Centre } from '../models/centre.model';
-import { Vaccination } from '../models/vaccination.model';
+import { Vaccination, Vaccine } from '../models/vaccination.model';
 
 
 @Injectable({
@@ -18,6 +18,7 @@ export class DataService {
   currentPatient!: Patient;
   isLoginSubject = new BehaviorSubject<boolean>(this.hasToken());
   selectedLocation:Centre;
+  selectVaccine:Vaccine;
 
   constructor(private http: HttpClient) {
   }
@@ -167,5 +168,9 @@ export class DataService {
 
   getVaccinationHistory():Observable<Vaccination[]> {
     return this.http.get<Vaccination[]>(`${this.url}/Vaccination`);
+  }
+
+  getAllVaccines():Observable<Vaccine[]> {
+    return this.http.get<Vaccine[]>(`${this.url}/Vaccine`);
   }
 }

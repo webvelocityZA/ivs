@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {NgForm} from '@angular/forms';
+import {FormControl, NgForm} from '@angular/forms';
 import {Patient} from 'src/app/models/patient.model';
 import {DataService} from 'src/app/services/data.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
 import {tap} from 'rxjs/operators';
+import { Vaccine } from 'src/app/models/vaccination.model';
 
 
 @Component({
@@ -23,6 +24,9 @@ export class InoculateComponent implements OnInit {
   vaccinationSiteId: number;
   vaccinatorid: number;
   doseNumber: number;
+  options: Vaccine[];
+  selectVaccine:Vaccine;
+  myControl = new FormControl();
 
 constructor(private activatedRoute: ActivatedRoute, public data: DataService, private snackBar: MatSnackBar, private router: Router) {
   }
@@ -36,6 +40,26 @@ constructor(private activatedRoute: ActivatedRoute, public data: DataService, pr
       this.doseNumber = 1;
     });
   }
+
+
+  
+  private _filter(value: string): Vaccine[] {
+    const filterValue = value.toLowerCase();
+    // console.log(typeof(filterValue));
+    return this.options.filter(option => {
+      if(option.name.toLowerCase().indexOf(filterValue) === 0) {
+        // console.log(option);
+        if(filterValue === '') {
+          this.data.selectVaccine = null;
+        } else {
+          this.data.selectVaccine = option;
+        }
+        
+      };
+      return option.name.toLowerCase().indexOf(filterValue) === 0
+    });
+  }
+
 
 
   inoculatePatient = (e: NgForm) => {

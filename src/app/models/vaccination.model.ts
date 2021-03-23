@@ -17,3 +17,11 @@ export interface Vaccination {
         deletedOn?: string;
         deletedBy?: string;
 }
+
+export interface Vaccine {
+        name: string;
+        memberId: number;
+        vaccinationSiteId: number;
+        vaccinatorid: number;
+        feedBack: string;
+}
