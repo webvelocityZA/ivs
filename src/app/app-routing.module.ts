@@ -12,6 +12,7 @@ import { SelfRegisterComponent } from './pages/self-register/self-register.compo
 import { ThankYouComponent } from './pages/thank-you/thank-you.component';
 import { MemberProfileComponent } from './pages/member-profile/member-profile.component';
 import { InoculateComponent } from './pages/inoculate/inoculate.component';
+import { ThankYouInoculationComponent } from './pages/thank-you-inoculation/thank-you-inoculation.component';
 
 const routes: Routes = [
   {
@@ -75,6 +76,10 @@ const routes: Routes = [
   {
     path: 'thank-you',
     component: ThankYouComponent
+  },
+  {
+    path: 'thank-you-inoculation',
+    component: ThankYouInoculationComponent
   },
 ];
 

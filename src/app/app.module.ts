@@ -50,6 +50,7 @@ import { ThankYouComponent } from './pages/thank-you/thank-you.component';
 import { MemberProfileComponent } from './pages/member-profile/member-profile.component';
 import { InoculateComponent } from './pages/inoculate/inoculate.component';
 import { CookieService } from 'ngx-cookie-service';
+import { ThankYouInoculationComponent } from './pages/thank-you-inoculation/thank-you-inoculation.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { CookieService } from 'ngx-cookie-service';
     ThankYouComponent,
     MemberProfileComponent,
     InoculateComponent,
+    ThankYouInoculationComponent,
   ],
   imports: [
     BrowserModule,

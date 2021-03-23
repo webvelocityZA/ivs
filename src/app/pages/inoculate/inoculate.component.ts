@@ -58,7 +58,7 @@ constructor(private activatedRoute: ActivatedRoute, public data: DataService, pr
 
       this.data.postVaccinationInfo(payload)
         .pipe(tap((res) => {
-          this.router.navigateByUrl('/thank-you');
+          this.router.navigateByUrl('/thank-you-inoculate');
           console.log(res);
         }))
         .subscribe(res => {
