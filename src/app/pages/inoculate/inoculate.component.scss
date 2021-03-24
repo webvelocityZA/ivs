@@ -2,4 +2,27 @@ mat-form-field {
     width: 100%;
     display: inline;
   }
-  
+ .custom .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 1em 0 36px 0 !important; 
+}
+
+.custom .mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-outline {
+  color: #fff;
+}
+
+.custom .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0;
+  padding: 0;
+}
+.custom .mat-form-field-appearance-outline .mat-form-field-flex {
+  padding: 0;
+  margin: 0;
+}
+
+  .title {
+    color: #000;
+    @apply font-semibold text-lg block mt-0;
+  }
+  .subTitle {
+    @apply font-medium text-gray-500;
+  }

@@ -43,7 +43,7 @@ const routes: Routes = [
     component: SelfRegisterComponent
   },
   {
-    path: 'inoculate',
+    path: 'inoculate/:memberId',
     component: InoculateComponent,
     canActivate: [AuthGuard]
   },

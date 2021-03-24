@@ -1,19 +1,47 @@
+<div class="w-full bg-gray-800 px-10 py-10 flex items-center">
+
+  <div class="text-2xl">
+    <span class="text-gray-200 font-semibold tracking-wide">Vaccination History</span>
+  </div>
+
+</div>
+
+
 <div class="mx-10 mt-10">
 
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-      <!-- First Name Column -->
-      <ng-container matColumnDef="dosageRecieved">
-        <th mat-header-cell *matHeaderCellDef> Dosage Received </th>
-        <td mat-cell *matCellDef="let element"> {{element.dosageRecieved}} </td>
+      <!-- Full Name Column -->
+      <ng-container matColumnDef="fullname">
+        <th mat-header-cell *matHeaderCellDef> Full Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.fullname}} </td>
       </ng-container>
 
-      <!-- Last Name Column -->
-      <ng-container matColumnDef="inoculatedOn">
-        <th mat-header-cell *matHeaderCellDef> Inoculated On </th>
-        <td mat-cell *matCellDef="let element"> {{element.inoculatedOn | date: 'fullDate'}} </td>
+      <!-- Vaccine Name Column -->
+      <ng-container matColumnDef="vaccineName">
+        <th mat-header-cell *matHeaderCellDef> Vaccine name </th>
+        <td mat-cell *matCellDef="let element"> {{element.vaccineName}} </td>
       </ng-container>
+
+      <!-- Vaccine Date Column -->
+      <ng-container matColumnDef="vaccinatedDate">
+        <th mat-header-cell *matHeaderCellDef> Vaccine Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.vaccinatedDate}} </td>
+      </ng-container>
+
+      <!-- Site Location Column -->
+      <ng-container matColumnDef="siteLocation">
+        <th mat-header-cell *matHeaderCellDef> Site Location </th>
+        <td mat-cell *matCellDef="let element"> {{element.siteLocation}} </td>
+      </ng-container>
+
+      <!-- Site Province Column -->
+      <ng-container matColumnDef="siteProvince">
+        <th mat-header-cell *matHeaderCellDef> Site Province </th>
+        <td mat-cell *matCellDef="let element"> {{element.siteProvince}} </td>
+      </ng-container>
+      
 
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -1,57 +1,62 @@
-<div *ngIf="!isLoading" class="p-4 px-10 md:px-28">
-  <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="IVSTabIndex">
-    <mat-tab [disabled]='IVSTabIndex < 0' label="Inoculation">
-      <div class="py-4">
-        <form #inoculateForm="ngForm" (submit)="inoculatePatient(inoculateForm)" class="mt-6">
+<div class="w-full bg-gray-800 px-8 py-8 flex items-center">
 
+  <div class="text-2xl">
+    <span class="text-gray-200 font-light tracking-wide">Welcome,</span>
+    <span class="text-gray-200 font-bold tracking-wide"> User</span>
+  </div>
 
-          <div class="w-full md:w-1/2 md:px-2 inline-block">
-            <mat-form-field appearance="outline">
-              <mat-label>Member ID = {{userID}}</mat-label>
+</div>
+
+<div *ngIf="!isLoading" class="">
+ <!--CONTAINER-->
+
+ <div class="w-full flex bg-gray-200">
+  <div class="w-full sm:w-full lg:w-full m-4 p-4 bg-white">
+    <span class="font-bold text-2xl">Inoculation</span>
+    <hr class="mt-4">
+
+      <div class="pb-4">
+        <form #inoculateForm="ngForm" (submit)="inoculatePatient(inoculateForm)" >
+
+<!-- 
+          <div class="w-full md:w-1/2 inline-block custom">
+            <mat-form-field appearance="outline" class="custom-field">
+              <mat-label class="custom-label"><span class="title">Member ID</span> <span class="subTitle"> {{userID}}</span></mat-label>
               <input matInput name="userID" ngModel #userIDInput="ngModel" value="{{userID}}"
                      userId disabled>
             </mat-form-field>
-          </div>
+          </div> -->
 
-          <div class="w-full md:w-1/2 md:px-2 inline-block">
+          <div class="w-full md:w-1/2 md:px-2 inline-block custom">
             <mat-form-field appearance="outline">
-              <mat-label>Vaccination Site ID = {{vaccinationSiteId}} [Dischem Midrand] </mat-label>
+              <mat-label><span class="title">Vaccination Site</span><span class="subTitle"> {{vaccinationSiteNameCookie}}</span> </mat-label>
               <input matInput name="vaccinationSiteId" ngModel #vaccinationSiteIdInput="ngModel"
-                     value="{{vaccinationSiteId}}" vaccinationSiteId disabled>
+                     value="{{vaccinationSiteIDCookie}}" vaccinationSiteId disabled>
             </mat-form-field>
           </div>
 
-          <div class="w-full md:w-1/2 md:px-2 inline-block">
+          <div class="w-full md:w-1/2 inline-block custom">
             <mat-form-field appearance="outline">
-              <mat-label>Vaccinated By = Systems</mat-label>
+              <mat-label><span class="title">Vaccinated By</span> <span class="subTitle">Systems</span></mat-label>
               <input matInput name="vaccinatorid" ngModel #vaccinatoridInput="ngModel"
                      value="{{vaccinatorid}}" vaccinatorid disabled>
-              <mat-icon matSuffix>admin_panel_settings</mat-icon>
             </mat-form-field>
           </div>
 
 
-          <div class="w-full md:w-1/2 md:px-2 inline-block">
+
+          <div class="w-full md:w-1/2 md:px-2   inline-block custom">
             <mat-form-field appearance="outline">
-              <mat-label>Dose Number</mat-label>
-              <input matInput placeholder="Dosage" name="dosageNumber" ngModel #dosageNumberInput="ngModel" required
+              <mat-label><span class="title">Dose Number</span> <span class="subTitle">{{doseNumber}}</span></mat-label>
+              <input matInput placeholder="Dosage" name="doseNumber" ngModel #doseNumberInput="ngModel"  required
                      dosage disabled>
-              <mat-icon matSuffix>tag</mat-icon>
-              <mat-error *ngIf="dosageNumberInput.hasError('required')">Dosage Number</mat-error>
+              <mat-error *ngIf="doseNumberInput.hasError('required')">Dosage Number</mat-error>
             </mat-form-field>
           </div>
 
-          <div class="w-full md:w-1/2 md:px-2 inline-block">
-            <mat-form-field appearance="outline">
-              <mat-label>Dosage</mat-label>
-              <input matInput placeholder="Dosage (ml)" name="dosage" ngModel #dosageInput="ngModel" required
-                     dosage>
-              <mat-icon matSuffix>medication</mat-icon>
-              <mat-error *ngIf="dosageInput.hasError('required')">Dosage</mat-error>
-            </mat-form-field>
-          </div>
-
-          <div class="w-full md:w-1/2 lg:w-1/2 md:px-2 block">
+          <br>
+          <div class="w-full ">
+          <div class="w-full md:w-1/2 md:pr-2  inline-block mt-5">
             <mat-form-field appearance="fill">
               <mat-label>Select Vaccine</mat-label>
               <input type="text"
@@ -60,14 +65,26 @@
                      matInput
                      [formControl]="myControl"
                      [matAutocomplete]="auto"
-                     >
+                     required>
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
-                  {{option.name}}
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.vaccineName">
+                  {{option.vaccineName}}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
           </div>
+
+
+          <div class="w-full md:w-1/2  md:px-2  inline-block mt-5">
+            <mat-form-field appearance="fill">
+              <mat-label>Dosage</mat-label>
+              <input matInput placeholder="Dosage (ml)" name="dosage" ngModel #dosageInput="ngModel" required
+                     dosage>
+              <mat-icon matSuffix>medication</mat-icon>
+              <mat-error *ngIf="dosageInput.hasError('required')">Dosage</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
 
 
         </form>
@@ -77,11 +94,13 @@
         <button mat-raised-button color="primary" (click)="inoculatePatient(inoculateForm)">Inoculate
         </button>
       </div>
-    </mat-tab>
 
-  </mat-tab-group>
+
+  <!--/CONTAINER-->
 </div>
 
+
+<!-- LOADER-->
 <div class="h-screen w-full flex items-center justify-center" *ngIf="isLoading">
   <mat-spinner></mat-spinner>
 </div>

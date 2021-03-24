@@ -20,6 +20,7 @@ export class DashboardComponent implements AfterViewInit {
   query;
   dataSource;
   VaccinationSiteStatistics:VaccinationSiteStatistics;
+  overallTotal:any = '-';
 
 
 
@@ -33,10 +34,14 @@ export class DashboardComponent implements AfterViewInit {
     console.log(this.data.selectedLocation);
     this.loadPatients();
     this.getDashboardStats();
+    this.getTotalDashboardStats();
     setInterval(() => {
       this.getDashboardStats();
+      this.getTotalDashboardStats();
   }, 2000000);
   }
+
+
 
   loadPatients() {
     this.data.getPatients()
@@ -57,6 +62,15 @@ export class DashboardComponent implements AfterViewInit {
     .subscribe(res => {
       console.log(res);
       this.VaccinationSiteStatistics = res;
+    });
+  }
+
+  getTotalDashboardStats() {
+    
+    this.data.getDashoardStatistics(0)
+    .subscribe(res => {
+      console.log(res);
+      this.overallTotal = res.totalAvailable;
     });
   }
 

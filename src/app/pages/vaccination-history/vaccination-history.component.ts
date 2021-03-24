@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { SiteVaccinationHistory } from 'src/app/models/site-vaccination-history.model';
 import { Vaccination } from 'src/app/models/vaccination.model';
 import { DataService } from 'src/app/services/data.service';
 
@@ -11,8 +12,8 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./vaccination-history.component.scss']
 })
 export class VaccinationHistoryComponent implements AfterViewInit {
-  patients:Vaccination[] = [];
-  displayedColumns: string[] = ['dosageRecieved', 'inoculatedOn'];
+  siteVaccinationHistory:SiteVaccinationHistory[] = [];
+  displayedColumns: string[] = ['fullname', 'vaccineName', 'vaccinatedDate', 'siteLocation', 'siteProvince'];
   dataSource;
 
 
@@ -28,14 +29,13 @@ export class VaccinationHistoryComponent implements AfterViewInit {
   }
 
   loadPatients() {
-    this.data.getVaccinationHistory()
+    this.data.getSiteVaccinationHistory()
     .subscribe(res => {
-      this.patients = res;
+      this.siteVaccinationHistory = res;
       console.log(res);
-      this.dataSource = new MatTableDataSource<any>(this.patients);
+      this.dataSource = new MatTableDataSource<any>(this.siteVaccinationHistory);
       this.dataSource.paginator = this.paginator;
     }, err => {
-      // this.patients = 'error';
     })
   }
 

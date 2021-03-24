@@ -1,5 +1,5 @@
 export interface Vaccination {
-        id: number;
+        id?: number;
         memberId: number;
         vaccinationSiteId: number;
         vaccinatorid: number;
@@ -31,3 +31,13 @@ export interface Vaccine {
     deletedOn?: string;
     deletedBy?: string;
 }
+
+export interface VaccineCentre{
+    siteId: number;
+    vaccineId: number;
+    vaccinationSiteId: number;
+    siteName: string;
+    vaccineName: string;
+    siteLocation: string;
+    vaccineNeppiCode: string;
+  }

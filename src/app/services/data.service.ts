@@ -7,7 +7,8 @@ import {HttpClient} from '@angular/common/http';
 import {last} from 'rxjs/operators';
 import {VaccinationSiteStatistics} from '../models/vaccinationSiteStatistics.model';
 import { Centre } from '../models/centre.model';
-import { Vaccination, Vaccine } from '../models/vaccination.model';
+import { Vaccination, Vaccine, VaccineCentre } from '../models/vaccination.model';
+import { SiteVaccinationHistory } from '../models/site-vaccination-history.model';
 
 
 @Injectable({
@@ -144,16 +145,16 @@ export class DataService {
 
   postVaccinationInfo(payload: any): any {
     const vacData = {
-      id: 1,
+      // id: payload.id,
       memberId: payload.memberId,
       vaccinationSiteId: 2,
       vaccinatorid: 2,
       feedBack: 'Was Good Service',
-      repeatInoculatedOn: '2021-03-24T12:42:55.459Z',
-      inoculatedOn: '2021-03-22T23:42:55.459Z',
+      repeatInoculatedOn: '2021-03-25T23:42:55.459Z',
+      inoculatedOn: '2021-03-25T23:42:55.459Z',
       dosageRecieved: '560ml',
       doseNumber: 2,
-      vaccinatedDate: '2021-03-22T23:42:55.459Z'
+      vaccinatedDate: '2021-03-25T23:42:55.459Z'
     };
     return this.http.post(`${this.url}/Vaccination/`, vacData);
   }
@@ -166,11 +167,20 @@ export class DataService {
     return this.http.get<Centre[]>(`${this.url}/Centre`);
   }
 
-  getVaccinationHistory():Observable<Vaccination[]> {
-    return this.http.get<Vaccination[]>(`${this.url}/Vaccination`);
+  getSiteVaccinationHistory():Observable<SiteVaccinationHistory[]> {
+    return this.http.get<SiteVaccinationHistory[]>(`${this.url}/Vaccination/History/0`);
   }
 
+
+  getVaccineCentre(siteId : number):Observable<VaccineCentre[]> {
+    return this.http.get<VaccineCentre[]>(`${this.url}/Centre/Vaccines/${siteId}`);
+  }
+
+
+  //@TODO refractor
   getAllVaccines():Observable<Vaccine[]> {
     return this.http.get<Vaccine[]>(`${this.url}/Vaccine`);
   }
+
+
 }

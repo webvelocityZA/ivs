@@ -41,7 +41,10 @@ export class MemberProfileComponent implements OnInit {
             const data = res;
             if (data) {
               this.patientData = data[0];
+              console.log(this.patientData);
               this.memberId = data[0].idNumber;
+
+
               /* Fetch Patient Vacccination History */
               const patientID = data[0].id;
               this.getVaccinationInfo(patientID);
