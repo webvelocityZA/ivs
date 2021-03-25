@@ -7,7 +7,7 @@ import {HttpClient} from '@angular/common/http';
 import {last} from 'rxjs/operators';
 import {VaccinationSiteStatistics} from '../models/vaccinationSiteStatistics.model';
 import { Centre } from '../models/centre.model';
-import { Vaccination, Vaccine, VaccineCentre } from '../models/vaccination.model';
+import { getHowManyTimes, Vaccination, Vaccine, VaccineCentre } from '../models/vaccination.model';
 import { SiteVaccinationHistory } from '../models/site-vaccination-history.model';
 
 
@@ -145,16 +145,41 @@ export class DataService {
 
   postVaccinationInfo(payload: any): any {
     const vacData = {
-      // id: payload.id,
       memberId: payload.memberId,
-      vaccinationSiteId: 2,
+      vaccinationSiteId: payload.vaccinationSiteId,
       vaccinatorid: 2,
       feedBack: 'Was Good Service',
+  
+      // dosageRecieved: payload.dosageRecieved,
+      dosageRecieved: '1',
+      doseNumber: payload.doseNumber,
       repeatInoculatedOn: '2021-03-25T23:42:55.459Z',
       inoculatedOn: '2021-03-25T23:42:55.459Z',
-      dosageRecieved: '560ml',
-      doseNumber: 2,
       vaccinatedDate: '2021-03-25T23:42:55.459Z'
+
+
+
+      // memberId: payload.memberId,
+      // vaccinationSiteId: payload.vaccinationSiteId,
+      // vaccinatorid: 2,
+      // feedBack: '',
+      // repeatInoculatedOn: '',
+      // inoculatedOn: '',
+      // dosageRecieved: '',
+      // doseNumber: payload.doseNumber,
+      // vaccinatedDate: '',
+      // createdOn: '',
+      // createdby: '',
+      // updatedOn: '',
+      // updatedby: '',
+      // deleted: false,
+      // deletedOn: '',
+      // deletedBy: '',
+
+
+
+
+
     };
     return this.http.post(`${this.url}/Vaccination/`, vacData);
   }
@@ -174,6 +199,10 @@ export class DataService {
 
   getVaccineCentre(siteId : number):Observable<VaccineCentre[]> {
     return this.http.get<VaccineCentre[]>(`${this.url}/Centre/Vaccines/${siteId}`);
+  }
+
+  getHowManyTimes(ID : number): Observable<getHowManyTimes>{
+    return this.http.get<getHowManyTimes>(`${this.url}/Registration/Vaccinated/${ID}`);
   }
 
 

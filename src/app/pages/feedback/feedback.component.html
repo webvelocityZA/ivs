@@ -1,32 +1,16 @@
 <div class="w-full bg-gray-800 px-8 py-8 flex items-center">
 
   <div class="text-2xl">
-    <span class="text-gray-200 font-light tracking-wide">Welcome,</span>
-    <span class="text-gray-200 font-bold tracking-wide"> User</span>
+    
   </div>
 
 </div>
 
 
-<div class="p-4 px-16 md:px-40">
-  <div class="text-center my-14">
-    <span class="text-3xl font-semibold text-center">FEEDBACK</span>
-  </div>
-
-  <div class="w-full md:w-full md:px-2 inline-block">
-    <mat-form-field appearance="fill" hideRequiredMarker="false" floatLabel="Allergies & Chronic Medication">
-      <mat-select [(ngModel)]="feedbackOption" (ngModelChange)="checkSelectedFeedbackOption($event)" required>
-        <mat-option>Please Select</mat-option>
-        <mat-option value="vaccination">Vaccination Feedback</mat-option>
-        <mat-option value="general">General Feedback</mat-option>
-      </mat-select>
-      <mat-label>Select Feedback Category</mat-label>
-    </mat-form-field>
-  </div>
-
+<div class="p-4 px-16 md:px-40 mt-6">
   <div class="w-full md:w-full md:px-2 inline-block">
     <mat-form-field appearance="fill">
-      <mat-label>ID Number</mat-label>
+      <mat-label>ID Number/Passport</mat-label>
       <input matInput placeholder="ID Number" name="idNumber" ngModel #idNumberInput="ngModel" required idNumber
         (ngModelChange)="checkIfIDExists($event)">
       <mat-icon *ngIf="registered" class="text-green-600" matSuffix>sentiment_very_satisfied</mat-icon>
@@ -37,49 +21,79 @@
     </mat-form-field>
   </div>
 
-
-  <div *ngIf='firstName' class="w-full md:w-1/2 md:px-2 inline-block">
-    <mat-form-field appearance="fill">
-      <mat-label>First Name</mat-label>
-      <input matInput placeholder="First Name" [value]='firstName' name="fullName" disabled>
-
-    </mat-form-field>
-  </div>
-
-  <div *ngIf='lastName' class="w-full md:w-1/2 md:px-2 inline-block">
-    <mat-form-field appearance="fill">
-      <mat-label>Last Name</mat-label>
-      <input matInput placeholder="Last Name" [value]='lastName' name="lastName" disabled>
-
-    </mat-form-field>
-  </div>
-
-  <div *ngIf="showDoctorFields">
-    <div class="w-full md:w-1/2 md:px-2 inline-block">
-      <mat-form-field appearance="fill">
-        <mat-label>Doctor Name</mat-label>
-        <input matInput placeholder="Doctor Name" name="doctorName" ngModel #doctorNameInput="ngModel" required doctorName>
-        <mat-error *ngIf="doctorNameInput.hasError('required')">Doctor Name is required</mat-error>
-      </mat-form-field>
-    </div>
-
-    <div class="w-full md:w-1/2 md:px-2 inline-block">
-      <mat-form-field appearance="fill">
-        <mat-label>Doctor Number</mat-label>
-        <input matInput placeholder="Doctor Number" name="doctorNumber" ngModel #doctorNumberInput="ngModel" required doctorNumber type="tel">
-        <mat-error *ngIf="doctorNameInput.hasError('required')">Doctor Number is required</mat-error>
-      </mat-form-field>
-    </div>
-
+  <div *ngIf="registered">
     <div class="w-full md:w-full md:px-2 inline-block">
-      <mat-form-field appearance="fill">
-        <mat-label>Doctor Certificate</mat-label>
-        <input matInput placeholder="Doctor Certificate" name="doctorCertificate" ngModel #doctorCertificateInput="ngModel" required doctorCertificate type="text">
-        <mat-error *ngIf="doctorCertificateInput.hasError('required')">Doctor Certificate is required</mat-error>
+      <mat-form-field appearance="fill" hideRequiredMarker="false" floatLabel="Allergies & Chronic Medication">
+        <mat-select [(ngModel)]="feedbackOption" (ngModelChange)="checkSelectedFeedbackOption($event)" required>
+          <mat-option>Please Select</mat-option>
+          <mat-option value="vaccination">Vaccination Feedback</mat-option>
+          <mat-option value="general">General Feedback</mat-option>
+        </mat-select>
+        <mat-label>Select Feedback Category</mat-label>
       </mat-form-field>
     </div>
+  
+    
+  
+  
+    <div *ngIf='firstName' class="w-full md:w-1/2 md:px-2 inline-block">
+      <mat-form-field appearance="fill">
+        <mat-label>First Name</mat-label>
+        <input matInput placeholder="First Name" [value]='firstName' name="fullName">
+  
+      </mat-form-field>
+    </div>
+  
+    <div *ngIf='lastName' class="w-full md:w-1/2 md:px-2 inline-block">
+      <mat-form-field appearance="fill">
+        <mat-label>Last Name</mat-label>
+        <input matInput placeholder="Last Name" [value]='lastName' name="lastName">
+  
+      </mat-form-field>
+    </div>
+  
+    <div *ngIf="showDoctorFields">
+      <div class="w-full md:w-1/2 md:px-2 inline-block">
+        <mat-form-field appearance="fill">
+          <mat-label>Doctor Name</mat-label>
+          <input matInput placeholder="Doctor Name" name="doctorName" ngModel #doctorNameInput="ngModel" required doctorName>
+          <mat-error *ngIf="doctorNameInput.hasError('required')">Doctor Name is required</mat-error>
+        </mat-form-field>
+      </div>
+  
+      <div class="w-full md:w-1/2 md:px-2 inline-block">
+        <mat-form-field appearance="fill">
+          <mat-label>Doctor Number</mat-label>
+          <input matInput placeholder="Doctor Number" name="doctorNumber" ngModel #doctorNumberInput="ngModel" required doctorNumber type="tel">
+          <mat-error *ngIf="doctorNameInput.hasError('required')">Doctor Number is required</mat-error>
+        </mat-form-field>
+      </div>
+      
+    
+      <div class="w-full md:w-full md:px-2 inline-block">
+        <div class="upload_file">
+          <mat-form-field>
+            <div>
+              <mat-toolbar>
+                <!-- Display files names -->
+                <input matInput [(ngModel)]="fileAttr" readonly name="name" />
+          
+                <!-- Browse Button -->
+                <button mat-flat-button color="primary">
+                  Browse File
+                </button>
+              </mat-toolbar>
+          
+              <!-- Fetch selected filed on change -->
+              <input type="file" #fileInput id="uploadFile" (change)="uploadFileEvt($event)" name="uploadFile" multiple="multiple"
+                accept="image/*" />
+            </div>
+          </mat-form-field>
+        </div>
+      </div>
+    
   </div>
-
+  
   <div class="w-full md:w-full md:px-2 inline-block">
     <mat-form-field appearance="fill">
       <mat-label>Feedback Text</mat-label>
@@ -87,10 +101,11 @@
       <mat-error *ngIf="feedbackInput.hasError('required')">Feedback is required</mat-error>
     </mat-form-field>
   </div>
-
+  
   <div class="mx-2">
     <button mat-raised-button color="primary" type="submit">Submit Feedback</button>
   </div>
+  </div>
 
-</div>
+  
 

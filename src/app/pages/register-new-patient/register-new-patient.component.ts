@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { map, startWith, tap } from 'rxjs/operators';
 import { Centre } from 'src/app/models/centre.model';
 import { Observable } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
@@ -28,11 +29,13 @@ export class RegisterNewPatientComponent implements OnInit {
   filteredOptions: Observable<Centre[]>;
   locationID;
   isIDValid = false;
+  siteName: string;
 
-  constructor(public data: DataService, private _snackBar: MatSnackBar, private router: Router) { }
-
+  constructor(public data: DataService, private _snackBar: MatSnackBar, private router: Router, private cookieService: CookieService) { }
+ 
   ngOnInit(): void {
     this.loadCentres();
+    this.siteName = this.cookieService.get('vaccination-centre-name');
   }
 
   registerPatient(e:NgForm) {
@@ -41,7 +44,7 @@ export class RegisterNewPatientComponent implements OnInit {
       this.data.registerPatient(e.value.idNumber, e.value.firstName, e.value.lastName, e.value.position, e.value.employer, e.value.mobileNumber, e.value.emailAddress, e.value.schemeName, this.locationID)
       .pipe(tap((res) => {
         this.router.navigateByUrl('/thank-you');
-        console.log(res);
+        // console.log(res);
       }))
       .subscribe(res => {
         this.isLoading = false;
@@ -55,12 +58,12 @@ export class RegisterNewPatientComponent implements OnInit {
     } else {
       alert('Something wrong');
     }
-    console.log(e);
+    // console.log(e);
 
   }
 
   checkValidation(e:NgForm) {
-    console.log(e);
+    // console.log(e);
     if(e.valid === true) {
       this.navToTab();
     } else if(e.valid === false) {
@@ -68,7 +71,7 @@ export class RegisterNewPatientComponent implements OnInit {
     } else {
       alert('Something wrong');
     }
-    console.log(e);
+    // console.log(e);
   }
 
   checkIfIDExists(e:string) {
@@ -80,7 +83,7 @@ export class RegisterNewPatientComponent implements OnInit {
     if (e.length < 13) { return}
     this.data.searchByID(e)
     .subscribe(patient => {
-      console.log(patient);
+      // console.log(patient);
       if (patient.length > 0) {
         // alert('user already registered');
         this.registered = true;
@@ -112,7 +115,7 @@ export class RegisterNewPatientComponent implements OnInit {
   loadCentres() {
     this.data.getAllCentres()
     .subscribe(centres => {
-      console.log(centres);
+      // console.log(centres);
       this.options = centres;
       this.filteredOptions = this.myControl.valueChanges.pipe(
         startWith(''),

@@ -1,12 +1,4 @@
-<div class="w-full bg-gray-800 px-8 py-8 flex items-center">
-
-  <div class="text-2xl">
-    <span class="text-gray-200 font-light tracking-wide">Welcome,</span>
-    <span class="text-gray-200 font-bold tracking-wide"> User</span>
-  </div>
-
-</div>
-
+<app-ivs-heading title="Member Profile" backLink="/dashboard" viewFromShow='true'></app-ivs-heading>
 
 <div class="h-screen w-full flex items-center justify-center" *ngIf="!patientData">
   <mat-spinner></mat-spinner>
@@ -78,11 +70,17 @@
           class="flex w-1/2 mx-auto text-white bg-blue-500 border-0 py-2 px-6 mt-5 focus:outline-none hover:bg-blue-600 rounded-full text-sm justify-center"
           routerLink="/inoculate" [queryParams]="{userID:patientData?.idNumber, memberId: patientVaccinationInfo?.memberId}">New Inoculation
         </a> -->
-
+<!-- 
         <a *ngIf="patientData"
         class="flex w-1/2 mx-auto text-white bg-blue-500 border-0 py-2 px-6 mt-5 focus:outline-none hover:bg-blue-600 rounded-full text-sm justify-center"
-        [routerLink]="['/inoculate', patientData?.id]">New Inoculation
-      </a>
+        [routerLink]="['/inoculate', patientData?.id , patientData?.idNumber]">New Inoculation
+      </a> -->
+      <div class="inline-block w-1/2 mt-32">
+      <button *ngIf="patientData" mat-raised-button color="primary"
+      class="flex w-full mx-auto text-white bg-blue-500 border-0 py-2 px-6 mt-5 text-sm justify-center"
+      [routerLink]="['/inoculate', patientData?.id , patientData?.idNumber]">New Inoculation
+      </button>
+</div>
 
       <!-- <p>{{patientVaccinationInfo?.idNumber}}</p> -->
     

@@ -1,27 +1,34 @@
 <div>
-  <mat-toolbar class="bg-white" *ngIf="(isLoggedIn | async)">
-    <div>
+  <mat-toolbar class="bg-white">
+
+    <div *ngIf="(isLoggedIn | async)">
       <button mat-icon-button>
         <mat-icon>menu</mat-icon>
       </button>
     </div>
-    <span routerLink="/dashboard" class="cursor-pointer"><img class="h-full w-28" src="assets/img/gems-ivs-logo.png" alt=""></span>
+
+    <span routerLink="/dashboard" class="cursor-pointer"><img class="h-full w-28 ml-5"
+        src="assets/img/gems-ivs-logo.png" alt=""></span>
     <span class="ivs-spacer"></span>
 
-    <button mat-button aria-label="Example icon-button with share icon" routerLink="/register" routerLinkActive="text-blue-700">
-      Register New Patient
-    </button>
-    <button mat-button aria-label="Example icon-button with share icon" routerLink="/vaccination-history" routerLinkActive="text-blue-700">
-      Vaccination History
-    </button>
-    <button mat-button aria-label="Example icon-button with share icon" routerLink="/admin-profile" routerLinkActive="text-blue-700">
-      My Profile
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="logout()">
-      <mat-icon>logout</mat-icon>
-    </button>
+    <div *ngIf="(isLoggedIn | async)">
+      <button mat-button aria-label="Example icon-button with share icon" routerLink="/register"
+        routerLinkActive="text-blue-700">
+        Register New Patient
+      </button>
+      <button mat-button aria-label="Example icon-button with share icon" routerLink="/vaccination-history"
+        routerLinkActive="text-blue-700">
+        Vaccination History
+      </button>
+      <button mat-button aria-label="Example icon-button with share icon" routerLink="/admin-profile"
+        routerLinkActive="text-blue-700">
+        My Profile
+      </button>
+      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
 
   </mat-toolbar>
   <img src="assets/img/gems-border-line2.png" alt="" class="w-full h-1">
 </div>
-

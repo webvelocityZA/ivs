@@ -51,6 +51,8 @@ import { MemberProfileComponent } from './pages/member-profile/member-profile.co
 import { InoculateComponent } from './pages/inoculate/inoculate.component';
 import { CookieService } from 'ngx-cookie-service';
 import { ThankYouInoculationComponent } from './pages/thank-you-inoculation/thank-you-inoculation.component';
+import { IvsBackButtonComponent } from './components/ivs-back-button/ivs-back-button.component';
+import { IvsHeadingComponent } from './components/ivs-heading/ivs-heading.component';
 
 
 @NgModule({
@@ -71,6 +73,8 @@ import { ThankYouInoculationComponent } from './pages/thank-you-inoculation/than
     MemberProfileComponent,
     InoculateComponent,
     ThankYouInoculationComponent,
+    IvsBackButtonComponent,
+    IvsHeadingComponent,
   ],
   imports: [
     BrowserModule,

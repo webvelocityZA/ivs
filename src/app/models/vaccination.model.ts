@@ -33,6 +33,7 @@ export interface Vaccine {
 }
 
 export interface VaccineCentre{
+    dosageRequired: number;
     siteId: number;
     vaccineId: number;
     vaccinationSiteId: number;
@@ -40,4 +41,9 @@ export interface VaccineCentre{
     vaccineName: string;
     siteLocation: string;
     vaccineNeppiCode: string;
+  }
+
+  export interface getHowManyTimes{
+        isVacinated: true,
+        howMany: 0
   }
