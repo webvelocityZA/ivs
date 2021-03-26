@@ -149,37 +149,12 @@ export class DataService {
       vaccinationSiteId: payload.vaccinationSiteId,
       vaccinatorid: 2,
       feedBack: 'Was Good Service',
-  
       // dosageRecieved: payload.dosageRecieved,
       dosageRecieved: '1',
       doseNumber: payload.doseNumber,
       repeatInoculatedOn: '2021-03-25T23:42:55.459Z',
       inoculatedOn: '2021-03-25T23:42:55.459Z',
       vaccinatedDate: '2021-03-25T23:42:55.459Z'
-
-
-
-      // memberId: payload.memberId,
-      // vaccinationSiteId: payload.vaccinationSiteId,
-      // vaccinatorid: 2,
-      // feedBack: '',
-      // repeatInoculatedOn: '',
-      // inoculatedOn: '',
-      // dosageRecieved: '',
-      // doseNumber: payload.doseNumber,
-      // vaccinatedDate: '',
-      // createdOn: '',
-      // createdby: '',
-      // updatedOn: '',
-      // updatedby: '',
-      // deleted: false,
-      // deletedOn: '',
-      // deletedBy: '',
-
-
-
-
-
     };
     return this.http.post(`${this.url}/Vaccination/`, vacData);
   }

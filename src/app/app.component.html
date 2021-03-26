@@ -11,6 +11,8 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
+
+    
     <div *ngIf="(isLoggedIn | async) === false">
       <ivs-navbar></ivs-navbar>
     </div>
