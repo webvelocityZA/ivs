@@ -28,12 +28,14 @@ export interface Patient {
 
 interface Registration {
   id?: number;
+  referenceNumber?: string;
   idNumber?: string;
   firstName?: string;
   lastName?: string;
   isMember?: boolean;
   confirmed?: boolean;
   city?: string;
+  province?: string;
   siteId?: number;
   mobileNumber?: string;
   emailAddress?: string;
@@ -45,6 +47,7 @@ interface Registration {
   chronicMedication?: string;
   vaccinationInfo?: VaccinationInfo[];
   appointmentDate?: string;
+  dateOfBirth?: string;
   createdOn?: string;
   createdby?: string;
   updatedOn?: string;

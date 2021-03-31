@@ -4,36 +4,40 @@ import {Patient, VaccinationInfo} from '../models/patient.model';
 import {BehaviorSubject, of, Subject} from 'rxjs';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {last} from 'rxjs/operators';
 import {VaccinationSiteStatistics} from '../models/vaccinationSiteStatistics.model';
 import { Centre } from '../models/centre.model';
 import { getHowManyTimes, Vaccination, Vaccine, VaccineCentre } from '../models/vaccination.model';
 import { SiteVaccinationHistory } from '../models/site-vaccination-history.model';
+import {environment} from '../../environments/environment.prod';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  url = 'http://gems-devevds01:5100/api';
+  url = environment.API_ENDPOINT;
   currentPatient!: Patient;
   isLoginSubject = new BehaviorSubject<boolean>(this.hasToken());
-  selectedLocation:Centre;
-  selectVaccine:Vaccine;
+  selectedLocation: Centre;
+  selectVaccine: Vaccine;
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
+
+  // createAuthorizationHeader(headers: Headers) {
+  //   headers.append('Authorization', 'Basic ' +
+  //     btoa('username:password')); 
+  // }
+
 
   private hasToken(): boolean {
     return !!localStorage.getItem('token');
   }
 
-
   isLoggedIn(): Observable<boolean> {
     return this.isLoginSubject.asObservable();
   }
 
-  registerPatient(idNumber, firstName, lastName, position, employer, mobileNumber, emailAddress, schemeName, city): Observable<any> {
+  registerPatient(idNumber, firstName, lastName, position, employer, mobileNumber, emailAddress, schemeName, city, province, dateOfBirth): Observable<any> {
     const postData = {
       id: 0,
       idNumber,
@@ -41,7 +45,8 @@ export class DataService {
       lastName,
       isMember: true,
       confirmed: true,
-      city: city,
+      city,
+      province,
       siteId: 0,
       mobileNumber,
       emailAddress,
@@ -73,6 +78,7 @@ export class DataService {
         }
       ],
       appointmentDate: '2021-03-13',
+      dateOfBirth,
       createdOn: '2021-03-13T16:00:18.718Z',
       createdby: 'string',
       updatedOn: '2021-03-13T16:00:18.718Z',
@@ -84,34 +90,22 @@ export class DataService {
     return this.http.post(`${this.url}/Registration`, postData, {responseType: 'text'});
   }
 
-  updatePatient = (idNumber, firstName, lastName, position, employer, mobileNumber, emailAddress, schemeName, city?) => {
+  updatePatient = (idNumber, position?, employer?, schemeName?, memberNumber?, firstName?, lastName?, mobileNumber?, city?,  province?, dateOfBirth?) => {
     const postData = {
-      id: 0,
       idNumber,
-      firstName,
-      lastName,
-      isMember: true,
-      confirmed: true,
-      city: city,
-      mobileNumber,
-      emailAddress,
-      memberNumber: 'string',
+      memberNumber,
       schemeName,
       employer,
       position,
-      allergies: true,
-      chronicMedication: 'string',
-      appointmentDate: '2021-03-11',
-      // "createdOn": "2021-03-11T17:55:45.942Z",
-      // "createdby": "string",
-      // "updatedOn": "2021-03-11T17:55:45.942Z",
-      // "updatedby": "string",
-      // "deleted": true,
-      // "deletedOn": "2021-03-11T17:55:45.942Z",
-      // "deletedBy": "string"
+      firstName,
+      lastName,
+      mobileNumber,
+      city,
+      province,
+      dateOfBirth
     };
     return this.http.put(`${this.url}/Registration`, postData);
-  };
+  }
 
   loadPatient(): Patient {
     this.currentPatient = Patients[0];
@@ -130,6 +124,8 @@ export class DataService {
   }
 
   searchByID(ID: any): Observable<any> {
+    // let headers = new Headers();
+    // this.createAuthorizationHeader(headers);
     const searchData = {
       idNumber: ID
     };
@@ -159,30 +155,30 @@ export class DataService {
     return this.http.post(`${this.url}/Vaccination/`, vacData);
   }
 
-  getDashoardStatistics(ID: any): Observable<VaccinationSiteStatistics> {
+  getDashboardStatistics(ID: any): Observable<VaccinationSiteStatistics> {
     return this.http.get<VaccinationSiteStatistics>(`${this.url}/VaccinationSite/Statistics/${ID}`);
   }
 
-  getAllCentres():Observable<Centre[]> {
+  getAllCentres(): Observable<Centre[]> {
     return this.http.get<Centre[]>(`${this.url}/Centre`);
   }
 
-  getSiteVaccinationHistory():Observable<SiteVaccinationHistory[]> {
+
+  getSiteVaccinationHistory(): Observable<SiteVaccinationHistory[]> {
     return this.http.get<SiteVaccinationHistory[]>(`${this.url}/Vaccination/History/0`);
   }
 
-
-  getVaccineCentre(siteId : number):Observable<VaccineCentre[]> {
+  getVaccineCentre(siteId: number): Observable<VaccineCentre[]> {
     return this.http.get<VaccineCentre[]>(`${this.url}/Centre/Vaccines/${siteId}`);
   }
 
-  getHowManyTimes(ID : number): Observable<getHowManyTimes>{
+  getHowManyTimes(ID: number): Observable<getHowManyTimes>{
     return this.http.get<getHowManyTimes>(`${this.url}/Registration/Vaccinated/${ID}`);
   }
 
 
-  //@TODO refractor
-  getAllVaccines():Observable<Vaccine[]> {
+  // @TODO refractory
+  getAllVaccines(): Observable<Vaccine[]> {
     return this.http.get<Vaccine[]>(`${this.url}/Vaccine`);
   }
 

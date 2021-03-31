@@ -1,18 +1,19 @@
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { RegisterNewPatientComponent } from './pages/register-new-patient/register-new-patient.component';
-import { VaccinationHistoryComponent } from './pages/vaccination-history/vaccination-history.component';
-import { AdminProfileComponent } from './pages/admin-profile/admin-profile.component';
-import { LandingComponent } from './pages/landing/landing.component';
-import { LoginComponent } from './pages/login/login.component';
-import { AuthGuard } from './auth.guard';
-import { FeedbackComponent } from './pages/feedback/feedback.component';
-import { SelfRegisterComponent } from './pages/self-register/self-register.component';
-import { ThankYouComponent } from './pages/thank-you/thank-you.component';
-import { MemberProfileComponent } from './pages/member-profile/member-profile.component';
-import { InoculateComponent } from './pages/inoculate/inoculate.component';
-import { ThankYouInoculationComponent } from './pages/thank-you-inoculation/thank-you-inoculation.component';
+import {DashboardComponent} from './pages/dashboard/dashboard.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {RegisterNewPatientComponent} from './pages/register-new-patient/register-new-patient.component';
+import {VaccinationHistoryComponent} from './pages/vaccination-history/vaccination-history.component';
+import {AdminProfileComponent} from './pages/admin-profile/admin-profile.component';
+import {LandingComponent} from './pages/landing/landing.component';
+import {LoginComponent} from './pages/login/login.component';
+import {AuthGuard} from './auth.guard';
+import {FeedbackComponent} from './pages/feedback/feedback.component';
+import {SelfRegisterComponent} from './pages/self-register/self-register.component';
+import {ThankYouComponent} from './pages/thank-you/thank-you.component';
+import {MemberProfileComponent} from './pages/member-profile/member-profile.component';
+import {InoculateComponent} from './pages/inoculate/inoculate.component';
+import {ThankYouInoculationComponent} from './pages/thank-you-inoculation/thank-you-inoculation.component';
+import { MemberProfileEditComponent } from './pages/member-profile-edit/member-profile-edit.component';
 
 const routes: Routes = [
   {
@@ -59,7 +60,11 @@ const routes: Routes = [
   },
   {
     path: 'member-profile/:query',
-    component: MemberProfileComponent    
+    component: MemberProfileComponent
+  },
+  {
+    path: 'member-profile-edit/:idNumber',
+    component: MemberProfileEditComponent
   },
   {
     path: 'landing',
@@ -87,4 +92,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

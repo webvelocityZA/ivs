@@ -44,6 +44,8 @@ export class MemberProfileComponent implements OnInit {
               console.log(this.patientData);
               this.memberId = data[0].idNumber;
 
+              console.log(this.patientData)
+
 
               /* Fetch Patient Vacccination History */
               const patientID = data[0].id;
@@ -105,28 +107,28 @@ export class MemberProfileComponent implements OnInit {
     // console.log(e);
   }
 
-  updatePatient(e: NgForm) {
-    // console.log(e);
-    if (e.valid === true) {
-      this.isLoading = true;
-      this.data.updatePatient(e.value.idNumber, e.value.firstName, e.value.lastName, e.value.position, e.value.employer, e.value.mobileNumber, e.value.emailAddress, e.value.schemeName)
-        .pipe(tap(() => {
-          this.router.navigateByUrl('/thank-you');
-        }))
-        .subscribe(res => {
-          this.isLoading = false;
-        }, err => {
-          this.isLoading = false;
-          this.openSnackBar('Update Failed', 'Close');
-        });
-    } else if (e.valid === false) {
-      this.openSnackBar('Please fill all required fields', 'Close');
-    } else {
-      alert('Something wrong');
-    }
-    // console.log(e);
+  // updatePatient(e: NgForm) {
+  //   // console.log(e);
+  //   if (e.valid === true) {
+  //     this.isLoading = true;
+  //     this.data.updatePatient(e.value.idNumber, e.value.firstName, e.value.lastName, e.value.position, e.value.employer, e.value.mobileNumber, e.value.emailAddress, e.value.schemeName)
+  //       .pipe(tap(() => {
+  //         this.router.navigateByUrl('/thank-you');
+  //       }))
+  //       .subscribe(res => {
+  //         this.isLoading = false;
+  //       }, err => {
+  //         this.isLoading = false;
+  //         this.openSnackBar('Update Failed', 'Close');
+  //       });
+  //   } else if (e.valid === false) {
+  //     this.openSnackBar('Please fill all required fields', 'Close');
+  //   } else {
+  //     alert('Something wrong');
+  //   }
+  //   // console.log(e);
 
-  }
+  // }
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {

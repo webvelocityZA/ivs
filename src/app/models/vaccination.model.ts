@@ -1,49 +1,49 @@
 export interface Vaccination {
-        id?: number;
-        memberId: number;
-        vaccinationSiteId: number;
-        vaccinatorid: number;
-        feedBack: string;
-        repeatInoculatedOn: string;
-        inoculatedOn: string;
-        dosageRecieved: string;
-        doseNumber: number;
-        vaccinatedDate: string;
-        createdOn?: string;
-        createdby?: string;
-        updatedOn?: string;
-        updatedby?: string;
-        deleted?: boolean;
-        deletedOn?: string;
-        deletedBy?: string;
+  id?: number;
+  memberId: number;
+  vaccinationSiteId: number;
+  vaccinatorid: number;
+  feedBack: string;
+  repeatInoculatedOn: string;
+  inoculatedOn: string;
+  dosageRecieved: string;
+  doseNumber: number;
+  vaccinatedDate: string;
+  createdOn?: string;
+  createdby?: string;
+  updatedOn?: string;
+  updatedby?: string;
+  deleted?: boolean;
+  deletedOn?: string;
+  deletedBy?: string;
 }
 
 export interface Vaccine {
-    id: number;
-    name: string;
-    neppiCode: string;
-    dosageRequired: number;
-    createdOn?: string;
-    createdby?: string;
-    updatedOn?: string;
-    updatedby?: string;
-    deleted?: boolean;
-    deletedOn?: string;
-    deletedBy?: string;
+  id: number;
+  name: string;
+  neppiCode: string;
+  dosageRequired: number;
+  createdOn?: string;
+  createdby?: string;
+  updatedOn?: string;
+  updatedby?: string;
+  deleted?: boolean;
+  deletedOn?: string;
+  deletedBy?: string;
 }
 
-export interface VaccineCentre{
-    dosageRequired: number;
-    siteId: number;
-    vaccineId: number;
-    vaccinationSiteId: number;
-    siteName: string;
-    vaccineName: string;
-    siteLocation: string;
-    vaccineNeppiCode: string;
-  }
+export interface VaccineCentre {
+  dosageRequired: number;
+  siteId: number;
+  vaccineId: number;
+  vaccinationSiteId: number;
+  siteName: string;
+  vaccineName: string;
+  siteLocation: string;
+  vaccineNeppiCode: string;
+}
 
-  export interface getHowManyTimes{
-        isVacinated: true,
-        howMany: 0
-  }
+export interface getHowManyTimes {
+  isVacinated: true,
+  howMany: 0
+}

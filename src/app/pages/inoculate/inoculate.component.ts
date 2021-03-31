@@ -167,7 +167,8 @@ export class InoculateComponent implements OnInit {
 
 
   loadVaccines = () => {
-    this.data.getVaccineCentre(1)
+    this.vaccinationSiteIDCookie = this.cookieService.get('vaccination-centre-id');
+    this.data.getVaccineCentre(+this.vaccinationSiteIDCookie)
       .subscribe(vaccines => {
         // console.log(vaccines);
         this.options = vaccines;

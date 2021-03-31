@@ -8,8 +8,10 @@
       <div class="flex items-center">
         <a href="#" class="text-gray-400 hover:text-gray-500">
           <!-- Heroicon name: solid/home -->
-          <svg class="flex-shrink-0 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+          <svg class="flex-shrink-0 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+            aria-hidden="true">
+            <path
+              d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
           </svg>
           <span class="sr-only">Home</span>
         </a>
@@ -18,7 +20,8 @@
 
     <li class="flex">
       <div class="flex items-center">
-        <svg class="flex-shrink-0 w-6 h-full text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <svg class="flex-shrink-0 w-6 h-full text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none"
+          fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
         </svg>
         <a routerLink="/dashboard" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Dashboard</a>
@@ -27,10 +30,12 @@
 
     <li class="flex">
       <div class="flex items-center">
-        <svg class="flex-shrink-0 w-6 h-full text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <svg class="flex-shrink-0 w-6 h-full text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none"
+          fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
         </svg>
-        <a href="javascript:void" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page">Member Profile</a>
+        <a href="javascript:void" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+          aria-current="page">Member Profile</a>
       </div>
     </li>
   </ol>
@@ -119,12 +124,11 @@
 </div> -->
 
 
-<div style="height: 100px"></div>
-
 <main *ngIf="patientData" class="py-10">
   <!-- Page header -->
-  <div class="max-w-3xl mx-auto px-4 sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8">
-    
+  <div
+    class="max-w-3xl mx-auto px-4 sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8">
+
 
 
 
@@ -140,11 +144,13 @@
         <!-- <p class="text-sm font-medium text-gray-500">Applied for <a href="#" class="text-gray-900">Front End Developer</a> on <time datetime="2020-08-25">August 25, 2020</time></p> -->
       </div>
     </div>
-    <div class="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
+    <div
+      class="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
       <!-- <button type="button" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500">
         Disqualify
       </button> -->
-      <button type="button" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500">
+      <button type="button" [routerLink]="['/member-profile-edit', patientData?.idNumber]"
+        class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500">
         Edit profile
       </button>
     </div>
@@ -159,9 +165,9 @@
             <h2 id="applicant-information-title" class="text-lg leading-6 font-medium text-gray-900">
               Applicant Information
             </h2>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+            <!-- <p class="mt-1 max-w-2xl text-sm text-gray-500">
               Personal details and application.
-            </p>
+            </p> -->
           </div>
           <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
             <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
@@ -242,15 +248,60 @@
 
         <!-- Activity Feed -->
         <div class="mt-6 flow-root">
-          <ul class="-mb-8">
+
+          <div class="border-t border-gray-200 py-5">
+
+            <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+              <div class="sm:col-span-1">
+                <dt class="text-sm font-medium text-gray-500">
+               Innoculated on
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900">
+                  {{patientVaccinationInfo?.inoculatedOn | date:"fullDate"}}
+                </dd>
+              </div>
+            </dl>
+
+            <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+              <div class="sm:col-span-1">
+                <dt class="text-sm font-medium text-gray-500">
+                  Number of doses
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900">
+                  {{patientVaccinationInfo?.doseNumber}}
+                </dd>
+              </div>
+            </dl>
+
+            <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+              <div class="sm:col-span-1">
+                <dt class="text-sm font-medium text-gray-500">
+                  Dosage Received
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900">
+                  {{patientVaccinationInfo?.dosageRecieved}}
+                </dd>
+              </div>
+            </dl>
+            <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+              <div class="sm:col-span-1">
+                <dt class="text-sm font-medium text-gray-500">
+                  Feedback
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900">
+                  {{patientVaccinationInfo?.feedBack}}
+                </dd>
+              </div>
+            </dl>
+
+          </div>
 
 
-
-
-          </ul>
         </div>
         <div class="mt-6 flex flex-col justify-stretch">
-          <button type="button" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" [routerLink]="['/inoculate', patientData?.id , patientData?.idNumber]">
+          <button type="button"
+            class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            [routerLink]="['/inoculate', patientData?.id , patientData?.idNumber]">
             New Inoculaton
           </button>
         </div>

@@ -52,3 +52,6 @@ export const Cities = ['Benoni',
 'Swellendam',
 'Worcester',
 ];
+
+
+export const Provinces = ["Eastern Cape","Free State","Gauteng","Kwazulu-Natal","Limpopo","Mpumalanga","Northern Cape","North-West","Western Cape"];

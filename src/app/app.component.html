@@ -1,7 +1,3 @@
-<!-- <ivs-navbar (openSidemenu)="showalert()"></ivs-navbar>
-<router-outlet></router-outlet>
-<ivs-footer></ivs-footer> -->
-
 <mat-sidenav-container>
   <mat-sidenav class="side-navigation" #sidenav role="navigation">
     <mat-nav-list>
@@ -12,7 +8,7 @@
   </mat-sidenav>
   <mat-sidenav-content>
 
-    
+
     <div *ngIf="(isLoggedIn | async) === false">
       <ivs-navbar></ivs-navbar>
     </div>
@@ -48,7 +44,7 @@
       </mat-toolbar>
       <img src="assets/img/gems-border-line2.png" alt="" class="w-full h-1">
     </div>
-    
+
     <router-outlet></router-outlet>
     <ivs-footer></ivs-footer>
   </mat-sidenav-content>

@@ -58,7 +58,7 @@ export class DashboardComponent implements AfterViewInit {
 
     const vaccinationSite = this.cookieService.get('vaccination-centre-id');
     
-    this.data.getDashoardStatistics(vaccinationSite)
+    this.data.getDashboardStatistics(vaccinationSite)
     .subscribe(res => {
       console.log(res);
       this.VaccinationSiteStatistics = res;
@@ -67,7 +67,7 @@ export class DashboardComponent implements AfterViewInit {
 
   getTotalDashboardStats() {
     
-    this.data.getDashoardStatistics(0)
+    this.data.getDashboardStatistics(0)
     .subscribe(res => {
       console.log(res);
       this.overallTotal = res.totalAvailable;
