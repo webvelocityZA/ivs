@@ -1,41 +1,17 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import {
-  FormControl,
-  NgForm
-} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, NgForm} from '@angular/forms';
 import {
   Patient
 } from 'src/app/models/patient.model';
-import {
-  DataService
-} from 'src/app/services/data.service';
-import {
-  MatSnackBar
-} from '@angular/material/snack-bar';
-import {
-  Router
-} from '@angular/router';
-import {
-  map,
-  startWith,
-  tap
-} from 'rxjs/operators';
-import {
-  Centre
-} from 'src/app/models/centre.model';
-import {
-  Observable
-} from 'rxjs';
-import {
-  CookieService
-} from 'ngx-cookie-service';
-import {
-  medicalSchemesList
-} from 'src/app/mocks/medicalSchemesList';
-import { Provinces } from 'src/app/mocks/cities';
+import {DataService} from 'src/app/services/data.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {Router} from '@angular/router';
+import {map, startWith, tap} from 'rxjs/operators';
+import {Centre} from 'src/app/models/centre.model';
+import {Observable} from 'rxjs';
+import {CookieService} from 'ngx-cookie-service';
+import {medicalSchemesList} from 'src/app/mocks/medicalSchemesList';
+import {Provinces} from 'src/app/mocks/cities';
 
 
 @Component({
@@ -47,8 +23,8 @@ export class RegisterNewPatientComponent implements OnInit {
   firstname;
   isLoading = false;
   public IVSTabIndex = 0;
-  registered: boolean = false;
-  userExists: boolean = false;
+  registered = false;
+  userExists = false;
   idNumber!: number;
   allergies;
   allergiesDescription;
@@ -58,8 +34,8 @@ export class RegisterNewPatientComponent implements OnInit {
   options: Centre[];
   schemes: string[] = medicalSchemesList;
   provinces: string[] = Provinces;
-  filteredOptions: Observable < Centre[] > ;
-  filteredSchemesOptions: Observable <any[]> ;
+  filteredOptions: Observable<Centre[]>;
+  filteredSchemesOptions: Observable<any[]>;
   filteredProvinceOptions: Observable<any>;
   locationID;
   scheme: string;
@@ -67,7 +43,8 @@ export class RegisterNewPatientComponent implements OnInit {
   isIDValid = false;
   siteName: string;
 
-  constructor(public data: DataService, private _snackBar: MatSnackBar, private router: Router, private cookieService: CookieService) {}
+  constructor(public data: DataService, private _snackBar: MatSnackBar, private router: Router, private cookieService: CookieService) {
+  }
 
   ngOnInit(): void {
     this.loadCentres();
@@ -76,12 +53,17 @@ export class RegisterNewPatientComponent implements OnInit {
     this.siteName = this.cookieService.get('vaccination-centre-name');
   }
 
+  // tslint:disable-next-line:typedef
   registerPatient(e: NgForm) {
+    this.checkValidation;
+    
     if (e.valid === true) {
       this.isLoading = true;
+      // tslint:disable-next-line:max-line-length
+      this.idNumber = e.value.idNumber;
       this.data.registerPatient(e.value.idNumber, e.value.firstName, e.value.lastName, e.value.position, e.value.employer, e.value.mobileNumber, e.value.emailAddress, this.scheme, this.locationID, this.province, e.value.dob)
         .pipe(tap((res) => {
-          this.router.navigateByUrl('/thank-you');
+          this.router.navigateByUrl(`/otp-authentication/${this.idNumber}`);
           // console.log(res);
         }))
         .subscribe(res => {
@@ -100,6 +82,7 @@ export class RegisterNewPatientComponent implements OnInit {
 
   }
 
+  // tslint:disable-next-line:typedef
   checkValidation(e: NgForm) {
     // console.log(e);
     if (e.valid === true) {
@@ -112,6 +95,7 @@ export class RegisterNewPatientComponent implements OnInit {
     // console.log(e);
   }
 
+  // tslint:disable-next-line:typedef
   checkIfIDExists(e: string) {
     if (e.length === 13) {
       this.isIDValid = true;
@@ -119,7 +103,7 @@ export class RegisterNewPatientComponent implements OnInit {
       this.isIDValid = false;
     }
     if (e.length < 13) {
-      return
+      return;
     }
     this.data.searchByID(e)
       .subscribe(patient => {
@@ -132,7 +116,7 @@ export class RegisterNewPatientComponent implements OnInit {
         }
       }, err => {
         this.registered = false;
-      })
+      });
 
   }
 
@@ -161,10 +145,10 @@ export class RegisterNewPatientComponent implements OnInit {
           startWith(''),
           map(value => {
             console.log(value);
-            return this._filter(value)
+            return this._filter(value);
           })
         );
-      })
+      });
   }
 
   private _filter(value: string): Centre[] {
@@ -175,33 +159,30 @@ export class RegisterNewPatientComponent implements OnInit {
       if (option.name.toLowerCase().indexOf(filterValue) === 0) {
         // console.log(option);
         if (filterValue === '') {
-          //this.data.selectedLocation = null;
+          // this.data.selectedLocation = null;
         } else {
           this.locationID = option.name;
         }
 
         // console.log(this.data.selectedLocation);
-      };
-      return option.name.toLowerCase().indexOf(filterValue) === 0
+      }
+
+      return option.name.toLowerCase().indexOf(filterValue) === 0;
     });
   }
 
 
+  // Schemes Filters
 
-
-
-
-  //Schemes Filters
-
-  loadSchemes() {
+  loadSchemes = () => {
     this.filteredSchemesOptions = this.schemesControl.valueChanges.pipe(
       startWith(''),
       map(value => {
         console.log(value);
-        return this._filterSchemes(value)
+        return this._filterSchemes(value);
       })
     );
-  }
+  };
 
   private _filterSchemes(value: string): any[] {
     const filterValue = value.toLowerCase();
@@ -210,27 +191,26 @@ export class RegisterNewPatientComponent implements OnInit {
       if (option.toLowerCase().indexOf(filterValue) === 0) {
         // console.log(option);
         if (filterValue === '') {
-          //this.data.selectedLocation = null;
+          // this.data.selectedLocation = null;
         } else {
           this.scheme = option;
         }
 
         // console.log(this.data.selectedLocation);
-      };
-      return option.toLowerCase().indexOf(filterValue) === 0
+      }
+
+      return option.toLowerCase().indexOf(filterValue) === 0;
     });
   }
 
 
-
-
-//Provinces
-  loadProvinces() {
+// Provinces
+  loadProvinces = () => {
     this.filteredProvinceOptions = this.provincesControl.valueChanges.pipe(
       startWith(''),
       map(value => {
         console.log(value);
-        return this._filterProvinces(value)
+        return this._filterProvinces(value);
       })
     );
   }
@@ -242,17 +222,17 @@ export class RegisterNewPatientComponent implements OnInit {
       if (option.toLowerCase().indexOf(filterValue) === 0) {
         // console.log(option);
         if (filterValue === '') {
-          //this.data.selectedLocation = null;
+          // this.data.selectedLocation = null;
         } else {
           this.province = option;
         }
 
         // console.log(this.data.selectedLocation);
-      };
-      return option.toLowerCase().indexOf(filterValue) === 0
+      }
+
+      return option.toLowerCase().indexOf(filterValue) === 0;
     });
   }
-
 
 
 }

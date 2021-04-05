@@ -1,1 +1,22 @@
-<p>otp works!</p>
+<app-ivs-heading title="OTP Authentication" backLink="/dashboard" viewFromShow='true'></app-ivs-heading>
+<app-breadcrumb></app-breadcrumb>
+
+
+<div class="p-4 px-10 md:px-28">
+  <div class="py-4">
+    <form #otpForm="ngForm" (submit)="activateOTP(otpForm)" class="mt-6">
+      <div class="w-full md:w-1/2 md:px-2 inline-block">
+        <p>Please Enter OTP below to activate your account.</p>
+        <mat-form-field appearance="fill">
+          <mat-label>OTP</mat-label>
+          <input matInput placeholder="Enter OTP" name="otp" ngModel #otpInput="ngModel" required otp>
+          <!-- <mat-icon class="text-green-600" matSuffix>sentiment_very_satisfied</mat-icon> -->
+          <mat-error *ngIf="otpInput.hasError('required')">OTP is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mx-2">
+        <button mat-raised-button color="primary" (click)="activateOTP(otpForm)">Activate OTP</button>
+      </div>
+    </form>
+  </div>
+</div>

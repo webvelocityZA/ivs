@@ -55,6 +55,7 @@ import { IvsBackButtonComponent } from './components/ivs-back-button/ivs-back-bu
 import { IvsHeadingComponent } from './components/ivs-heading/ivs-heading.component';
 import { MemberProfileEditComponent } from './pages/member-profile-edit/member-profile-edit.component';
 import { OtpComponent } from './pages/otp/otp.component';
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 
 
 @NgModule({
@@ -79,6 +80,7 @@ import { OtpComponent } from './pages/otp/otp.component';
     IvsHeadingComponent,
     MemberProfileEditComponent,
     OtpComponent,
+    BreadcrumbComponent,
   ],
   imports: [
     BrowserModule,

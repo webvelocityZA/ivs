@@ -16,7 +16,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class DashboardComponent implements AfterViewInit {
   patients:any = [];
-  displayedColumns: string[] = ['firstName', 'lastName', 'emailAddress'];
+  displayedColumns: string[] = ['firstName', 'lastName', 'idNumber', 'emailAddress'];
   query;
   dataSource;
   VaccinationSiteStatistics:VaccinationSiteStatistics;

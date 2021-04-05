@@ -25,7 +25,7 @@ export class DataService {
 
   // createAuthorizationHeader(headers: Headers) {
   //   headers.append('Authorization', 'Basic ' +
-  //     btoa('username:password')); 
+  //     btoa('username:password'));
   // }
 
 
@@ -105,6 +105,17 @@ export class DataService {
       dateOfBirth
     };
     return this.http.put(`${this.url}/Registration`, postData);
+  }
+
+
+  postOTP(idNumber, otp): Observable<any>{
+    const otpData = {
+      // idNumber: idNumber,
+      idNumber: '8304155023081',
+      otp
+
+    };
+    return this.http.post(`${this.url}/Registration/Confirm`, otpData);
   }
 
   loadPatient(): Patient {
