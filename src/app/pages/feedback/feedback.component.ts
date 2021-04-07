@@ -1,4 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { takeWhile } from 'rxjs/operators';
+import { Feedback } from 'src/app/models/feedback.model';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -15,6 +18,7 @@ export class FeedbackComponent implements OnInit {
   registered:boolean = false;
   lastName;
   firstName;
+  selectedFile;
 
   constructor(private data: DataService) { }
 
@@ -56,7 +60,31 @@ export class FeedbackComponent implements OnInit {
 
   }
 
-  uploadFileEvt(imgFile: any) {
+  postFeedback(e:NgForm){
+    const feedback: Feedback={
+      memberId: 1,
+      Information: "string",
+      Gategory:"string",
+    }
+
+    this.data.postFeedBack(feedback, this.selectedFile).subscribe(res=>{
+      console.log(res)
+    }, err => {
+      console.log(err);
+    })
+      
+    
+  }
+
+  uploadFileEvt(event: any) {
+    console.log(event);
+    let files: FileList = event.target.files;
+    let file : File = files[0];
+    this.selectedFile = file;
+    console.log(file)
+  }
+
+  uploadFileEvt2(imgFile: any) {
     if (imgFile.target.files && imgFile.target.files[0]) {
       this.fileAttr = '';
       Array.from(imgFile.target.files).forEach((file: File) => {

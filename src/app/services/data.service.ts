@@ -3,12 +3,13 @@ import {Injectable} from '@angular/core';
 import {Patient, VaccinationInfo} from '../models/patient.model';
 import {BehaviorSubject, of, Subject} from 'rxjs';
 import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {VaccinationSiteStatistics} from '../models/vaccinationSiteStatistics.model';
 import { Centre } from '../models/centre.model';
 import { getHowManyTimes, Vaccination, Vaccine, VaccineCentre } from '../models/vaccination.model';
 import { SiteVaccinationHistory } from '../models/site-vaccination-history.model';
 import {environment} from '../../environments/environment.prod';
+import { Feedback } from '../models/feedback.model';
 
 
 @Injectable({
@@ -23,10 +24,6 @@ export class DataService {
 
   constructor(private http: HttpClient) {}
 
-  // createAuthorizationHeader(headers: Headers) {
-  //   headers.append('Authorization', 'Basic ' +
-  //     btoa('username:password'));
-  // }
 
 
   private hasToken(): boolean {
@@ -148,6 +145,27 @@ export class DataService {
 
   getVaccinationInfo(patientID: any): Observable<VaccinationInfo> {
     return this.http.get<VaccinationInfo>(`${this.url}/Vaccination/${patientID}`);
+  }
+
+  postFeedBack(feedback: Feedback, selectedFile:any): Observable<any> {  
+    console.log(selectedFile); 
+    const httpOptions = {
+      headers: new HttpHeaders({
+       "Content-Type": "multipart/form-data;boundary {}"
+      })
+    };
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+    
+    const feedBackData = {
+      file: selectedFile
+    }
+    
+    const encodedString = encodeURI(JSON.stringify(feedback));
+    console.log(encodedString)
+
+    return this.http.post<any>(`${this.url}/Vaccination/Feedback?FeedbackString=${encodedString}`, formData, httpOptions);
   }
 
   postVaccinationInfo(payload: any): any {

@@ -25,6 +25,7 @@ export class RegisterNewPatientComponent implements OnInit {
   public IVSTabIndex = 0;
   registered = false;
   userExists = false;
+  provincePicked = true;
   idNumber!: number;
   allergies;
   allergiesDescription;
@@ -56,7 +57,7 @@ export class RegisterNewPatientComponent implements OnInit {
   // tslint:disable-next-line:typedef
   registerPatient(e: NgForm) {
     this.checkValidation;
-    
+
     if (e.valid === true) {
       this.isLoading = true;
       // tslint:disable-next-line:max-line-length
@@ -225,6 +226,7 @@ export class RegisterNewPatientComponent implements OnInit {
           // this.data.selectedLocation = null;
         } else {
           this.province = option;
+          this.provincePicked = false;
         }
 
         // console.log(this.data.selectedLocation);

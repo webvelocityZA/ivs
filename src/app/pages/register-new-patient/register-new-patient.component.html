@@ -111,13 +111,28 @@
 
           <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
             <mat-form-field appearance="fill">
+              <mat-label>Select Province</mat-label>
+              <input type="text" placeholder="Select your Province *" aria-label="Select your Province" matInput
+                [formControl]="provincesControl" [matAutocomplete]="auto" required>
+              <mat-error>Scheme is required</mat-error>
+              <mat-icon matSuffix>meeting_room</mat-icon>
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredProvinceOptions | async" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
+            <mat-form-field appearance="fill">
               <mat-label>Select Location</mat-label>
               <input type="text" placeholder="Select your location *" aria-label="Select your location" matInput
-                [formControl]="myControl" [matAutocomplete]="auto" required>
+                [formControl]="myControl" [matAutocomplete]="auto" required  >
               <mat-error>Location is required</mat-error>
               <mat-icon matSuffix>my_location</mat-icon>
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name" [disabled]='provincePicked'>
                   {{option.name}}
                 </mat-option>
               </mat-autocomplete>
@@ -205,27 +220,9 @@
           </div>
 
 
-
-
-          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
-            <mat-form-field appearance="fill">
-              <mat-label>Select Province</mat-label>
-              <input type="text" placeholder="Select your Province *" aria-label="Select your Province" matInput
-                [formControl]="provincesControl" [matAutocomplete]="auto" required>
-              <mat-error>Scheme is required</mat-error>
-              <mat-icon matSuffix>meeting_room</mat-icon>
-              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredProvinceOptions | async" [value]="option">
-                  {{option}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
-
-
           <div id="medicalHistory" *ngIf="!registered && isIDValid">
             <mat-form-field appearance="fill" hideRequiredMarker="false" floatLabel="Allergies & Chronic Medication">
-              <mat-select [(ngModel)]="allergies" (ngModelChange)="doesPatientHaveAllergies($event)" required>
+              <mat-select [(ngModel)]="allergies" (ngModelChange)="doesPatientHaveAllergies($event)" name="allergies" required>
                 <mat-option>Please Select</mat-option>
                 <mat-option value="yes">Yes</mat-option>
                 <mat-option value="no">No</mat-option>
@@ -233,16 +230,14 @@
               <mat-label>Allergies & Chronic Medication</mat-label>
             </mat-form-field>
 
-          <div class="w-full md:w-full block" *ngIf="allergies === 'yes'">
-            <mat-form-field appearance="fill">
-              <mat-label>Description</mat-label>
-              <textarea matInput placeholder="Description" name="description" [(ngModel)]="allergiesDescription"></textarea>
-            </mat-form-field>
-          </div>
-        </div>
-
-
-
+            <div class="w-full md:w-full block" *ngIf="allergies === 'yes'">
+              <mat-form-field appearance="fill">
+                <mat-label>Description</mat-label>
+                <textarea matInput placeholder="Description" name="allergiesDescription"
+                  [(ngModel)]="allergiesDescription"></textarea>
+              </mat-form-field>
+            </div>
+          </div> 
         </form>
       </div>
 
@@ -252,14 +247,14 @@
       </div> -->
 
 
-      <div class="mx-2">
+      <div class="mx-2" *ngIf="!registered && isIDValid">
         <button mat-raised-button color="primary" (click)="registerPatient(registerForm)">Complete Registration</button>
       </div>
 
 
     </mat-tab>
     <!-- <mat-tab [disabled]='IVSTabIndex < 1' label="Medical History"> -->
-      <!-- <mat-form-field appearance="fill" hideRequiredMarker="false" floatLabel="Allergies & Chronic Medication">
+    <!-- <mat-form-field appearance="fill" hideRequiredMarker="false" floatLabel="Allergies & Chronic Medication">
         <mat-select [(ngModel)]="allergies" (ngModelChange)="doesPatientHaveAllergies($event)" required>
           <mat-option>Please Select</mat-option>
           <mat-option value="yes">Yes</mat-option>
@@ -268,13 +263,13 @@
         <mat-label>Allergies & Chronic Medication</mat-label>
       </mat-form-field> -->
 
-      <!-- <div class="w-full md:w-full block" *ngIf="allergies === 'yes'">
+    <!-- <div class="w-full md:w-full block" *ngIf="allergies === 'yes'">
         <mat-form-field appearance="fill">
           <mat-label>Description</mat-label>
           <textarea matInput placeholder="Description" name="description" [(ngModel)]="allergiesDescription"></textarea>
         </mat-form-field>
       </div> -->
-      <!-- <div class="mx-2">
+    <!-- <div class="mx-2">
         <button mat-raised-button color="primary" (click)="registerPatient(registerForm)">Complete Registration</button>
       </div>
     </mat-tab> -->

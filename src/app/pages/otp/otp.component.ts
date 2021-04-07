@@ -34,9 +34,14 @@ export class OtpComponent implements OnInit {
         .subscribe(res => {
           this.isLoading = false;
         }, err => {
-          console.log(err);
+          if(err.error) {
+            console.log(err);
+          console.log(err.error.message);
+
           this.isLoading = false;
-          this.openSnackBar(err, 'Close');
+          this.openSnackBar(err.error.message, 'Close');
+          }
+          
         });
     } else if (e.valid === false) {
       this.openSnackBar('Please fill in the otp', 'Close');
