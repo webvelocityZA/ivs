@@ -21,7 +21,7 @@ export class AppComponent {
   }
 
   logout(): void {
-    localStorage.removeItem('token');
+    localStorage.removeItem('userObj');
     this.data.isLoginSubject.next(false);
     this.router.navigateByUrl('landing');
   }

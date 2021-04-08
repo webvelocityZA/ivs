@@ -17,6 +17,7 @@ export class MemberProfileEditComponent implements OnInit {
   schemeName: string;
   memberNumber: string;
   position: string;
+  province: string;
   allergies: boolean;
   city: string;
   firstName: string;
@@ -39,6 +40,7 @@ export class MemberProfileEditComponent implements OnInit {
             this.memberNumber = this.member.memberNumber;
             this.allergies = this.member.allergies;
             this.city = this.member.city;
+            this.province = this.member.province;
             this.firstName = this.member.firstName;
             this.lastName = this.member.lastName; 
             this.mobileNumber = this.member.mobileNumber;
@@ -59,7 +61,8 @@ export class MemberProfileEditComponent implements OnInit {
       this.firstName,
       this.lastName,
       this.mobileNumber,
-      this.city
+      this.city,
+      this.province,
     ).subscribe(res => {
       console.log(res);
     })

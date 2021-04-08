@@ -93,7 +93,28 @@
     </div>
 
 
+    <div class="w-full md:w-1/2 md:px-2 inline-block">
+      <mat-form-field appearance="fill">
+        <mat-label>Province</mat-label>
+        <input matInput placeholder="Province" type="text" required [(ngModel)]="province" value="{{province}}">
+        <mat-icon matSuffix>store</mat-icon>
+        <mat-error>Province is required</mat-error>
+      </mat-form-field>
+    </div>
 
+
+    
+    <div class="w-full md:w-1/2 md:px-2 inline-block">
+      <mat-form-field appearance="fill">
+        <mat-label>Mobile</mat-label>
+        <input matInput placeholder="Mobile Number" type="text" required [(ngModel)]="mobileNumber" value="{{mobileNumber}}">
+        <mat-icon matSuffix>store</mat-icon>
+        <mat-error>Mobile Number is required</mat-error>
+      </mat-form-field>
+    </div>
+
+   <div class="w-full md:w-full md:px-2 inline-block">
     <button mat-raised-button type="button" color="primary" (click)="update()">Update</button>
+    </div>
   </div>
 </div>

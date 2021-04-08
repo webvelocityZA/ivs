@@ -10,6 +10,7 @@ import { getHowManyTimes, Vaccination, Vaccine, VaccineCentre } from '../models/
 import { SiteVaccinationHistory } from '../models/site-vaccination-history.model';
 import {environment} from '../../environments/environment.prod';
 import { Feedback } from '../models/feedback.model';
+import { UserAdmin } from '../models/user.model';
 
 
 @Injectable({
@@ -25,14 +26,39 @@ export class DataService {
   constructor(private http: HttpClient) {}
 
 
-
   private hasToken(): boolean {
-    return !!localStorage.getItem('token');
+    return !!localStorage.getItem('userObj');
+  }
+
+  getLoggedInUserInfo(): UserAdmin{
+    const userObj: UserAdmin = JSON.parse(localStorage.getItem('userObj'));
+    return userObj
+  }
+  
+  addHeaderToken(){
+    const headerToken = {
+      headers: new HttpHeaders({
+       "Authorization": `Bearer ${this.getLoggedInUserInfo().token}`
+      })
+    }
+    return headerToken;
   }
 
   isLoggedIn(): Observable<boolean> {
     return this.isLoginSubject.asObservable();
   }
+
+  login(userName, password): Observable<UserAdmin>{
+    console.log(this.hasToken())
+
+    const userData= {
+      userName,
+      password
+    }
+
+    return this.http.post<UserAdmin>(`${this.url}/User/Login/`,  userData );
+  }
+
 
   registerPatient(idNumber, firstName, lastName, position, employer, mobileNumber, emailAddress, schemeName, city, province, dateOfBirth): Observable<any> {
     const postData = {
@@ -132,23 +158,31 @@ export class DataService {
   }
 
   searchByID(ID: any): Observable<any> {
-    // let headers = new Headers();
-    // this.createAuthorizationHeader(headers);
+
+    const headerToken = {
+      headers: new HttpHeaders({
+      "Authorization": `Bearer ${this.getLoggedInUserInfo().token}`
+      })
+    }
     const searchData = {
       idNumber: ID
     };
-    return this.http.post(`${this.url}/Registration/Search`, searchData);
+    return this.http.post(`${this.url}/Registration/Search`, searchData,  headerToken);
   }
 
 
   /* Vaccination */
 
   getVaccinationInfo(patientID: any): Observable<VaccinationInfo> {
+
+    // return this.http.get<VaccinationInfo>(`${this.url}/Vaccination/${patientID}`); @TODO add  httpOptions
+
+
     return this.http.get<VaccinationInfo>(`${this.url}/Vaccination/${patientID}`);
   }
 
   postFeedBack(feedback: Feedback, selectedFile:any): Observable<any> {  
-    console.log(selectedFile); 
+    // console.log(selectedFile); 
     const httpOptions = {
       headers: new HttpHeaders({
        "Content-Type": "multipart/form-data;boundary {}"

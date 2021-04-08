@@ -8,6 +8,7 @@ export interface Patient {
   isMember?:          boolean;
   confirmed?:         boolean;
   city?:              string;
+  province?: string;
   mobileNumber?:      string;
   emailAddress?:      string;
   memberNumber?:        string;

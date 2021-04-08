@@ -3,10 +3,11 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormControl, NgForm} from '@angular/forms';
 import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import {map, startWith, tap} from 'rxjs/operators';
 import {Centre} from 'src/app/models/centre.model';
 import {CookieService} from 'ngx-cookie-service';
 import {Vaccine} from 'src/app/models/vaccination.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -20,9 +21,10 @@ export class LoginComponent implements OnInit {
   filteredOptions: Observable<Centre[]>;
   selectedlocation: Centre;
   selectVaccine: Vaccine;
+  missingLocation = false;
 
 
-  constructor(private data: DataService, private router: Router, private cookieService: CookieService) {
+  constructor(private data: DataService, private router: Router, private _snackBar: MatSnackBar, private cookieService: CookieService) {
   }
 
   ngOnInit(): void {
@@ -54,10 +56,27 @@ export class LoginComponent implements OnInit {
   }
 
   login(e: NgForm): void {
-    localStorage.setItem('token', 'JWT');
+    if(e.invalid || this.data.selectedLocation === null) {
+        if(this.data.selectedLocation === null) this.missingLocation = true;
+        return
+    };
 
-    this.data.isLoginSubject.next(true);
-    this.router.navigateByUrl('dashboard');
+
+    this.data.login(e.value.userName, e.value.password)
+    .pipe(tap((res) => {
+      localStorage.setItem('userObj', JSON.stringify(res));
+      this.data.isLoginSubject.next(true);
+      this.router.navigateByUrl('dashboard');
+     }))
+    .subscribe(res=>{
+      console.log(res)
+    }, 
+    error =>{
+      this.openSnackBar(error.error, 'Close');
+      console.log(error)
+    }
+    )
+
     console.log(e.value);
   }
 
@@ -74,6 +93,13 @@ export class LoginComponent implements OnInit {
           })
         );
       });
+  }
+
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+    });
   }
 
 }

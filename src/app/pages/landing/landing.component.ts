@@ -13,7 +13,7 @@ export class LandingComponent implements OnInit {
   }
 
   joinGEMS() {
-    window.open('#', '_blank');
+    window.open('https://member.gems.gov.za/JoinGems', '_blank');
   }
 
 }

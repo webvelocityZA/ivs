@@ -15,6 +15,7 @@ import {InoculateComponent} from './pages/inoculate/inoculate.component';
 import {ThankYouInoculationComponent} from './pages/thank-you-inoculation/thank-you-inoculation.component';
 import { MemberProfileEditComponent } from './pages/member-profile-edit/member-profile-edit.component';
 import { OtpComponent } from './pages/otp/otp.component';
+import { OtpUserCheckComponent } from './pages/otp-user-check/otp-user-check.component';
 
 const routes: Routes = [
   {
@@ -82,6 +83,10 @@ const routes: Routes = [
   {
     path: 'otp-authentication/:idNumber',
     component: OtpComponent
+  },
+  {
+    path: 'otp-user-check/:idNumber',
+    component: OtpUserCheckComponent
   },
   {
     path: 'thank-you',

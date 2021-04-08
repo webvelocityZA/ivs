@@ -61,20 +61,36 @@
 
 
           <div class="w-full md:w-full md:px-2 inline-block">
+            <mat-form-field appearance="fill" hideRequiredMarker="false" floatLabel="Are you a GEMS member?">
+              <mat-select [(ngModel)]="identificationType" (ngModelChange)="checkIdentificationType($event)" name="identificationType" required>
+                <mat-option  >Please Select</mat-option>
+                <mat-option value="SAid">South African ID</mat-option>
+                <mat-option value="passport">Passport</mat-option>
+              </mat-select>
+              <mat-label>Please Select Identification Type</mat-label>
+            </mat-form-field>
+          </div>
+
+
+
+          <div class="w-full md:w-full md:px-2 inline-block" *ngIf='displayIdInputField'>
             <mat-form-field appearance="fill">
-              <mat-label>ID Number</mat-label>
-              <input matInput placeholder="ID Number" name="idNumber" ngModel #idNumberInput="ngModel" required idNumber
+              <mat-label>{{identificationPlaceholder}}</mat-label>
+              <input matInput [placeholder]="identificationPlaceholder" name="idNumber" ngModel #idNumberInput="ngModel" required idNumber
                 (ngModelChange)="checkIfIDExists($event)">
               <mat-icon *ngIf="userExists" class="text-green-600" matSuffix>sentiment_very_satisfied</mat-icon>
-              <mat-error *ngIf="idNumberInput.hasError('required')">ID Number is required </mat-error>
-              <!-- <mat-error *ngIf="idNumberInput.value?.length < 9">
-                 {{idNumberInput.value?.length || 0}}  
-                A valid Passport / South African ID should be not be less than 9 characters long</mat-error> -->
+              <mat-error *ngIf="idNumberInput.hasError('required')">{{identificationPlaceholder}} is required </mat-error>
             </mat-form-field>
           </div>
           <div class="px-2" *ngIf="registered">
             <div class="w-full md:w-full md:px-2 inline-block p-4 bg-red-600">
               <span class="text-white">User already registered</span>
+            </div>
+            <div class="w-full md:w-full  inline-block py-4 ">
+              <button type="button" [routerLink]="['/otp-user-check', this.foundPatient?.idNumber]"
+              class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500">
+              Edit profile
+            </button>
             </div>
           </div>
 
@@ -103,7 +119,7 @@
             <mat-form-field appearance="fill">
               <mat-label>Date of Birth</mat-label>
               <input matInput placeholder="Date of Birth" name="dob" ngModel #dobInput="ngModel" required dob
-                [disabled]="userExists" type="date">
+                [disabled]="userExists" type="date" [value]="DOB">
               <mat-error *ngIf="dobInput.hasError('required')">Date of Birth is required</mat-error>
             </mat-form-field>
           </div>
@@ -220,7 +236,7 @@
           </div>
 
 
-          <div id="medicalHistory" *ngIf="!registered && isIDValid">
+          <div id="medicalHistory" *ngIf="!registered && isIDValid" class="w-full md:w-1/2 md:px-2 inline-block">
             <mat-form-field appearance="fill" hideRequiredMarker="false" floatLabel="Allergies & Chronic Medication">
               <mat-select [(ngModel)]="allergies" (ngModelChange)="doesPatientHaveAllergies($event)" name="allergies" required>
                 <mat-option>Please Select</mat-option>

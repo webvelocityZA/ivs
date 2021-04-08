@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, NgForm} from '@angular/forms';
-import {
-  Patient
-} from 'src/app/models/patient.model';
+import { Patient} from 'src/app/models/patient.model';
 import {DataService} from 'src/app/services/data.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
@@ -43,6 +41,10 @@ export class RegisterNewPatientComponent implements OnInit {
   province: string;
   isIDValid = false;
   siteName: string;
+  foundPatient: object;
+  identificationPlaceholder: string;
+  displayIdInputField = false;
+  DOB: any;
 
   constructor(public data: DataService, private _snackBar: MatSnackBar, private router: Router, private cookieService: CookieService) {
   }
@@ -96,6 +98,20 @@ export class RegisterNewPatientComponent implements OnInit {
     // console.log(e);
   }
 
+
+  checkIdentificationType(e: string){
+    console.log(e)
+    if (e === 'SAid'){
+      this.identificationPlaceholder = 'ID Number';
+      this.displayIdInputField = true;
+    }
+    else{
+      this.displayIdInputField = true;
+      this.identificationPlaceholder = 'Passport Number';   
+     }
+  }
+
+
   // tslint:disable-next-line:typedef
   checkIfIDExists(e: string) {
     if (e.length === 13) {
@@ -111,9 +127,11 @@ export class RegisterNewPatientComponent implements OnInit {
         // console.log(patient);
         if (patient.length > 0) {
           // alert('user already registered');
+          this.foundPatient = patient[0];
           this.registered = true;
         } else {
           this.registered = false;
+          this.getDOB(e)
         }
       }, err => {
         this.registered = false;
@@ -163,6 +181,7 @@ export class RegisterNewPatientComponent implements OnInit {
           // this.data.selectedLocation = null;
         } else {
           this.locationID = option.name;
+          console.log(this.locationID)
         }
 
         // console.log(this.data.selectedLocation);
@@ -236,5 +255,24 @@ export class RegisterNewPatientComponent implements OnInit {
     });
   }
 
+
+  getDOB(idNumber){
+
+    // get first 6 digits as a valid date
+    let tempDate = new Date(idNumber.substring(0, 2), idNumber.substring(2, 4), idNumber.substring(4, 6));
+    let id_date = tempDate.getDate();
+    let id_month = tempDate.getMonth();
+    let id_year = tempDate.getFullYear();
+    // let fullDate = id_date + "-" + id_month + 1 + "-" + id_year;
+    let fullDate =  `${id_year}-${id_month}-${id_date}`;
+    // get the gender
+    let genderCode = idNumber.substring(6, 10);
+    let gender = parseInt(genderCode) < 5000 ? "Female" : "Male";
+    this.DOB = new FormControl('2020-09-28');
+    // this.DOB = fullDate;
+    console.log(fullDate)
+    // get country ID for citzenship
+    let citzenship = parseInt(idNumber.substring(10, 11)) == 0 ? "Yes" : "No";
+  }
 
 }

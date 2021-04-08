@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataService } from 'src/app/services/data.service';
@@ -14,20 +14,24 @@ import { CookieService } from 'ngx-cookie-service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements AfterViewInit {
+export class DashboardComponent implements AfterViewInit, OnInit {
   patients:any = [];
   displayedColumns: string[] = ['firstName', 'lastName', 'idNumber', 'emailAddress'];
   query;
   dataSource;
   VaccinationSiteStatistics:VaccinationSiteStatistics;
   overallTotal:any = '-';
-
+  userDisplayName: string; 
 
 
   constructor(private data: DataService, private router: Router, private _snackBar: MatSnackBar, private cookieService: CookieService) {}
 
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  ngOnInit(){
+    this.userDisplayName = this.data.getLoggedInUserInfo().username;
+  }
+
 
   ngAfterViewInit() {
     console.log(this.cookieService.get('vaccination-centre-name'))
