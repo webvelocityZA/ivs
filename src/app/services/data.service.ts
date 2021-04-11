@@ -11,6 +11,8 @@ import { SiteVaccinationHistory } from '../models/site-vaccination-history.model
 import {environment} from '../../environments/environment.prod';
 import { Feedback } from '../models/feedback.model';
 import { UserAdmin } from '../models/user.model';
+import { Router } from '@angular/router';
+import * as CryptoJS from 'crypto-js';
 
 
 @Injectable({
@@ -23,22 +25,80 @@ export class DataService {
   selectedLocation: Centre;
   selectVaccine: Vaccine;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
 
   private hasToken(): boolean {
+    // Check if we have user in local storage
+    if (localStorage.getItem('userObj')) {
+      // Please Note! Decrypt data is a Promise not an Observable
+      this.decryptData().then(res => {
+      // Get current date and time
+      const now = new Date();
+      // Convert token expiration string to Javascript date and time
+      const tokenExpirationDate = new Date(res.expires);
+      // Check if token expiration is before current date and time
+      if(now.getTime() >= tokenExpirationDate.getTime()) {
+        // If token has expired remove the entire user from local storage. Our hasToken() function will automatically log user out when that is taken out of local storage
+        localStorage.removeItem('userObj');
+        console.log('Token has expired');
+      } else {
+        console.log('Token still valid');
+      }
+      })
+    }
     return !!localStorage.getItem('userObj');
+  }
+
+  // If member is logged in this code will disallow accessing a page were it is used. Auto redirect to dashboard
+  disallowAccessToLoggedOutPages() {
+    if (localStorage.getItem('userObj') != null) {
+      this.router.navigateByUrl('/dashboard');
+    }
+  }
+
+  async encryptData(dataToEncrypt:any) {
+    try {
+      console.log(dataToEncrypt);
+      const encryptedData = await CryptoJS.AES.encrypt(JSON.stringify(dataToEncrypt), '123456').toString();
+      localStorage.setItem('userObj', encryptedData);
+    } catch (e) {
+      console.log(e);
+      return;
+    }
+  }
+
+
+  async decryptData() {
+    try {
+      const encryptedFromlocalstorage = localStorage.getItem('userObj');
+      if (encryptedFromlocalstorage) {
+      console.log(encryptedFromlocalstorage);
+      const bytes = await CryptoJS.AES.decrypt(encryptedFromlocalstorage, '123456');
+      console.log(bytes.toString());
+      if (bytes.toString()) {
+        return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+      }
+      }
+      return encryptedFromlocalstorage;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   getLoggedInUserInfo(): UserAdmin{
     const userObj: UserAdmin = JSON.parse(localStorage.getItem('userObj'));
     return userObj
   }
-  
+
   addHeaderToken(){
+    let token;
+    this.decryptData().then(res => {
+      token = res.token;
+    })
     const headerToken = {
       headers: new HttpHeaders({
-       "Authorization": `Bearer ${this.getLoggedInUserInfo().token}`
+      "Authorization": `Bearer ${token}`
       })
     }
     return headerToken;
@@ -113,8 +173,9 @@ export class DataService {
     return this.http.post(`${this.url}/Registration`, postData, {responseType: 'text'});
   }
 
-  updatePatient = (idNumber, position?, employer?, schemeName?, memberNumber?, firstName?, lastName?, mobileNumber?, city?,  province?, dateOfBirth?) => {
+  updatePatient = (userRowId, idNumber, position?, employer?, schemeName?, memberNumber?, firstName?, lastName?, mobileNumber?, city?,  province?, dateOfBirth?, emailAddress?) => {
     const postData = {
+      id:userRowId,
       idNumber,
       memberNumber,
       schemeName,
@@ -125,7 +186,8 @@ export class DataService {
       mobileNumber,
       city,
       province,
-      dateOfBirth
+      dateOfBirth,
+      emailAddress
     };
     return this.http.put(`${this.url}/Registration`, postData);
   }
@@ -158,44 +220,35 @@ export class DataService {
   }
 
   searchByID(ID: any): Observable<any> {
-
-    const headerToken = {
-      headers: new HttpHeaders({
-      "Authorization": `Bearer ${this.getLoggedInUserInfo().token}`
-      })
-    }
     const searchData = {
       idNumber: ID
     };
-    return this.http.post(`${this.url}/Registration/Search`, searchData,  headerToken);
+    return this.http.post(`${this.url}/Registration/Search`, searchData,  this.addHeaderToken());
   }
 
 
   /* Vaccination */
 
   getVaccinationInfo(patientID: any): Observable<VaccinationInfo> {
-
-    // return this.http.get<VaccinationInfo>(`${this.url}/Vaccination/${patientID}`); @TODO add  httpOptions
-
-
-    return this.http.get<VaccinationInfo>(`${this.url}/Vaccination/${patientID}`);
+    return this.http.get<VaccinationInfo>(`${this.url}/Vaccination/${patientID}`,this.addHeaderToken());
   }
 
-  postFeedBack(feedback: Feedback, selectedFile:any): Observable<any> {  
-    // console.log(selectedFile); 
+  postFeedBack(feedback: Feedback, selectedFile:any): Observable<any> {
+    // console.log(selectedFile);
     const httpOptions = {
       headers: new HttpHeaders({
-       "Content-Type": "multipart/form-data;boundary {}"
+       "Content-Type": "multipart/form-data;boundary {}",
+       "Authorization": `Bearer ${this.getLoggedInUserInfo().token}`
       })
     };
 
     const formData = new FormData();
     formData.append('file', selectedFile);
-    
+
     const feedBackData = {
       file: selectedFile
     }
-    
+
     const encodedString = encodeURI(JSON.stringify(feedback));
     console.log(encodedString)
 
@@ -215,7 +268,7 @@ export class DataService {
       inoculatedOn: '2021-03-25T23:42:55.459Z',
       vaccinatedDate: '2021-03-25T23:42:55.459Z'
     };
-    return this.http.post(`${this.url}/Vaccination/`, vacData);
+    return this.http.post(`${this.url}/Vaccination/`, vacData , this.addHeaderToken());
   }
 
   getDashboardStatistics(ID: any): Observable<VaccinationSiteStatistics> {
@@ -228,7 +281,7 @@ export class DataService {
 
 
   getSiteVaccinationHistory(): Observable<SiteVaccinationHistory[]> {
-    return this.http.get<SiteVaccinationHistory[]>(`${this.url}/Vaccination/History/0`);
+    return this.http.get<SiteVaccinationHistory[]>(`${this.url}/Vaccination/History/0`, this.addHeaderToken());
   }
 
   getVaccineCentre(siteId: number): Observable<VaccineCentre[]> {

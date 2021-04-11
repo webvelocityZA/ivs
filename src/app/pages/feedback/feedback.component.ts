@@ -23,6 +23,7 @@ export class FeedbackComponent implements OnInit {
   constructor(private data: DataService) { }
 
   ngOnInit(): void {
+    this.data.disallowAccessToLoggedOutPages();
   }
 
   checkSelectedFeedbackOption(e: any) {

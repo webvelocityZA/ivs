@@ -28,6 +28,7 @@ export class OtpComponent implements OnInit {
       this.isLoading = true;
       this.data.postOTP(this.idNumber, e.value.otp)
         .pipe(tap((res) => {
+          console.log(res);
           this.router.navigateByUrl('/thank-you');
           // console.log(res);
         }))

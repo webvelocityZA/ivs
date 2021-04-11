@@ -16,6 +16,7 @@ export interface Patient {
   position?:          string;
   allergies?:         boolean;
   chronicMedication?: string;
+  dateOfBirth?: string;
   appointmentDate?:   string;
   createdOn?:         string;
   createdby?:         string;

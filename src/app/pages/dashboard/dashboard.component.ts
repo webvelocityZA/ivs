@@ -28,8 +28,11 @@ export class DashboardComponent implements AfterViewInit, OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  ngOnInit(){
-    this.userDisplayName = this.data.getLoggedInUserInfo().username;
+  ngOnInit(){    
+    this.data.decryptData().then(res => {
+      this.userDisplayName = res.username;
+      console.log(res);
+    })
   }
 
 

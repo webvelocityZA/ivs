@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { medicalSchemesList } from 'src/app/mocks/medicalSchemesList';
 import { Patient } from 'src/app/models/patient.model';
 import { DataService } from 'src/app/services/data.service';
 
@@ -11,6 +12,7 @@ import { DataService } from 'src/app/services/data.service';
 
 
 export class MemberProfileEditComponent implements OnInit {
+  userRowId:number;
   idNumber:string;
   member: Patient;
   employer: string;
@@ -23,6 +25,8 @@ export class MemberProfileEditComponent implements OnInit {
   firstName: string;
   lastName: string; 
   mobileNumber: string;
+  emailAddress: string;
+  dateOfBirth: string;
 
   constructor(private activatedRoute: ActivatedRoute,
               private data: DataService) {}
@@ -34,6 +38,7 @@ export class MemberProfileEditComponent implements OnInit {
         member => {
           if (member) {
             this.member = member[0];
+            this.userRowId = this.member.id;
             this.employer = this.member.employer;
             this.schemeName = this.member.schemeName;
             this.position = this.member.position;
@@ -44,7 +49,8 @@ export class MemberProfileEditComponent implements OnInit {
             this.firstName = this.member.firstName;
             this.lastName = this.member.lastName; 
             this.mobileNumber = this.member.mobileNumber;
-        
+            this.emailAddress = this.member.emailAddress;
+            this.dateOfBirth = this.member.dateOfBirth;
           }
           
       })
@@ -53,6 +59,7 @@ export class MemberProfileEditComponent implements OnInit {
 
   update(){
     this.data.updatePatient(
+      this.userRowId,
       this.idNumber,
       this.position,
       this.employer,
@@ -63,6 +70,8 @@ export class MemberProfileEditComponent implements OnInit {
       this.mobileNumber,
       this.city,
       this.province,
+      this.dateOfBirth,
+      this.emailAddress
     ).subscribe(res => {
       console.log(res);
     })

@@ -28,9 +28,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.data.disallowAccessToLoggedOutPages();
     this.loadCentres();
-
   }
+
 
   private _filter(value: string): Centre[] {
     const filterValue = value.toLowerCase();
@@ -64,7 +65,8 @@ export class LoginComponent implements OnInit {
 
     this.data.login(e.value.userName, e.value.password)
     .pipe(tap((res) => {
-      localStorage.setItem('userObj', JSON.stringify(res));
+      this.data.encryptData(res);
+      // localStorage.setItem('userObj', JSON.stringify(res));
       this.data.isLoginSubject.next(true);
       this.router.navigateByUrl('dashboard');
      }))
