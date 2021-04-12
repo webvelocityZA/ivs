@@ -2,6 +2,7 @@
 
 export interface Patient {
   id?:                number;
+  referenceNumber?:   string;
   idNumber?:          string;
   firstName?:         string;
   lastName?:          string;
@@ -28,36 +29,59 @@ export interface Patient {
   schemeName?: string;
 }
 
-interface Registration {
+export interface Registration {
   id?: number;
   referenceNumber?: string;
-  idNumber?: string;
-  firstName?: string;
-  lastName?: string;
-  isMember?: boolean;
-  confirmed?: boolean;
-  city?: string;
-  province?: string;
-  siteId?: number;
-  mobileNumber?: string;
-  emailAddress?: string;
+  idNumber: string;
+  firstName: string;
+  lastName: string;
+  isMember: boolean;
+  city: string;
+  province: string;
+  mobileNumber: string;
+  emailAddress: string;
+  frontLiner: boolean;
   memberNumber?: string;
   schemeName?: string;
   employer?: string;
   position?: string;
   allergies?: boolean;
   chronicMedication?: string;
-  vaccinationInfo?: VaccinationInfo[];
   appointmentDate?: string;
-  dateOfBirth?: string;
-  createdOn?: string;
-  createdby?: string;
-  updatedOn?: string;
-  updatedby?: string;
-  deleted?: boolean;
-  deletedOn?: string;
-  deletedBy?: string;
+  dateOfBirth: string;
 }
+
+
+// interface Registration {
+//   id?: number;
+//   referenceNumber?: string;
+//   idNumber?: string;
+//   firstName?: string;
+//   lastName?: string;
+//   isMember?: boolean;
+//   confirmed?: boolean;
+//   city?: string;
+//   province?: string;
+//   siteId?: number;
+//   mobileNumber?: string;
+//   emailAddress?: string;
+//   memberNumber?: string;
+//   schemeName?: string;
+//   employer?: string;
+//   position?: string;
+//   allergies?: boolean;
+//   chronicMedication?: string;
+//   vaccinationInfo?: VaccinationInfo[];
+//   appointmentDate?: string;
+//   dateOfBirth?: string;
+//   createdOn?: string;
+//   createdby?: string;
+//   updatedOn?: string;
+//   updatedby?: string;
+//   deleted?: boolean;
+//   deletedOn?: string;
+//   deletedBy?: string;
+// }
 
 export interface VaccinationInfo {
   id: number;
@@ -78,3 +102,4 @@ export interface VaccinationInfo {
   deletedOn: string;
   deletedBy: string;
 }
+

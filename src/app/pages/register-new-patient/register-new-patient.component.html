@@ -40,11 +40,11 @@
 </nav>
 
 
-<div *ngIf="!isLoading" class="p-4 px-10 md:px-28">
+<div *ngIf="!isLoading && screenmode === 0" class="p-4 px-10 md:px-28">
   <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="IVSTabIndex">
-    <mat-tab [disabled]='IVSTabIndex < 0' label="Personal Details">
+    <mat-tab [disabled]='IVSTabIndex < 0' label="Registration Details">
       <div class="py-4">
-        <form #registerForm="ngForm" (submit)="registerPatient(registerForm)" class="mt-6">
+        <form #registerForm="ngForm" class="mt-6" (ngSubmit)='registerPatient(registerForm, $event)'>
 
 
 
@@ -105,6 +105,8 @@
               <mat-error *ngIf="firstNameInput.hasError('required')">First Name is required</mat-error>
             </mat-form-field>
           </div>
+
+
           <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
             <mat-form-field appearance="fill">
               <mat-label>Last Name</mat-label>
@@ -133,8 +135,8 @@
               <mat-error>Scheme is required</mat-error>
               <mat-icon matSuffix>meeting_room</mat-icon>
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredProvinceOptions | async" [value]="option">
-                  {{option}}
+                <mat-option *ngFor="let option of filteredProvinceOptions | async" [value]="option.name">
+                  {{option.name}}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
@@ -175,14 +177,14 @@
               <mat-error *ngIf="positionInput.hasError('required')">Current Position is required</mat-error>
             </mat-form-field>
           </div>
-          <!-- <div class="w-full md:w-1/2 md:px-2 inline-block">
+          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
             <mat-form-field appearance="fill">
-              <mat-label>Medical Aid Number</mat-label>
-              <input matInput placeholder="Medical Aid Number" min="0" name="medicalAidNumber" ngModel #medicalAidNumberInput="ngModel" required medical_aid_number [disabled]="userExists">
+              <mat-label>Member Number</mat-label>
+              <input matInput placeholder="Member Number" min="0" name="memberNumber" ngModel #memberNumberInput="ngModel" required memberNumber [disabled]="userExists">
               <mat-icon matSuffix>local_hospital</mat-icon>
-              <mat-error *ngIf="medicalAidNumberInput.hasError('required')">Medical Aid Number is required</mat-error>
+              <mat-error *ngIf="memberNumberInput.hasError('required')">Member Number is required</mat-error>
             </mat-form-field>
-          </div> -->
+          </div>
 
           <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
             <mat-form-field appearance="fill">
@@ -253,7 +255,7 @@
                   [(ngModel)]="allergiesDescription"></textarea>
               </mat-form-field>
             </div>
-          </div> 
+          </div>
         </form>
       </div>
 
@@ -264,7 +266,7 @@
 
 
       <div class="mx-2" *ngIf="!registered && isIDValid">
-        <button mat-raised-button color="primary" (click)="registerPatient(registerForm)">Complete Registration</button>
+        <button mat-raised-button color="primary" (click)="registerPatient(registerForm, $event)" type="button">Complete Registration</button>
       </div>
 
 

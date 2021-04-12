@@ -28,19 +28,19 @@
                 vaccinatorid disabled required>
             </mat-form-field>
           </div>
-         
 
-          <div class="w-full md:w-1/2 md:px-2 inline-block custom">
+
+          <!-- <div class="w-full md:w-1/2 md:px-2 inline-block custom">
             <mat-form-field appearance="outline">
               <mat-label><span class="title">Vaccine Dosage Required</span> <span class="subTitle">{{doseNumber}}</span>
               </mat-label>
               <input matInput name="doseNumber" ngModel #doseNumberInput="ngModel"  doseNumber disabled required>
             </mat-form-field>
-          </div>
+          </div> -->
 
           <div class="w-full md:w-1/2 md:px-2 inline-block custom">
             <mat-form-field appearance="outline">
-              <mat-label><span class="title">Current Dose Number</span> <span class="subTitle">{{this.howManyTimesUserHasBeenDosed}}</span>
+              <mat-label><span class="title">Current Number of Vaccines Received</span> <span class="subTitle">{{this.howManyTimesUserHasBeenDosed}}</span>
               </mat-label>
               <input matInput name="howManyTimesUserHasBeenDosed" ngModel #howManyTimesUserHasBeenDosedInput="ngModel" howManyTimesUserHasBeenDosed disabled required>
             </mat-form-field>
@@ -78,7 +78,7 @@
     </div>
   </div>
 
-  
+
 
 
     <!-- LOADER-->
@@ -87,4 +87,4 @@
     </div>
 
 
-    
+

@@ -4,7 +4,7 @@
 
 <div class="p-4 px-10 md:px-28">
   <div class="py-4">
-    <form #otpForm="ngForm" (submit)="activateOTP(otpForm)" class="mt-6">
+    <form #otpForm="ngForm" (submit)="activateProfileEditOTP(otpForm)" class="mt-6">
       <div class="w-full md:w-1/2 md:px-2 inline-block">
         <p>Please enter the OTP that was sent to your device to edit your profile.</p>
         <mat-form-field appearance="fill">
@@ -15,8 +15,8 @@
         </mat-form-field>
       </div>
       <div class="mx-2">
-        <button mat-raised-button color="primary" [routerLink]="['/member-profile-edit', this.idNumber]">Activate OTP</button>
-        <!-- <button mat-raised-button color="primary" (click)="activateOTP(otpForm)">Activate OTP</button> -->
+        <!-- <button mat-raised-button color="primary" [routerLink]="['/member-profile-edit', this.idNumber]">Activate OTP</button> -->
+        <button mat-raised-button color="primary" (click)="activateProfileEditOTP(otpForm)">Activate OTP</button>
       </div>
     </form>
   </div>

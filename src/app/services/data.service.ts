@@ -1,3 +1,5 @@
+import { Registration } from './../models/patient.model';
+import { RegistrationStatus } from './../enums/enums';
 import {Patients} from './../mocks/patients';
 import {Injectable} from '@angular/core';
 import {Patient, VaccinationInfo} from '../models/patient.model';
@@ -31,12 +33,11 @@ export class DataService {
   private hasToken(): boolean {
     // Check if we have user in local storage
     if (localStorage.getItem('userObj')) {
-      // Please Note! Decrypt data is a Promise not an Observable
-      this.decryptData().then(res => {
+
       // Get current date and time
       const now = new Date();
       // Convert token expiration string to Javascript date and time
-      const tokenExpirationDate = new Date(res.expires);
+      const tokenExpirationDate = new Date(this.decryptData().expires);
       // Check if token expiration is before current date and time
       if(now.getTime() >= tokenExpirationDate.getTime()) {
         // If token has expired remove the entire user from local storage. Our hasToken() function will automatically log user out when that is taken out of local storage
@@ -45,7 +46,6 @@ export class DataService {
       } else {
         console.log('Token still valid');
       }
-      })
     }
     return !!localStorage.getItem('userObj');
   }
@@ -69,13 +69,13 @@ export class DataService {
   }
 
 
-  async decryptData() {
+  decryptData() {
     try {
       const encryptedFromlocalstorage = localStorage.getItem('userObj');
       if (encryptedFromlocalstorage) {
-      console.log(encryptedFromlocalstorage);
-      const bytes = await CryptoJS.AES.decrypt(encryptedFromlocalstorage, '123456');
-      console.log(bytes.toString());
+      // console.log(encryptedFromlocalstorage);
+      const bytes = CryptoJS.AES.decrypt(encryptedFromlocalstorage, '123456');
+      // console.log(bytes.toString());
       if (bytes.toString()) {
         return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
       }
@@ -86,19 +86,16 @@ export class DataService {
     }
   }
 
-  getLoggedInUserInfo(): UserAdmin{
-    const userObj: UserAdmin = JSON.parse(localStorage.getItem('userObj'));
-    return userObj
-  }
+  // getLoggedInUserInfo(): UserAdmin{
+  //   const userObj: UserAdmin = JSON.parse(localStorage.getItem('userObj'));
+  //   return userObj
+  // }
 
   addHeaderToken(){
     let token;
-    this.decryptData().then(res => {
-      token = res.token;
-    })
     const headerToken = {
       headers: new HttpHeaders({
-      "Authorization": `Bearer ${token}`
+      "Authorization": `Bearer ${this.decryptData().token}`
       })
     }
     return headerToken;
@@ -120,62 +117,14 @@ export class DataService {
   }
 
 
-  registerPatient(idNumber, firstName, lastName, position, employer, mobileNumber, emailAddress, schemeName, city, province, dateOfBirth): Observable<any> {
-    const postData = {
-      id: 0,
-      idNumber,
-      firstName,
-      lastName,
-      isMember: true,
-      confirmed: true,
-      city,
-      province,
-      siteId: 0,
-      mobileNumber,
-      emailAddress,
-      memberNumber: '12345678',
-      schemeName,
-      employer,
-      position,
-      allergies: true,
-      chronicMedication: 'string',
-      vaccinationInfo: [
-        {
-          id: 0,
-          memberId: 0,
-          vaccinationSiteId: 0,
-          vaccinatorid: 0,
-          feedBack: 'string',
-          repeatInoculatedOn: '2021-03-13T16:00:18.718Z',
-          inoculatedOn: '2021-03-13T16:00:18.718Z',
-          dosageRecieved: 'string',
-          doseNumber: 0,
-          vaccinatedDate: '2021-03-13T16:00:18.718Z',
-          createdOn: '2021-03-13T16:00:18.718Z',
-          createdby: 'string',
-          updatedOn: '2021-03-13T16:00:18.718Z',
-          updatedby: 'string',
-          deleted: true,
-          deletedOn: '2021-03-13T16:00:18.718Z',
-          deletedBy: 'string'
-        }
-      ],
-      appointmentDate: '2021-03-13',
-      dateOfBirth,
-      createdOn: '2021-03-13T16:00:18.718Z',
-      createdby: 'string',
-      updatedOn: '2021-03-13T16:00:18.718Z',
-      updatedby: 'string',
-      deleted: true,
-      deletedOn: '2021-03-13T16:00:18.718Z',
-      deletedBy: 'string'
-    };
-    return this.http.post(`${this.url}/Registration`, postData, {responseType: 'text'});
+  registerPatient(registrationPostData:Registration): Observable<any> {
+    return this.http.post(`${this.url}/Registration`, registrationPostData, {responseType: 'text'});
   }
 
-  updatePatient = (userRowId, idNumber, position?, employer?, schemeName?, memberNumber?, firstName?, lastName?, mobileNumber?, city?,  province?, dateOfBirth?, emailAddress?) => {
+  updatePatient = (userRowId,referenceNumber, idNumber, position?, employer?, schemeName?, memberNumber?, firstName?, lastName?, mobileNumber?, city?,  province?, dateOfBirth?, emailAddress?) => {
     const postData = {
       id:userRowId,
+      referenceNumber,
       idNumber,
       memberNumber,
       schemeName,
@@ -193,15 +142,21 @@ export class DataService {
   }
 
 
+//OTP Request on FirstTime Registration
   postOTP(idNumber, otp): Observable<any>{
     const otpData = {
-      // idNumber: idNumber,
-      idNumber: '8304155023081',
+      idNumber: idNumber,
       otp
 
     };
     return this.http.post(`${this.url}/Registration/Confirm`, otpData);
   }
+
+//OTP Request on Editing Member Profile
+ activateProfileEditOTP(idNumber): Observable<any>{
+    return this.http.get(`${this.url}/Registration/RequestOtp/${idNumber}`);
+  }
+
 
   loadPatient(): Patient {
     this.currentPatient = Patients[0];
@@ -223,7 +178,7 @@ export class DataService {
     const searchData = {
       idNumber: ID
     };
-    return this.http.post(`${this.url}/Registration/Search`, searchData,  this.addHeaderToken());
+    return this.http.post(`${this.url}/Registration/Search`, searchData);
   }
 
 
@@ -238,7 +193,8 @@ export class DataService {
     const httpOptions = {
       headers: new HttpHeaders({
        "Content-Type": "multipart/form-data;boundary {}",
-       "Authorization": `Bearer ${this.getLoggedInUserInfo().token}`
+      //  "Authorization": `Bearer ${this.decryptData().token}`
+      "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiS2V2aW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiS2V2aW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9jb3VudHJ5IjoiWkEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImlkIjoiMSIsImV4cCI6MTY1OTczMTAzOSwiaXNzIjoid3d3LmdlbXMuZ292LnphIiwiYXVkIjoid3d3LmdlbXMuZ292LnphIn0.g3v6rcB7nT3qC4vxoDHciLJuxmUnuFXoe4ZRFTE3cq4`
       })
     };
 
@@ -250,24 +206,21 @@ export class DataService {
     }
 
     const encodedString = encodeURI(JSON.stringify(feedback));
+       console.log(feedback)
     console.log(encodedString)
 
-    return this.http.post<any>(`${this.url}/Vaccination/Feedback?FeedbackString=${encodedString}`, formData, httpOptions);
+    return this.http.post<any>(`${this.url}/Vaccination/Feedback?FeedbackString="${encodedString}"`, formData,httpOptions);
   }
 
   postVaccinationInfo(payload: any): any {
     const vacData = {
       memberId: payload.memberId,
       vaccinationSiteId: payload.vaccinationSiteId,
-      vaccinatorid: 2,
-      feedBack: 'Was Good Service',
-      // dosageRecieved: payload.dosageRecieved,
-      dosageRecieved: '1',
+      vaccinatorid: this.decryptData().id,
+      // dosageRecieved: '1',
       doseNumber: payload.doseNumber,
-      repeatInoculatedOn: '2021-03-25T23:42:55.459Z',
-      inoculatedOn: '2021-03-25T23:42:55.459Z',
-      vaccinatedDate: '2021-03-25T23:42:55.459Z'
     };
+
     return this.http.post(`${this.url}/Vaccination/`, vacData , this.addHeaderToken());
   }
 
@@ -289,7 +242,7 @@ export class DataService {
   }
 
   getHowManyTimes(ID: number): Observable<getHowManyTimes>{
-    return this.http.get<getHowManyTimes>(`${this.url}/Registration/Vaccinated/${ID}`);
+    return this.http.get<getHowManyTimes>(`${this.url}/Registration/Vaccinated/${ID}`, this.addHeaderToken());
   }
 
 

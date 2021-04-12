@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { medicalSchemesList } from 'src/app/mocks/medicalSchemesList';
 import { Patient } from 'src/app/models/patient.model';
@@ -12,6 +13,7 @@ import { DataService } from 'src/app/services/data.service';
 
 
 export class MemberProfileEditComponent implements OnInit {
+  referenceNumber:string;
   userRowId:number;
   idNumber:string;
   member: Patient;
@@ -23,13 +25,14 @@ export class MemberProfileEditComponent implements OnInit {
   allergies: boolean;
   city: string;
   firstName: string;
-  lastName: string; 
+  lastName: string;
   mobileNumber: string;
   emailAddress: string;
   dateOfBirth: string;
 
   constructor(private activatedRoute: ActivatedRoute,
-              private data: DataService) {}
+              private data: DataService,
+              private _snackBar: MatSnackBar,) {}
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(paramMap => {
@@ -39,6 +42,7 @@ export class MemberProfileEditComponent implements OnInit {
           if (member) {
             this.member = member[0];
             this.userRowId = this.member.id;
+            this.referenceNumber = this.member.referenceNumber;
             this.employer = this.member.employer;
             this.schemeName = this.member.schemeName;
             this.position = this.member.position;
@@ -47,12 +51,12 @@ export class MemberProfileEditComponent implements OnInit {
             this.city = this.member.city;
             this.province = this.member.province;
             this.firstName = this.member.firstName;
-            this.lastName = this.member.lastName; 
+            this.lastName = this.member.lastName;
             this.mobileNumber = this.member.mobileNumber;
             this.emailAddress = this.member.emailAddress;
             this.dateOfBirth = this.member.dateOfBirth;
           }
-          
+
       })
     });
   }
@@ -60,6 +64,7 @@ export class MemberProfileEditComponent implements OnInit {
   update(){
     this.data.updatePatient(
       this.userRowId,
+      this.referenceNumber,
       this.idNumber,
       this.position,
       this.employer,
@@ -74,9 +79,18 @@ export class MemberProfileEditComponent implements OnInit {
       this.emailAddress
     ).subscribe(res => {
       console.log(res);
-    })
-     console.log(this.employer) 
+      this.openSnackBar('Member Profile successfully updated', 'Close');
+    }, err => {
+      console.log(err);
+      this.openSnackBar('Update Failed', 'Close');
+    });
+     console.log(this.employer)
   }
-  
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+    });
+  }
 
 }

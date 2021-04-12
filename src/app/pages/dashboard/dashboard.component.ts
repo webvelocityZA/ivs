@@ -21,18 +21,15 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   dataSource;
   VaccinationSiteStatistics:VaccinationSiteStatistics;
   overallTotal:any = '-';
-  userDisplayName: string; 
+  userDisplayName: string;
 
 
   constructor(private data: DataService, private router: Router, private _snackBar: MatSnackBar, private cookieService: CookieService) {}
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  ngOnInit(){    
-    this.data.decryptData().then(res => {
-      this.userDisplayName = res.username;
-      console.log(res);
-    })
+  ngOnInit(){
+      this.userDisplayName = this.data.decryptData().username;
   }
 
 
@@ -64,7 +61,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   getDashboardStats() {
 
     const vaccinationSite = this.cookieService.get('vaccination-centre-id');
-    
+
     this.data.getDashboardStatistics(vaccinationSite)
     .subscribe(res => {
       console.log(res);
@@ -73,7 +70,6 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   }
 
   getTotalDashboardStats() {
-    
     this.data.getDashboardStatistics(0)
     .subscribe(res => {
       console.log(res);
@@ -92,13 +88,13 @@ export class DashboardComponent implements AfterViewInit, OnInit {
           } else {
             this.openSnackBar('No result found', 'close');
           }
-          
+
         }, err => {
           this.openSnackBar('No result found', 'close');
         }
       )
     }
-    
+
   }
 
   openSnackBar(message: string, action: string) {

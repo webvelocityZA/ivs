@@ -1,5 +1,26 @@
 <div *ngIf="svgPathList !== undefined && amount !== undefined && title !== undefined"
   class="sm:w-1/2 md:w-1/2 xl:w-1/6 lg:w-1/2 md:inline-block sm:inline-block">
+  <div class="flex m-2 bg-white rounded-md shadow-md flex-row items-center py-6 px-4 h-32">
+    <div class="w-1/5 bg-white flex">
+      <div [style.background-color]="color" class="rounded-lg p-1">
+        <svg style="color:white" class="w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg">
+        <path *ngFor="let item of svgPathList" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+          [attr.d]="item" />
+      </svg>
+      </div>
+
+    </div>
+    <div class="ml-7">
+      <p class="text-gray-900 text-xs tracking-widest">{{ title }}</p>
+      <span [style.color]="color" class="text-3xl font-bold tracking-normal leading-3">{{ amount }}</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- <div *ngIf="svgPathList !== undefined && amount !== undefined && title !== undefined"
+  class="sm:w-1/2 md:w-1/2 xl:w-1/6 lg:w-1/2 md:inline-block sm:inline-block">
   <div class="flex items-start m-2 bg-white rounded-sm shadow-md flex-col">
     <div class="w-full border-gray-200 border-b-2 p-4 bg-white flex">
       <svg [style.color]="color" class="w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -10,8 +31,8 @@
     </div>
     <div class="pl-4 mt-14 mb-5">
       <p class="text-gray-900 text-xs tracking-widest">{{ title }}</p>
-      <span [style.color]="color" class="text-4xl font-bold tracking-wide">{{ amount }}</span>
+      <span [style.color]="color" class="text-3xl font-bold tracking-normal">{{ amount }}</span>
     </div>
 
   </div>
-</div>
+</div> -->

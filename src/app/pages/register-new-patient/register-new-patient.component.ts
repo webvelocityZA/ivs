@@ -1,6 +1,8 @@
+import {Registration} from './../../models/patient.model';
+import {RegistrationStatus} from '../../enums/enums';
 import {Component, OnInit} from '@angular/core';
 import {FormControl, NgForm} from '@angular/forms';
-import { Patient} from 'src/app/models/patient.model';
+import {Patient} from 'src/app/models/patient.model';
 import {DataService} from 'src/app/services/data.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
@@ -11,6 +13,10 @@ import {CookieService} from 'ngx-cookie-service';
 import {medicalSchemesList} from 'src/app/mocks/medicalSchemesList';
 import {Provinces} from 'src/app/mocks/cities';
 
+export interface Province {
+  name: string;
+  shortname: string;
+}
 
 @Component({
   selector: 'app-register-new-patient',
@@ -32,83 +38,85 @@ export class RegisterNewPatientComponent implements OnInit {
   provincesControl = new FormControl();
   options: Centre[];
   schemes: string[] = medicalSchemesList;
-  provinces: string[] = Provinces;
+  provinces: any[] = Provinces;
   filteredOptions: Observable<Centre[]>;
   filteredSchemesOptions: Observable<any[]>;
   filteredProvinceOptions: Observable<any>;
   locationID;
   scheme: string;
   province: string;
+  selectedProvince: Province;
   isIDValid = false;
   siteName: string;
   foundPatient: object;
   identificationPlaceholder: string;
   displayIdInputField = false;
   DOB: any;
+  screenmode = RegistrationStatus.REG_SCREEN;
+
 
   constructor(public data: DataService, private _snackBar: MatSnackBar, private router: Router, private cookieService: CookieService) {
   }
 
   ngOnInit(): void {
-    this.loadCentres();
+    // this.loadCentres();
     this.loadSchemes();
     this.loadProvinces();
     this.siteName = this.cookieService.get('vaccination-centre-name');
   }
 
   // tslint:disable-next-line:typedef
-  registerPatient(e: NgForm) {
-    this.checkValidation;
+  registerPatient(e: NgForm , ourEvent) {
+    // e.preventDefault();
+    console.log(e);
 
     if (e.valid === true) {
-      this.isLoading = true;
-      // tslint:disable-next-line:max-line-length
+
+
+
       this.idNumber = e.value.idNumber;
-      this.data.registerPatient(e.value.idNumber, e.value.firstName, e.value.lastName, e.value.position, e.value.employer, e.value.mobileNumber, e.value.emailAddress, this.scheme, this.locationID, this.province, e.value.dob)
-        .pipe(tap((res) => {
-          this.router.navigateByUrl(`/otp-authentication/${this.idNumber}`);
-          // console.log(res);
-        }))
-        .subscribe(res => {
-          this.isLoading = false;
-        }, err => {
-          console.log(err);
-          this.isLoading = false;
-          this.openSnackBar('Registration Failed', 'Close');
-        });
+      // console.log(e);
+      const registrationPostData: Registration = {
+        idNumber: e.value.idNumber,
+        firstName: e.value.firstName,
+        lastName: e.value.lastName,
+        isMember: false,
+        city: this.locationID,
+        province: this.province,
+        mobileNumber: e.value.mobileNumber,
+        emailAddress: e.value.emailAddress,
+        frontLiner: false,
+        memberNumber: e.value.memberNumber,
+        schemeName: this.scheme,
+        employer: e.value.employer,
+        position: e.value.position,
+        allergies: false,
+        chronicMedication: 'not applicable',
+        dateOfBirth: e.value.dob,
+      };
+
+      this.postRegToApi(registrationPostData);
+
+
     } else if (e.valid === false) {
       this.openSnackBar('Please fill all required fields', 'Close');
     } else {
       alert('Something wrong');
     }
-    // console.log(e);
+    console.log(e);
 
   }
 
-  // tslint:disable-next-line:typedef
-  checkValidation(e: NgForm) {
-    // console.log(e);
-    if (e.valid === true) {
-      this.navToTab();
-    } else if (e.valid === false) {
-      this.openSnackBar('Please fill all required fields', 'Close');
-    } else {
-      alert('Something wrong');
-    }
-    // console.log(e);
-  }
 
-
-  checkIdentificationType(e: string){
-    console.log(e)
-    if (e === 'SAid'){
+  checkIdentificationType(e: string) {
+    console.log(e);
+    if (e === 'SAid') {
       this.identificationPlaceholder = 'ID Number';
       this.displayIdInputField = true;
-    }
-    else{
+    } else {
       this.displayIdInputField = true;
-      this.identificationPlaceholder = 'Passport Number';   
-     }
+      this.identificationPlaceholder = 'Passport Number';
+    }
   }
 
 
@@ -131,7 +139,7 @@ export class RegisterNewPatientComponent implements OnInit {
           this.registered = true;
         } else {
           this.registered = false;
-          this.getDOB(e)
+          this.getDOB(e);
         }
       }, err => {
         this.registered = false;
@@ -139,10 +147,26 @@ export class RegisterNewPatientComponent implements OnInit {
 
   }
 
-  navToTab() {
-    const tabCount = 4;
-    this.IVSTabIndex = (this.IVSTabIndex + 1) % tabCount;
+
+  postRegToApi(registrationPostData){
+     this.isLoading = true;
+      this.data.registerPatient(registrationPostData)
+        .pipe(tap((res) => {
+          this.router.navigateByUrl(`/otp-authentication/${this.idNumber}`);
+          console.log(res);
+        }))
+        .subscribe(res => {
+          this.isLoading = false;
+          
+          console.log(res);
+        }, err => {
+          console.log(err);
+          this.isLoading = false;
+          // e.resetForm(e.value);
+          this.openSnackBar('Registration Failed', 'Close');
+        });
   }
+
 
   doesPatientHaveAllergies(e: any) {
     console.log(e);
@@ -155,11 +179,15 @@ export class RegisterNewPatientComponent implements OnInit {
   }
 
 
-  loadCentres() {
+  loadCentres(centerName: string) {
     this.data.getAllCentres()
       .subscribe(centres => {
-        // console.log(centres);
-        this.options = centres;
+
+        console.log(centerName);
+        this.options = centres.filter(val => {
+          console.log(this.options);
+          return val.name.endsWith(this.selectedProvince.shortname);
+        });
         this.filteredOptions = this.myControl.valueChanges.pipe(
           startWith(''),
           map(value => {
@@ -181,7 +209,7 @@ export class RegisterNewPatientComponent implements OnInit {
           // this.data.selectedLocation = null;
         } else {
           this.locationID = option.name;
-          console.log(this.locationID)
+          console.log(this.locationID);
         }
 
         // console.log(this.data.selectedLocation);
@@ -229,34 +257,37 @@ export class RegisterNewPatientComponent implements OnInit {
     this.filteredProvinceOptions = this.provincesControl.valueChanges.pipe(
       startWith(''),
       map(value => {
-        console.log(value);
+        // console.log(value);
         return this._filterProvinces(value);
       })
     );
-  }
+  };
 
   private _filterProvinces(value: string): any[] {
     const filterValue = value.toLowerCase();
     // return this.schemes.filter(option => option.toLowerCase().includes(filterValue));
     return this.provinces.filter(option => {
-      if (option.toLowerCase().indexOf(filterValue) === 0) {
+      if (option.name.toLowerCase().indexOf(filterValue) === 0) {
         // console.log(option);
         if (filterValue === '') {
           // this.data.selectedLocation = null;
         } else {
-          this.province = option;
+          this.selectedProvince = option;
+          this.loadCentres(this.selectedProvince.shortname);
+          // console.log(this.selectedProvince);
+          this.province = option.name;
           this.provincePicked = false;
         }
 
         // console.log(this.data.selectedLocation);
       }
 
-      return option.toLowerCase().indexOf(filterValue) === 0;
+      return option.name.toLowerCase().indexOf(filterValue) === 0;
     });
   }
 
 
-  getDOB(idNumber){
+  getDOB(idNumber) {
 
     // get first 6 digits as a valid date
     let tempDate = new Date(idNumber.substring(0, 2), idNumber.substring(2, 4), idNumber.substring(4, 6));
@@ -264,15 +295,15 @@ export class RegisterNewPatientComponent implements OnInit {
     let id_month = tempDate.getMonth();
     let id_year = tempDate.getFullYear();
     // let fullDate = id_date + "-" + id_month + 1 + "-" + id_year;
-    let fullDate =  `${id_year}-${id_month}-${id_date}`;
+    let fullDate = `${id_year}-${id_month}-${id_date}`;
     // get the gender
     let genderCode = idNumber.substring(6, 10);
-    let gender = parseInt(genderCode) < 5000 ? "Female" : "Male";
+    let gender = parseInt(genderCode) < 5000 ? 'Female' : 'Male';
     this.DOB = new FormControl('2020-09-28');
     // this.DOB = fullDate;
-    console.log(fullDate)
+    console.log(fullDate);
     // get country ID for citzenship
-    let citzenship = parseInt(idNumber.substring(10, 11)) == 0 ? "Yes" : "No";
+    let citzenship = parseInt(idNumber.substring(10, 11)) == 0 ? 'Yes' : 'No';
   }
 
 }

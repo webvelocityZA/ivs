@@ -25,12 +25,15 @@ export class MemberProfileComponent implements OnInit {
   patientID: number;
   memberId: number;
 
+  howManyTimesUserHasBeenDosed:number;
+
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private data: DataService, private snackBar: MatSnackBar) {
   }
 
 
   ngOnInit(): void {
+
     this.activatedRoute.paramMap.subscribe(paramMap => {
       const query = paramMap.get('query');
       // console.log(query);
@@ -41,9 +44,9 @@ export class MemberProfileComponent implements OnInit {
             const data = res;
             if (data) {
               this.patientData = data[0];
-              console.log(this.patientData);
+              // console.log(this.patientData);
               this.memberId = data[0].idNumber;
-
+              this.getHowManyTimes(this.memberId);
               console.log(this.patientData)
 
 
@@ -84,18 +87,6 @@ export class MemberProfileComponent implements OnInit {
   }
 
   checkIfIDExists(e: any) {
-    // console.log(this.data.searchByID(e));
-    // console.log(e);
-
-    // if(this.data.searchByID(e) !== undefined) {
-    //   //this.data.currentPatient = this.data.searchByID(e);
-    //   console.log(this.data.currentPatient);
-    //   this.userExists = true;
-    //   this.idNumber = e;
-    //   console.log(typeof(e));
-    // } else {
-    //   this.userExists = false;
-    // }
   }
 
   navToTab() {
@@ -107,28 +98,6 @@ export class MemberProfileComponent implements OnInit {
     // console.log(e);
   }
 
-  // updatePatient(e: NgForm) {
-  //   // console.log(e);
-  //   if (e.valid === true) {
-  //     this.isLoading = true;
-  //     this.data.updatePatient(e.value.idNumber, e.value.firstName, e.value.lastName, e.value.position, e.value.employer, e.value.mobileNumber, e.value.emailAddress, e.value.schemeName)
-  //       .pipe(tap(() => {
-  //         this.router.navigateByUrl('/thank-you');
-  //       }))
-  //       .subscribe(res => {
-  //         this.isLoading = false;
-  //       }, err => {
-  //         this.isLoading = false;
-  //         this.openSnackBar('Update Failed', 'Close');
-  //       });
-  //   } else if (e.valid === false) {
-  //     this.openSnackBar('Please fill all required fields', 'Close');
-  //   } else {
-  //     alert('Something wrong');
-  //   }
-  //   // console.log(e);
-
-  // }
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
@@ -143,6 +112,17 @@ export class MemberProfileComponent implements OnInit {
       console.log(res);
     });
   }
+
+
+
+  getHowManyTimes = (idNumber) =>{
+    // console.log(this.idNumber)
+    this.data.getHowManyTimes(idNumber).subscribe (numberOfVaccinations => {
+       this.howManyTimesUserHasBeenDosed = numberOfVaccinations.howMany;
+       console.log(this.howManyTimesUserHasBeenDosed)
+    })
+  }
+
 
 
 }

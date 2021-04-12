@@ -3,7 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormControl, NgForm} from '@angular/forms';
 import {Observable} from 'rxjs';
-import {map, startWith, tap} from 'rxjs/operators';
+import {delay, map, startWith, tap} from 'rxjs/operators';
 import {Centre} from 'src/app/models/centre.model';
 import {CookieService} from 'ngx-cookie-service';
 import {Vaccine} from 'src/app/models/vaccination.model';
@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   selectedlocation: Centre;
   selectVaccine: Vaccine;
   missingLocation = false;
+  isLoading: boolean = false;
 
 
   constructor(private data: DataService, private router: Router, private _snackBar: MatSnackBar, private cookieService: CookieService) {
@@ -61,19 +62,25 @@ export class LoginComponent implements OnInit {
         if(this.data.selectedLocation === null) this.missingLocation = true;
         return
     };
-
+    this.isLoading = true;
 
     this.data.login(e.value.userName, e.value.password)
-    .pipe(tap((res) => {
+    .pipe(
+      // For testing loading indicator
+      // delay(5000),
+      tap((res) => {
       this.data.encryptData(res);
       // localStorage.setItem('userObj', JSON.stringify(res));
+      this.isLoading = false;
       this.data.isLoginSubject.next(true);
       this.router.navigateByUrl('dashboard');
      }))
     .subscribe(res=>{
-      console.log(res)
-    }, 
+      console.log(res);
+
+    },
     error =>{
+      this.isLoading = false;
       this.openSnackBar(error.error, 'Close');
       console.log(error)
     }

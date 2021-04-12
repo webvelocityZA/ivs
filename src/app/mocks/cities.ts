@@ -54,5 +54,43 @@ export const Cities = ['Benoni',
 ];
 
 
-export const Provinces = ["Eastern Cape", "Free State", "Gauteng", "Kwazulu-Natal", "Limpopo", "Mpumalanga", "Northern Cape", "North-West", "Western Cape"];
+// export const Provinces = ["Eastern Cape", "Free State", "Gauteng", "Kwazulu-Natal", "Limpopo", "Mpumalanga", "Northern Cape", "North-West", "Western Cape"];
 
+
+export const Provinces = [{
+    name: 'Eastern Cape',
+    shortname: 'EC'
+  },
+  {
+    name: 'Free State',
+    shortname: 'FS'
+  },
+  {
+    name: 'Gauteng',
+    shortname: 'GP'
+  },
+  {
+    name: 'Kwazulu-Natal',
+    shortname: 'KZN'
+  },
+  {
+    name: 'Limpopo',
+    shortname: 'LP'
+  },
+  {
+    name: 'Mpumalanga',
+    shortname: 'MP'
+  },
+  {
+    name: 'Northern Cape',
+    shortname: 'NC'
+  },
+  {
+    name: 'North-West',
+    shortname: 'NW'
+  },
+  {
+    name: 'Western Cape',
+    shortname: 'WC'
+  },
+];

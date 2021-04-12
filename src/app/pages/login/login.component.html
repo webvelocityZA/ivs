@@ -3,10 +3,10 @@
     <div class="h-full w-full bg-black opacity-75"></div>
   </div>
   <div class="w-1/2 flex flex-col items justify-center p-4">
-    <div class="text-center">
+    <div *ngIf="!isLoading" class="text-center">
       <span class="font-semibold px-2 text-3xl">Administrator Login</span>
     </div>
-    <form #loginForm="ngForm" (submit)="login(loginForm)" class="mt-6">
+    <form *ngIf="!isLoading" #loginForm="ngForm" (submit)="login(loginForm)" class="mt-6">
       <div class="w-full md:w-full lg:w-full md:px-2 block">
         <mat-form-field appearance="fill">
           <mat-label>User Name</mat-label>
@@ -44,12 +44,16 @@
         </mat-form-field>
         <mat-error *ngIf="missingLocation">Please enter location</mat-error>
       </div>
-      
+
 
       <div class="mx-2 text-right">
         <button mat-raised-button color="primary" type="submit" (click)="login(loginForm)">Log In</button>
       </div>
     </form>
+
+    <div *ngIf="isLoading" class="w-full mt-4 flex items-center justify-center">
+      <mat-spinner></mat-spinner>
+    </div>
   </div>
 </div>
 

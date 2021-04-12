@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {tap} from 'rxjs/operators';
 import {DataService} from 'src/app/services/data.service';
 
@@ -15,10 +15,13 @@ export class OtpComponent implements OnInit {
   isLoading = false;
   idNumber: string;
 
-  constructor(public data: DataService, private _snackBar: MatSnackBar, private router: Router) {
+  constructor(public data: DataService, private _snackBar: MatSnackBar, private router: Router, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe(paramMap => {
+      this.idNumber = paramMap.get('idNumber');
+    });
   }
 
 
@@ -26,6 +29,7 @@ export class OtpComponent implements OnInit {
 
     if (e.valid === true) {
       this.isLoading = true;
+      console.log(this.idNumber)
       this.data.postOTP(this.idNumber, e.value.otp)
         .pipe(tap((res) => {
           console.log(res);
@@ -42,7 +46,7 @@ export class OtpComponent implements OnInit {
           this.isLoading = false;
           this.openSnackBar(err.error.message, 'Close');
           }
-          
+
         });
     } else if (e.valid === false) {
       this.openSnackBar('Please fill in the otp', 'Close');

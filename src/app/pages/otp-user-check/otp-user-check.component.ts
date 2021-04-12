@@ -21,18 +21,29 @@ export class OtpUserCheckComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(paramMap => {
       this.idNumber = paramMap.get('idNumber');
+      this.data.activateProfileEditOTP(this.idNumber)
+       .subscribe(res => {
+         console.log('OTP REQ SENT')
+        // this.isLoading = false;
+      }, err => {
+        if(err.error) {
+        console.log(err.error.message);
+        // this.openSnackBar(err.error.message, 'Close');
+        }
+
+      });
     });
   }
 
 
-  activateOTP(e: NgForm): void {
+  activateProfileEditOTP(e: NgForm): void {
 
     if (e.valid === true) {
       this.isLoading = true;
-      this.data.postOTP(this.idNumber, e.value.otp)
+      this.data.activateProfileEditOTP(this.idNumber)
         .pipe(tap((res) => {
-          this.router.navigateByUrl('/thank-you');
-          // console.log(res);
+          this.router.navigateByUrl(`/member-profile-edit/${this.idNumber}`);
+         console.log(res);
         }))
         .subscribe(res => {
           this.isLoading = false;
@@ -44,7 +55,7 @@ export class OtpUserCheckComponent implements OnInit {
           this.isLoading = false;
           this.openSnackBar(err.error.message, 'Close');
           }
-          
+
         });
     } else if (e.valid === false) {
       this.openSnackBar('Please fill in the otp', 'Close');

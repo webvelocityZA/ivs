@@ -6,4 +6,5 @@ export interface VaccinationSiteStatistics  {
     siteName: string;
     totalAvailable: number;
     totalInStock: number;
+    totalVaccinated: number;
 }

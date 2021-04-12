@@ -70,7 +70,7 @@
       <span class="profile-title">Email Address</span>
       <span class="profile-desc">{{patientData.emailAddress || 'N/A'}}</span>
     </div>
-    
+
     <div class="inline-block w-1/2">
       <span class="profile-title">Mobile Number</span>
       <span class="profile-desc">{{patientData.mobileNumber}}</span>
@@ -87,8 +87,8 @@
       <span class="profile-title">Allergies</span>
       <span class="profile-desc">{{patientData.allergies}}</span>
     </div>
-    
-    
+
+
 </div>
 <div class="w-full sm:w-full  lg:w-1/2 m-4 p-4 bg-white">
   <span class="font-bold text-2xl">Vaccination History</span>
@@ -119,7 +119,7 @@
 </div>
 
 
-    
+
 </div>
 </div> -->
 
@@ -262,7 +262,7 @@
               </div>
             </dl>
 
-            <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+            <!-- <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
               <div class="sm:col-span-1">
                 <dt class="text-sm font-medium text-gray-500">
                   Number of doses
@@ -271,15 +271,15 @@
                   {{patientVaccinationInfo?.doseNumber}}
                 </dd>
               </div>
-            </dl>
+            </dl> -->
 
             <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
               <div class="sm:col-span-1">
                 <dt class="text-sm font-medium text-gray-500">
-                  Dosage Received
+                  Dosages Received
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900">
-                  {{patientVaccinationInfo?.dosageRecieved}}
+                  {{howManyTimesUserHasBeenDosed}}
                 </dd>
               </div>
             </dl>
