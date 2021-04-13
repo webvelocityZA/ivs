@@ -14,6 +14,7 @@ import {DataService} from '../../services/data.service';
 export class MemberProfileComponent implements OnInit {
   patientData: Patient;
   patientVaccinationInfo: VaccinationInfo;
+  patientFeedBack: any =[];
   patient: any = [];
   isLoading = false;
   public IVSTabIndex = 0;
@@ -53,6 +54,7 @@ export class MemberProfileComponent implements OnInit {
               /* Fetch Patient Vacccination History */
               const patientID = data[0].id;
               this.getVaccinationInfo(patientID);
+              this.getVaccinationFeedbackByRowID(patientID);
 
 
               /* Patient Allergies */
@@ -109,17 +111,25 @@ export class MemberProfileComponent implements OnInit {
   getVaccinationInfo = patientID => {
     this.data.getVaccinationInfo(patientID).subscribe(res => {
       this.patientVaccinationInfo = res;
-      console.log(res);
+      // console.table(res);
     });
   }
 
+  getVaccinationFeedbackByRowID = patientID => {
+    console.log('Feedback requested');
+    this.data.getVaccinationFeedbackByRowID(patientID).subscribe(res => {
+      // this.patientFeedBack = res[0].information;
+      this.patientFeedBack = res;
+      console.log(res)
+    })
+  }
 
 
   getHowManyTimes = (idNumber) =>{
     // console.log(this.idNumber)
     this.data.getHowManyTimes(idNumber).subscribe (numberOfVaccinations => {
        this.howManyTimesUserHasBeenDosed = numberOfVaccinations.howMany;
-       console.log(this.howManyTimesUserHasBeenDosed)
+      //  console.log(this.howManyTimesUserHasBeenDosed)
     })
   }
 

@@ -188,8 +188,14 @@ export class DataService {
     return this.http.get<VaccinationInfo>(`${this.url}/Vaccination/${patientID}`,this.addHeaderToken());
   }
 
+
+  getVaccinationFeedbackByRowID(patientID: any): Observable<any> {
+    return this.http.get<any>(`${this.url}/Vaccination/Feedback/${patientID}`,this.addHeaderToken());
+  }
+
+
+
   postFeedBack(feedback: Feedback, selectedFile:any): Observable<any> {
-    // console.log(selectedFile);
     const httpOptions = {
       headers: new HttpHeaders({
        "Content-Type": "multipart/form-data;boundary {}",
@@ -209,7 +215,7 @@ export class DataService {
        console.log(feedback)
     console.log(encodedString)
 
-    return this.http.post<any>(`${this.url}/Vaccination/Feedback?FeedbackString="${encodedString}"`, formData,httpOptions);
+    return this.http.post<any>(`${this.url}/Vaccination/Feedback?FeedbackString=${encodedString}`, formData,httpOptions);
   }
 
   postVaccinationInfo(payload: any): any {

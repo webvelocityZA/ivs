@@ -289,7 +289,7 @@
                   Feedback
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900">
-                  {{patientVaccinationInfo?.feedBack}}
+                  <span *ngFor="let i of patientFeedBack">{{i.information}}</span>
                 </dd>
               </div>
             </dl>

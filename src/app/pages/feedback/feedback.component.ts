@@ -19,6 +19,8 @@ export class FeedbackComponent implements OnInit {
   lastName;
   firstName;
   selectedFile;
+  feedback: string;
+  patientRowID: number;
 
   constructor(private data: DataService) { }
 
@@ -48,6 +50,8 @@ export class FeedbackComponent implements OnInit {
     .subscribe(patient => {
       console.log(patient);
       if (patient.length > 0) {
+        this.patientRowID = patient[0].id;
+
         this.lastName = patient[0].lastName;
         this.firstName = patient[0].firstName;
         console.log(this.firstName);
@@ -62,10 +66,11 @@ export class FeedbackComponent implements OnInit {
   }
 
   postFeedback(e:NgForm){
+
     const feedback: Feedback={
-      memberId: 1,
-      Information: "string",
-      Gategory:"string",
+      memberId: this.patientRowID,
+      Information: e.value.feedback,
+      Gategory: e.value.feedbackOption,
     }
 
     this.data.postFeedBack(feedback, this.selectedFile).subscribe(res=>{
@@ -73,8 +78,8 @@ export class FeedbackComponent implements OnInit {
     }, err => {
       console.log(err);
     })
-      
-    
+
+
   }
 
   uploadFileEvt(event: any) {
@@ -102,7 +107,7 @@ export class FeedbackComponent implements OnInit {
         };
       };
       reader.readAsDataURL(imgFile.target.files[0]);
-      
+
       // Reset if duplicate image uploaded again
       this.fileInput.nativeElement.value = "";
     } else {

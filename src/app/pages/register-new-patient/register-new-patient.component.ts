@@ -2,7 +2,7 @@ import {Registration} from './../../models/patient.model';
 import {RegistrationStatus} from '../../enums/enums';
 import {Component, OnInit} from '@angular/core';
 import {FormControl, NgForm} from '@angular/forms';
-import {Patient} from 'src/app/models/patient.model';
+// import {Patient} from 'src/app/models/patient.model';
 import {DataService} from 'src/app/services/data.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
@@ -157,7 +157,7 @@ export class RegisterNewPatientComponent implements OnInit {
         }))
         .subscribe(res => {
           this.isLoading = false;
-          
+
           console.log(res);
         }, err => {
           console.log(err);
