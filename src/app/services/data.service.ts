@@ -117,8 +117,8 @@ export class DataService {
   }
 
 
-  registerPatient(registrationPostData:Registration): Observable<any> {
-    return this.http.post(`${this.url}/Registration`, registrationPostData, {responseType: 'text'});
+  registerPatient(registrationPostData:Registration): Promise<any> {
+    return this.http.post(`${this.url}/Registration`, registrationPostData).toPromise();
   }
 
   updatePatient = (userRowId,referenceNumber, idNumber, position?, employer?, schemeName?, memberNumber?, firstName?, lastName?, mobileNumber?, city?,  province?, dateOfBirth?, emailAddress?) => {
@@ -147,7 +147,6 @@ export class DataService {
     const otpData = {
       idNumber: idNumber,
       otp
-
     };
     return this.http.post(`${this.url}/Registration/Confirm`, otpData);
   }
@@ -223,9 +222,11 @@ export class DataService {
       memberId: payload.memberId,
       vaccinationSiteId: payload.vaccinationSiteId,
       vaccinatorid: this.decryptData().id,
-      // dosageRecieved: '1',
+      dosageRecieved: payload.dosageRecieved,
       doseNumber: payload.doseNumber,
     };
+
+    console.log(vacData);
 
     return this.http.post(`${this.url}/Vaccination/`, vacData , this.addHeaderToken());
   }
@@ -237,7 +238,6 @@ export class DataService {
   getAllCentres(): Observable<Centre[]> {
     return this.http.get<Centre[]>(`${this.url}/Centre`);
   }
-
 
   getSiteVaccinationHistory(): Observable<SiteVaccinationHistory[]> {
     return this.http.get<SiteVaccinationHistory[]>(`${this.url}/Vaccination/History/0`, this.addHeaderToken());

@@ -1,6 +1,7 @@
 export enum RegistrationStatus {
   REG_SCREEN,
-  VERIFICATION
+  VERIFICATION,
+  THANK_YOU
 }
 
 export enum FeedbackStatus {

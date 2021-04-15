@@ -8,12 +8,12 @@ import { Component, OnInit } from '@angular/core';
 export class ThankYouComponent implements OnInit {
 
   referenceNumber: string;
-  date:string;
+  currentDate:any = new Date();
 
   constructor() { }
 
   ngOnInit(): void {
   }
-  
+
 
 }

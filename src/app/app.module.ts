@@ -57,6 +57,7 @@ import { MemberProfileEditComponent } from './pages/member-profile-edit/member-p
 import { OtpComponent } from './pages/otp/otp.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { OtpUserCheckComponent } from './pages/otp-user-check/otp-user-check.component';
+import { ThankYouFeebackComponent } from './pages/thank-you-feeback/thank-you-feeback.component';
 
 
 @NgModule({
@@ -83,6 +84,7 @@ import { OtpUserCheckComponent } from './pages/otp-user-check/otp-user-check.com
     OtpComponent,
     BreadcrumbComponent,
     OtpUserCheckComponent,
+    ThankYouFeebackComponent,
   ],
   imports: [
     BrowserModule,

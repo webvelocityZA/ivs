@@ -6,9 +6,9 @@
     <div *ngIf="!isLoading" class="text-center">
       <span class="font-semibold px-2 text-3xl">Administrator Login</span>
     </div>
-    <form *ngIf="!isLoading" #loginForm="ngForm" (submit)="login(loginForm)" class="mt-6">
+    <!-- <form *ngIf="!isLoading" #loginForm="ngForm" (submit)="login(loginForm)" class="mt-6">
       <div class="w-full md:w-full lg:w-full md:px-2 block">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label>User Name</mat-label>
           <input matInput placeholder="User Name" name="userName" ngModel #userNameInput="ngModel" required userName>
           <mat-icon matSuffix>perm_identity</mat-icon>
@@ -16,7 +16,7 @@
         </mat-form-field>
       </div>
       <div class="w-full md:w-full lg:w-full md:px-2 block">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label>Enter your password</mat-label>
           <input matInput [type]="hide ? 'password' : 'text'" name="password" ngModel #passwordInput="ngModel" required password>
           <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
@@ -27,7 +27,7 @@
 
 
       <div class="w-full md:w-full lg:w-full md:px-2 block">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label>Select Location</mat-label>
           <input type="text"
                  placeholder="Select your location"
@@ -48,6 +48,49 @@
 
       <div class="mx-2 text-right">
         <button mat-raised-button color="primary" type="submit" (click)="login(loginForm)">Log In</button>
+      </div>
+    </form> -->
+
+    <form *ngIf="!isLoading" #loginForm="ngForm" (submit)="login(loginForm)" class="mt-6">
+      <div class="w-full md:w-full lg:w-full md:px-2 block">
+        <mat-form-field appearance="outline">
+          <mat-label>User Name</mat-label>
+          <input autocomplete="off" type="text" matInput placeholder="User Name" name="userName" ngModel #userNameInput="ngModel" required userName class="focus:outline-none focus:border-transparent focus:ring-transparent focus:ring-opacity-0 ring-opacity-0">
+          <mat-icon matSuffix>perm_identity</mat-icon>
+          <mat-error *ngIf="userNameInput.hasError('required')">User Name is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="w-full md:w-full lg:w-full md:px-2 block">
+        <mat-form-field appearance="outline">
+          <mat-label>Enter your password</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" name="password" ngModel #passwordInput="ngModel" required password>
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+
+      <div class="w-full md:w-full lg:w-full md:px-2 block">
+        <mat-form-field appearance="outline">
+          <mat-label>Select Location</mat-label>
+          <input type="text" name="location" [formControl]="myControl"
+                 placeholder="Select your location"
+                 aria-label="Select your location"
+                 matInput
+                 [matAutocomplete]="auto"
+                 >
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+              {{option.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+
+      <div class="mx-2 text-right">
+        <button mat-raised-button color="primary" [disabled]="loginForm.invalid" type="submit" (click)="login(loginForm)">Log In</button>
       </div>
     </form>
 

@@ -5,7 +5,7 @@
   <div class="text-2xl">
     <span class="text-gray-200 font-light tracking-wide">Welcome,</span>
     <span class="text-gray-200 font-bold tracking-wide "> {{userDisplayName | titlecase}}</span>
-    <p class="tracking-widest text-sm text-gray-200 font-normal mt-4">You are currently viewing from <span class="text-yellow-400">{{VaccinationSiteStatistics?.siteName}}</span> </p>
+    <p class="tracking-widest text-sm text-gray-200 font-normal mt-4">You are currently viewing from <span class="text-yellow-400">{{siteName}}</span> </p>
   </div>
 
 </div>
@@ -62,12 +62,12 @@
       <div class="py-4"></div>
       <mat-form-field appearance="outline">
         <mat-label>Search By ID Number / Passport</mat-label>
-        <input matInput placeholder="ID Number / Passsport" required [(ngModel)]="query">
+        <input matInput placeholder="ID Number / Passport" required [(ngModel)]="query">
         <mat-icon matSuffix>perm_identity</mat-icon>
       </mat-form-field>
 
       <div class="mx-2">
-        <button mat-raised-button (click)='search()' color="primary">Search</button>
+        <button mat-raised-button (click)='search()' [disabled]='!query || query.length < 8' color="primary">Search</button>
       </div>
 
     </div>

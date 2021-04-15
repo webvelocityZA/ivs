@@ -1,5 +1,5 @@
 import {DataService} from './../../services/data.service';
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormControl, NgForm} from '@angular/forms';
 import {Observable} from 'rxjs';
@@ -12,7 +12,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  // encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent implements OnInit {
   hide = true;
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit {
   selectVaccine: Vaccine;
   missingLocation = false;
   isLoading: boolean = false;
+  isFormValid:boolean = false;
 
 
   constructor(private data: DataService, private router: Router, private _snackBar: MatSnackBar, private cookieService: CookieService) {
@@ -48,7 +50,7 @@ export class LoginComponent implements OnInit {
           this.data.selectedLocation = option;
         }
 
-        console.log(this.data.selectedLocation);
+        console.log(option);
         this.cookieService.set('vaccination-centre-name', option.name, 20000);
         this.cookieService.set('vaccination-centre-id', option.id.toString());
       }
@@ -58,17 +60,17 @@ export class LoginComponent implements OnInit {
   }
 
   login(e: NgForm): void {
-    if(e.invalid || this.data.selectedLocation === null) {
-        if(this.data.selectedLocation === null) this.missingLocation = true;
+    console.log(e);
+    if(e.invalid) {
         return
     };
     this.isLoading = true;
-
     this.data.login(e.value.userName, e.value.password)
     .pipe(
       // For testing loading indicator
       // delay(5000),
       tap((res) => {
+        console.log(res);
       this.data.encryptData(res);
       // localStorage.setItem('userObj', JSON.stringify(res));
       this.isLoading = false;

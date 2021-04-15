@@ -1,10 +1,9 @@
 <div class="w-full h-screen flex items-center justify-center flex-col">
   <span class="-mt-48"><img class="w-20 mb-10" src="assets/img/check.svg" alt=""></span>
-  <div class="font-semibold text-5xl text-green-600  mb-10">Registration Succesful</div>
-  <p class="text-center">You have successfully registered on the <strong>Intelligems Vaccination System on 2021/04/06 23:00:22</strong> with reference number <strong>GP280982</strong>.
+  <div class="font-semibold text-5xl text-green-600  mb-10">Registration Successful</div>
+  <p class="text-center">You have successfully registered on the <strong>Intelligems Vaccination System on {{currentDate | date: 'fullDate'}}</strong> with reference number <strong>GP280982</strong>.
     <br><br>You will be contacted via SMS or email regarding next steps for your vaccination appointment.</p>
   <div class="mt-10" style="margin-top: 30px;">
     <button mat-raised-button routerLink="/dashboard" color="primary">Proceed</button>
   </div>
-
 </div>

@@ -1,3 +1,4 @@
+import { ThankYouFeebackComponent } from './pages/thank-you-feeback/thank-you-feeback.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
@@ -79,6 +80,10 @@ const routes: Routes = [
   {
     path: 'feedback',
     component: FeedbackComponent
+  },
+  {
+    path: 'thank-you-feedback',
+    component: ThankYouFeebackComponent
   },
   {
     path: 'otp-authentication/:idNumber',

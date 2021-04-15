@@ -1,3 +1,6 @@
+import { startWith, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -10,6 +13,8 @@ import { DataService } from 'src/app/services/data.service';
   templateUrl: './member-profile-edit.component.html',
   styleUrls: ['./member-profile-edit.component.scss']
 })
+
+
 
 
 export class MemberProfileEditComponent implements OnInit {
@@ -30,11 +35,21 @@ export class MemberProfileEditComponent implements OnInit {
   emailAddress: string;
   dateOfBirth: string;
 
+  // myControl = new FormControl();
+  schemesControl = new FormControl();
+  scheme: string;
+  schemes: string[] = medicalSchemesList;
+  filteredSchemesOptions: Observable<any[]>;
+
   constructor(private activatedRoute: ActivatedRoute,
               private data: DataService,
               private _snackBar: MatSnackBar,) {}
 
   ngOnInit(): void {
+    this.loadSchemes();
+    // this.schemesControl.setValue( {scheme: 'Mary'});
+
+
     this.activatedRoute.paramMap.subscribe(paramMap => {
       this.idNumber = paramMap.get('idNumber');
       this.data.searchByID(this.idNumber).subscribe(
@@ -86,6 +101,40 @@ export class MemberProfileEditComponent implements OnInit {
     });
      console.log(this.employer)
   }
+
+
+
+  // Schemes Filters
+
+  loadSchemes = () => {
+    this.filteredSchemesOptions = this.schemesControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        console.log(value);
+        return this._filterSchemes(value);
+      })
+    );
+  };
+
+  private _filterSchemes(value: string): any[] {
+    const filterValue = value.toLowerCase();
+    // return this.schemes.filter(option => option.toLowerCase().includes(filterValue));
+    return this.schemes.filter(option => {
+      if (option.toLowerCase().indexOf(filterValue) === 0) {
+        // console.log(option);
+        if (filterValue === '') {
+          // this.data.selectedLocation = null;
+        } else {
+          this.scheme = option;
+        }
+
+        // console.log(this.data.selectedLocation);
+      }
+
+      return option.toLowerCase().indexOf(filterValue) === 0;
+    });
+  }
+
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {

@@ -54,7 +54,7 @@
 
 
     <div class="w-full md:w-1/2 md:px-2 inline-block">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Employer</mat-label>
         <input matInput placeholder="Employer" type="text" required [(ngModel)]="employer" value="{{employer}}">
         <mat-icon matSuffix>store</mat-icon>
@@ -63,7 +63,7 @@
     </div>
 
     <div class="w-full md:w-1/2 md:px-2 inline-block">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Scheme Name</mat-label>
         <input matInput placeholder="Scheme Name" type="text" required [(ngModel)]="schemeName" value="{{schemeName}}">
         <mat-icon matSuffix>store</mat-icon>
@@ -73,7 +73,24 @@
 
 
     <div class="w-full md:w-1/2 md:px-2 inline-block">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
+        <mat-label>Select Scheme Name</mat-label>
+        <input type="text" placeholder="Select your Scheme Name *" aria-label="Select your Scheme Name" matInput
+          [matAutocomplete]="auto" required name="schemeName" ngModel #schemeNameInput="ngModel" schemeName >
+        <mat-error>Scheme Name is required</mat-error>
+        <mat-icon matSuffix>meeting_room</mat-icon>
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredSchemesOptions | async" [value]="option ">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+
+
+    <div class="w-full md:w-1/2 md:px-2 inline-block">
+      <mat-form-field appearance="outline">
         <mat-label>Member Number</mat-label>
         <input matInput placeholder="Member Number" type="text" required [(ngModel)]="memberNumber"
           value="{{memberNumber}}">
@@ -84,7 +101,7 @@
 
 
     <div class="w-full md:w-1/2 md:px-2 inline-block">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Position</mat-label>
         <input matInput placeholder="Position" type="text" required [(ngModel)]="position" value="{{position}}">
         <mat-icon matSuffix>store</mat-icon>
@@ -94,7 +111,7 @@
 
 
     <div class="w-full md:w-1/2 md:px-2 inline-block">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Province</mat-label>
         <input matInput placeholder="Province" type="text" required [(ngModel)]="province" value="{{province}}">
         <mat-icon matSuffix>store</mat-icon>
@@ -103,9 +120,9 @@
     </div>
 
 
-    
+
     <div class="w-full md:w-1/2 md:px-2 inline-block">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Mobile</mat-label>
         <input matInput placeholder="Mobile Number" type="text" required [(ngModel)]="mobileNumber" value="{{mobileNumber}}">
         <mat-icon matSuffix>store</mat-icon>

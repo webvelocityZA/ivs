@@ -44,6 +44,8 @@
               </mat-label>
               <input matInput name="howManyTimesUserHasBeenDosed" ngModel #howManyTimesUserHasBeenDosedInput="ngModel" howManyTimesUserHasBeenDosed disabled required>
             </mat-form-field>
+
+
           </div>
           <br>
 
@@ -51,7 +53,7 @@
 
           <div class="w-full">
             <div class="w-full md:w-1/2 md:pr-2  inline-block mt-5">
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="outline">
                 <mat-label>Select Vaccine</mat-label>
                 <input type="text" placeholder="Select vaccine" aria-label="Select vaccine" matInput
                   [formControl]="myControl" [matAutocomplete]="auto" required>
@@ -62,7 +64,21 @@
                 </mat-autocomplete>
               </mat-form-field>
             </div>
+
+            <div class="w-full md:w-1/2 md:pr-2  inline-block mt-5">
+              <mat-form-field appearance="outline" hideRequiredMarker="false" floatLabel="Vaccination Programme">
+                <mat-select [(ngModel)]="programmes" (ngModelChange)="onChangeProgramme($event)" name="allergies"
+                  required>
+                  <mat-option>Please Select Vaccination Programme</mat-option>
+                  <mat-option value="Sisonke Programme">Sisonke Programme</mat-option>
+                  <mat-option value="Phase Two Rollout Programme">Phase Two Rollout Programme</mat-option>
+                </mat-select>
+                <mat-label>Vaccination Programme</mat-label>
+              </mat-form-field>
+            </div>
           </div>
+
+
 
 
         </form>

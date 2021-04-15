@@ -111,7 +111,7 @@ export class MemberProfileComponent implements OnInit {
   getVaccinationInfo = patientID => {
     this.data.getVaccinationInfo(patientID).subscribe(res => {
       this.patientVaccinationInfo = res;
-      // console.table(res);
+      console.table(res);
     });
   }
 

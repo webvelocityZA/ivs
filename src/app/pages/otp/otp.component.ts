@@ -27,32 +27,32 @@ export class OtpComponent implements OnInit {
 
   activateOTP(e: NgForm): void {
 
-    if (e.valid === true) {
-      this.isLoading = true;
-      console.log(this.idNumber)
-      this.data.postOTP(this.idNumber, e.value.otp)
-        .pipe(tap((res) => {
-          console.log(res);
-          this.router.navigateByUrl('/thank-you');
-          // console.log(res);
-        }))
-        .subscribe(res => {
-          this.isLoading = false;
-        }, err => {
-          if(err.error) {
-            console.log(err);
-          console.log(err.error.message);
+    // if (e.valid === true) {
+    //   this.isLoading = true;
+    //   console.log(this.idNumber)
+    //   this.data.postOTP(this.idNumber, e.value.otp)
+    //     .pipe(tap((res) => {
+    //       console.log(res);
+    //       this.router.navigateByUrl('/thank-you');
+    //       // console.log(res);
+    //     }))
+    //     .subscribe(res => {
+    //       this.isLoading = false;
+    //     }, err => {
+    //       if(err.error) {
+    //         console.log(err);
+    //       console.log(err.error.message);
 
-          this.isLoading = false;
-          this.openSnackBar(err.error.message, 'Close');
-          }
+    //       this.isLoading = false;
+    //       this.openSnackBar(err.error.message, 'Close');
+    //       }
 
-        });
-    } else if (e.valid === false) {
-      this.openSnackBar('Please fill in the otp', 'Close');
-    } else {
-      alert('Something wrong');
-    }
+    //     });
+    // } else if (e.valid === false) {
+    //   this.openSnackBar('Please fill in the otp', 'Close');
+    // } else {
+    //   alert('Something wrong');
+    // }
     // console.log(e);
 
   }

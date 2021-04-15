@@ -46,16 +46,6 @@ import {
 })
 
 export class InoculateComponent implements OnInit {
-
-  constructor(private activatedRoute: ActivatedRoute,
-    public data: DataService,
-    private snackBar: MatSnackBar,
-    private router: Router,
-    private cookieService: CookieService) {
-    this.vaccinationSiteNameCookie = this.cookieService.get('vaccination-centre-name');
-    this.vaccinationSiteIDCookie = this.cookieService.get('vaccination-centre-id');
-  }
-
   firstname;
   isLoading = false;
   // public IVSTabIndex = 0;
@@ -74,15 +64,27 @@ export class InoculateComponent implements OnInit {
   dosageReceived: string;
   dosageRequired: number;
   filter;
+  selectedProgramme;
 
   howManyTimesUserHasBeenDosed:number;
+
+  constructor(private activatedRoute: ActivatedRoute,
+    public data: DataService,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private cookieService: CookieService) {
+    this.vaccinationSiteNameCookie = this.cookieService.get('vaccination-centre-name');
+    this.vaccinationSiteIDCookie = this.cookieService.get('vaccination-centre-id');
+  }
+
+
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(paramMap => {
       this.memberId = +paramMap.get('memberId');
       this.vaccinatorid = 1;
       this.idNumber = +paramMap.get('idNumber');
-  
+
     });
     this.loadVaccines();
     this.getHowManyTimes();
@@ -106,6 +108,11 @@ export class InoculateComponent implements OnInit {
     });
   }
 
+  onChangeProgramme(e) {
+    console.log(e);
+    this.selectedProgramme = e;
+  }
+
 
   inoculatePatient(e: NgForm): void {
 
@@ -127,11 +134,12 @@ export class InoculateComponent implements OnInit {
       feedBack: e.value.feedBack,
       repeatInoculatedOn: '',
       inoculatedOn: '',
-      // dosageRecieved: this.howManyTimesUserHasBeenDosed,
       doseNumber: this.howManyTimesUserHasBeenDosed,
-      dosageRecieved: this.doseNumber,
+      dosageRecieved: this.selectedProgramme,
       vaccinatedDate: e.value.vaccinatedDate
     };
+
+    console.log(payload);
 
     this.data.postVaccinationInfo(payload)
       .pipe(tap((res) => {

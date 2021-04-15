@@ -22,6 +22,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   VaccinationSiteStatistics:VaccinationSiteStatistics;
   overallTotal:any = '-';
   userDisplayName: string;
+  siteName:string;
 
 
   constructor(private data: DataService, private router: Router, private _snackBar: MatSnackBar, private cookieService: CookieService) {}
@@ -30,12 +31,15 @@ export class DashboardComponent implements AfterViewInit, OnInit {
 
   ngOnInit(){
       this.userDisplayName = this.data.decryptData().username;
+      this.siteName =this.cookieService.get('vaccination-centre-name');
+      console.log(this.siteName);
   }
 
 
   ngAfterViewInit() {
     console.log(this.cookieService.get('vaccination-centre-name'))
     console.log(this.data.selectedLocation);
+
     this.loadPatients();
     this.getDashboardStats();
     this.getTotalDashboardStats();
@@ -61,6 +65,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   getDashboardStats() {
 
     const vaccinationSite = this.cookieService.get('vaccination-centre-id');
+    console.log(vaccinationSite);
 
     this.data.getDashboardStatistics(vaccinationSite)
     .subscribe(res => {

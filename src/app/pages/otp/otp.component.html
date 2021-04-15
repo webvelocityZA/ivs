@@ -7,7 +7,7 @@
     <form #otpForm="ngForm" (submit)="activateOTP(otpForm)" class="mt-6">
       <div class="w-full md:w-1/2 md:px-2 inline-block">
         <p>Please Enter OTP below to activate your account.</p>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label>OTP</mat-label>
           <input matInput placeholder="Enter OTP" name="otp" ngModel #otpInput="ngModel" required otp>
           <!-- <mat-icon class="text-green-600" matSuffix>sentiment_very_satisfied</mat-icon> -->

@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import {Observable} from 'rxjs';
 import {DataService} from './services/data.service';
 
@@ -12,7 +13,7 @@ export class AppComponent {
   isLoggedIn: Observable<boolean>;
   title: any;
 
-  constructor(private data: DataService, private router: Router) {
+  constructor(private data: DataService, private router: Router, private cookieService: CookieService) {
   }
 
   ngOnInit(): void {
@@ -21,6 +22,8 @@ export class AppComponent {
   }
 
   logout(): void {
+    this.cookieService.delete('vaccination-centre-name');
+    this.cookieService.delete('vaccination-centre-id');
     localStorage.removeItem('userObj');
     this.data.isLoginSubject.next(false);
     this.router.navigateByUrl('landing');

@@ -32,7 +32,6 @@ export class RegisterNewPatientComponent implements OnInit {
   provincePicked = true;
   idNumber!: number;
   allergies;
-  allergiesDescription;
   myControl = new FormControl();
   schemesControl = new FormControl();
   provincesControl = new FormControl();
@@ -53,6 +52,9 @@ export class RegisterNewPatientComponent implements OnInit {
   displayIdInputField = false;
   DOB: any;
   screenmode = RegistrationStatus.REG_SCREEN;
+  chronicMedication = 'Not Applicable';
+  currentDate = new Date();
+  referenceNumber;
 
 
   constructor(public data: DataService, private _snackBar: MatSnackBar, private router: Router, private cookieService: CookieService) {
@@ -72,7 +74,9 @@ export class RegisterNewPatientComponent implements OnInit {
 
     if (e.valid === true) {
 
-
+      if (e.value.allergiesDescription) {
+        this.chronicMedication = e.value.allergiesDescription;
+      }
 
       this.idNumber = e.value.idNumber;
       // console.log(e);
@@ -80,21 +84,22 @@ export class RegisterNewPatientComponent implements OnInit {
         idNumber: e.value.idNumber,
         firstName: e.value.firstName,
         lastName: e.value.lastName,
-        isMember: false,
+        isMember: e.value.gemsmember,
         city: this.locationID,
         province: this.province,
         mobileNumber: e.value.mobileNumber,
         emailAddress: e.value.emailAddress,
-        frontLiner: false,
+        frontLiner: e.value.frontline,
         memberNumber: e.value.memberNumber,
-        schemeName: this.scheme,
+        schemeName: e.value.schemeName,
         employer: e.value.employer,
         position: e.value.position,
-        allergies: false,
-        chronicMedication: 'not applicable',
+        allergies: e.value.allergies,
+        chronicMedication: this.chronicMedication,
         dateOfBirth: e.value.dob,
       };
-
+      console.log(registrationPostData);
+      // return;
       this.postRegToApi(registrationPostData);
 
 
@@ -148,33 +153,25 @@ export class RegisterNewPatientComponent implements OnInit {
   }
 
 
-  postRegToApi(registrationPostData){
-     this.isLoading = true;
-      this.data.registerPatient(registrationPostData)
-        .pipe(tap((res) => {
-          this.router.navigateByUrl(`/otp-authentication/${this.idNumber}`);
-          console.log(res);
-        }))
-        .subscribe(res => {
-          this.isLoading = false;
-
-          console.log(res);
-        }, err => {
-          console.log(err);
-          this.isLoading = false;
-          // e.resetForm(e.value);
-          this.openSnackBar('Registration Failed', 'Close');
-        });
+  async postRegToApi(registrationPostData){
+    try {
+      let result = await this.data.registerPatient(registrationPostData);
+      this.screenmode = RegistrationStatus.VERIFICATION
+    } catch (err) {
+      this.openSnackBar(err.error.message, '');
+    }
   }
+
 
 
   doesPatientHaveAllergies(e: any) {
     console.log(e);
+    // this.allergies = true;
   }
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
-      duration: 5000,
+      duration: 3000,
     });
   }
 
@@ -182,7 +179,6 @@ export class RegisterNewPatientComponent implements OnInit {
   loadCentres(centerName: string) {
     this.data.getAllCentres()
       .subscribe(centres => {
-
         console.log(centerName);
         this.options = centres.filter(val => {
           console.log(this.options);
@@ -254,6 +250,7 @@ export class RegisterNewPatientComponent implements OnInit {
 
 // Provinces
   loadProvinces = () => {
+    console.log(this.filteredProvinceOptions)
     this.filteredProvinceOptions = this.provincesControl.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -304,6 +301,46 @@ export class RegisterNewPatientComponent implements OnInit {
     console.log(fullDate);
     // get country ID for citzenship
     let citzenship = parseInt(idNumber.substring(10, 11)) == 0 ? 'Yes' : 'No';
+  }
+
+  async activateOTP(e: NgForm) {
+    if (e.valid === true) {
+    } else if (e.valid === false) {
+      this.openSnackBar('Please fill in the otp', 'Close');
+    } else {
+      alert('Something wrong');
+    }
+
+    if (e.valid === true) {
+      this.isLoading = true;
+      console.log(this.idNumber)
+      this.data.postOTP(this.idNumber, e.value.otp)
+        .pipe(tap((res) => {
+          console.log(res);
+          this.data.searchByID(this.idNumber).subscribe(ref => {
+            this.referenceNumber = ref[0].referenceNumber;
+          })
+          this.screenmode = RegistrationStatus.THANK_YOU;
+        }))
+        .subscribe(res => {
+          this.isLoading = false;
+        }, err => {
+          if(err.error) {
+            console.log(err);
+          console.log(err.error.message);
+
+          this.isLoading = false;
+          this.openSnackBar(err.error.message, 'Close');
+          }
+
+        });
+    } else if (e.valid === false) {
+      this.openSnackBar('Please fill in the otp', 'Close');
+    } else {
+      alert('Something wrong');
+    }
+    console.log(e);
+
   }
 
 }
