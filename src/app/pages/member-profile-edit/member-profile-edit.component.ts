@@ -1,10 +1,10 @@
+import { medicalSchemesListv2 } from 'src/app/mocks/medicalSchemesList';
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { medicalSchemesList } from 'src/app/mocks/medicalSchemesList';
 import { Patient } from 'src/app/models/patient.model';
 import { DataService } from 'src/app/services/data.service';
 
@@ -35,21 +35,20 @@ export class MemberProfileEditComponent implements OnInit {
   emailAddress: string;
   dateOfBirth: string;
 
-  // myControl = new FormControl();
-  schemesControl = new FormControl();
-  scheme: string;
-  schemes: string[] = medicalSchemesList;
-  filteredSchemesOptions: Observable<any[]>;
+
+
+  //Loading Schemes
+  // schemes: string[] = medicalSchemesList;
+
+  myControl = new FormControl();
+  options = medicalSchemesListv2;
+  filteredOptions: Observable<any[]>;
 
   constructor(private activatedRoute: ActivatedRoute,
               private data: DataService,
               private _snackBar: MatSnackBar,) {}
 
   ngOnInit(): void {
-    this.loadSchemes();
-    // this.schemesControl.setValue( {scheme: 'Mary'});
-
-
     this.activatedRoute.paramMap.subscribe(paramMap => {
       this.idNumber = paramMap.get('idNumber');
       this.data.searchByID(this.idNumber).subscribe(
@@ -72,6 +71,13 @@ export class MemberProfileEditComponent implements OnInit {
             this.dateOfBirth = this.member.dateOfBirth;
           }
 
+          this.myControl.setValue({name: this.schemeName}); //Set scheme name from the DB
+          this.filteredOptions = this.myControl.valueChanges
+            .pipe(
+              startWith<string | any>(''),
+              map(value => typeof value === 'string' ? value : value.name),
+              map(name => name ? this._filter(name) : this.options.slice())
+            );
       })
     });
   }
@@ -104,35 +110,17 @@ export class MemberProfileEditComponent implements OnInit {
 
 
 
-  // Schemes Filters
+  // Schemes
 
-  loadSchemes = () => {
-    this.filteredSchemesOptions = this.schemesControl.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        console.log(value);
-        return this._filterSchemes(value);
-      })
-    );
-  };
+  displayFn(scheme?: any): string | undefined {
+    return scheme ? scheme.name : undefined;
+  }
 
-  private _filterSchemes(value: string): any[] {
-    const filterValue = value.toLowerCase();
-    // return this.schemes.filter(option => option.toLowerCase().includes(filterValue));
-    return this.schemes.filter(option => {
-      if (option.toLowerCase().indexOf(filterValue) === 0) {
-        // console.log(option);
-        if (filterValue === '') {
-          // this.data.selectedLocation = null;
-        } else {
-          this.scheme = option;
-        }
+  private _filter(name: string): any[] {
+    const filterValue = name.toLowerCase();
 
-        // console.log(this.data.selectedLocation);
-      }
-
-      return option.toLowerCase().indexOf(filterValue) === 0;
-    });
+   this.schemeName = this.myControl.value.name
+    return this.options.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
 

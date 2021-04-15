@@ -65,6 +65,7 @@ export class InoculateComponent implements OnInit {
   dosageRequired: number;
   filter;
   selectedProgramme;
+  adminUser: string;
 
   howManyTimesUserHasBeenDosed:number;
 
@@ -80,6 +81,8 @@ export class InoculateComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.adminUser = this.data.decryptData().username;
+
     this.activatedRoute.paramMap.subscribe(paramMap => {
       this.memberId = +paramMap.get('memberId');
       this.vaccinatorid = 1;
@@ -116,7 +119,9 @@ export class InoculateComponent implements OnInit {
 
   inoculatePatient(e: NgForm): void {
 
-    // if (e.valid === true) {
+    console.log(e)
+    // return
+    if (e.valid === true) {
 
 
 
@@ -132,8 +137,8 @@ export class InoculateComponent implements OnInit {
       vaccinationSiteId: this.vaccinationSiteIDCookie,
       vaccinatorid: 1,
       feedBack: e.value.feedBack,
-      repeatInoculatedOn: '',
-      inoculatedOn: '',
+      // repeatInoculatedOn: '',
+      // inoculatedOn: '',
       doseNumber: this.howManyTimesUserHasBeenDosed,
       dosageRecieved: this.selectedProgramme,
       vaccinatedDate: e.value.vaccinatedDate
@@ -155,14 +160,14 @@ export class InoculateComponent implements OnInit {
       });
   }
 
-  // else if (e.valid === false) {
-  //   console.log(e.valid)
-  //   this.openSnackBar('Please fill all required fields', 'Close');
-  // } else {
-  //   alert('Something wrong');
-  // }
-  // console.log(e);
-  // }
+  else if (e.valid === false) {
+    console.log(e.valid)
+    this.openSnackBar('Please fill all required fields', 'Close');
+  } else {
+    alert('Something wrong');
+  }
+  console.log(e);
+  }
 
 
 

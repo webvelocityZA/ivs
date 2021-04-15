@@ -62,30 +62,28 @@
       </mat-form-field>
     </div>
 
-    <div class="w-full md:w-1/2 md:px-2 inline-block">
+    <!-- <div class="w-full md:w-1/2 md:px-2 inline-block">
       <mat-form-field appearance="outline">
         <mat-label>Scheme Name</mat-label>
         <input matInput placeholder="Scheme Name" type="text" required [(ngModel)]="schemeName" value="{{schemeName}}">
         <mat-icon matSuffix>store</mat-icon>
         <mat-error>Scheme Name is required</mat-error>
       </mat-form-field>
-    </div>
+    </div> -->
 
-<!-- 
+
     <div class="w-full md:w-1/2 md:px-2 inline-block">
       <mat-form-field appearance="outline">
-        <mat-label>Select Scheme Name</mat-label>
-        <input type="text" placeholder="Select your Scheme Name *" aria-label="Select your Scheme Name" matInput
-          [matAutocomplete]="auto" required name="schemeName" ngModel #schemeNameInput="ngModel" schemeName >
-        <mat-error>Scheme Name is required</mat-error>
-        <mat-icon matSuffix>meeting_room</mat-icon>
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-          <mat-option *ngFor="let option of filteredSchemesOptions | async" [value]="option ">
-            {{option}}
+        <mat-label>Scheme Name</mat-label>
+        <input type="text" placeholder="Scheme Name" type="text" required  matInput [formControl]="myControl" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option.name}}
           </mat-option>
         </mat-autocomplete>
+        <mat-error>Scheme Name is required</mat-error>
       </mat-form-field>
-    </div> -->
+    </div>
 
 
 

@@ -97,6 +97,7 @@ export class FeedbackComponent implements OnInit {
     const files: FileList = event.target.files;
     const file: File = files[0];
     this.selectedFile = file;
+    this.fileAttr = file.name;
     console.log(file);
   }
 
