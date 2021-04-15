@@ -241,15 +241,15 @@
 
 
           <div id="medicalHistory" *ngIf="!registered && isIDValid" class="w-full md:w-1/2 md:px-2 inline-block">
-            <mat-form-field appearance="outline" hideRequiredMarker="false" floatLabel="Allergies & Chronic Medication">
+            <mat-form-field appearance="outline" hideRequiredMarker="false" floatLabel="Allergies & Chronic Condition(s)">
               <mat-select (ngModelChange)="doesPatientHaveAllergies($event)" name="allergies" ngModel
                 #allergiesInput="ngModel" required allergies [disabled]="userExists">
                 <mat-option>Please Select</mat-option>
                 <mat-option [value]="true">Yes</mat-option>
                 <mat-option [value]="false">No</mat-option>
               </mat-select>
-              <mat-error *ngIf="allergiesInput.hasError('required')">Allergies field is required</mat-error>
-              <mat-label>Allergies & Chronic Medication</mat-label>
+              <mat-error *ngIf="allergiesInput.hasError('required')">Allergies & Chronic Condition(s) field is required</mat-error>
+              <mat-label>Allergies & Chronic Condition(s)</mat-label>
             </mat-form-field>
 
             <div class="w-full md:w-full block" *ngIf="allergiesInput.value">
