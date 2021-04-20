@@ -1,14 +1,14 @@
+// tslint:disable: typedef
 import { Registration } from './../models/patient.model';
-import { RegistrationStatus } from './../enums/enums';
 import {Patients} from './../mocks/patients';
 import {Injectable} from '@angular/core';
 import {Patient, VaccinationInfo} from '../models/patient.model';
-import {BehaviorSubject, of, Subject} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 import {Observable} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {VaccinationSiteStatistics} from '../models/vaccinationSiteStatistics.model';
 import { Centre } from '../models/centre.model';
-import { getHowManyTimes, Vaccination, Vaccine, VaccineCentre } from '../models/vaccination.model';
+import { getHowManyTimes, RequestVaccinationSiteID, Vaccination, Vaccine, VaccineCentre } from '../models/vaccination.model';
 import { SiteVaccinationHistory } from '../models/site-vaccination-history.model';
 import {environment} from '../../environments/environment.prod';
 import { Feedback } from '../models/feedback.model';
@@ -39,7 +39,8 @@ export class DataService {
       // Convert token expiration string to Javascript date and time
       const tokenExpirationDate = new Date(this.decryptData().expires);
       // Check if token expiration is before current date and time
-      if(now.getTime() >= tokenExpirationDate.getTime()) {
+      if (now.getTime() >= tokenExpirationDate.getTime()) {
+        // tslint:disable-next-line: max-line-length
         // If token has expired remove the entire user from local storage. Our hasToken() function will automatically log user out when that is taken out of local storage
         localStorage.removeItem('userObj');
         console.log('Token has expired');
@@ -57,7 +58,7 @@ export class DataService {
     }
   }
 
-  async encryptData(dataToEncrypt:any) {
+  async encryptData(dataToEncrypt: any) {
     try {
       console.log(dataToEncrypt);
       const encryptedData = await CryptoJS.AES.encrypt(JSON.stringify(dataToEncrypt), '123456').toString();
@@ -73,9 +74,7 @@ export class DataService {
     try {
       const encryptedFromlocalstorage = localStorage.getItem('userObj');
       if (encryptedFromlocalstorage) {
-      // console.log(encryptedFromlocalstorage);
       const bytes = CryptoJS.AES.decrypt(encryptedFromlocalstorage, '123456');
-      // console.log(bytes.toString());
       if (bytes.toString()) {
         return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
       }
@@ -86,18 +85,12 @@ export class DataService {
     }
   }
 
-  // getLoggedInUserInfo(): UserAdmin{
-  //   const userObj: UserAdmin = JSON.parse(localStorage.getItem('userObj'));
-  //   return userObj
-  // }
-
   addHeaderToken(){
-    let token;
     const headerToken = {
       headers: new HttpHeaders({
-      "Authorization": `Bearer ${this.decryptData().token}`
+      Authorization: `Bearer ${this.decryptData().token}`
       })
-    }
+    };
     return headerToken;
   }
 
@@ -106,24 +99,25 @@ export class DataService {
   }
 
   login(userName, password): Observable<UserAdmin>{
-    console.log(this.hasToken())
+    console.log(this.hasToken());
 
-    const userData= {
+    const userData = {
       userName,
       password
-    }
+    };
 
     return this.http.post<UserAdmin>(`${this.url}/User/Login/`,  userData );
   }
 
 
-  registerPatient(registrationPostData:Registration): Promise<any> {
+  registerPatient(registrationPostData: Registration): Promise<any> {
     return this.http.post(`${this.url}/Registration`, registrationPostData).toPromise();
   }
 
-  updatePatient = (userRowId,referenceNumber, idNumber, position?, employer?, schemeName?, memberNumber?, firstName?, lastName?, mobileNumber?, city?,  province?, dateOfBirth?, emailAddress?) => {
+  // tslint:disable-next-line: max-line-length
+  updatePatient = (userRowId, referenceNumber, idNumber, position?, employer?, schemeName?, memberNumber?, firstName?, lastName?, mobileNumber?, city?,  province?, dateOfBirth?, emailAddress?) => {
     const postData = {
-      id:userRowId,
+      id: userRowId,
       referenceNumber,
       idNumber,
       memberNumber,
@@ -142,16 +136,16 @@ export class DataService {
   }
 
 
-//OTP Request on FirstTime Registration
+// OTP Request on FirstTime Registration
   postOTP(idNumber, otp): Observable<any>{
     const otpData = {
-      idNumber: idNumber,
+      idNumber,
       otp
     };
     return this.http.post(`${this.url}/Registration/Confirm`, otpData);
   }
 
-//OTP Request on Editing Member Profile
+// OTP Request on Editing Member Profile
  activateProfileEditOTP(idNumber): Observable<any>{
     return this.http.get(`${this.url}/Registration/RequestOtp/${idNumber}`);
   }
@@ -162,8 +156,7 @@ export class DataService {
     return this.currentPatient;
   }
 
-  getPatients = () => {
-    // return of('string');
+  getPatients() {
     return this.http.get(`${this.url}/Registration`);
   }
 
@@ -184,22 +177,22 @@ export class DataService {
   /* Vaccination */
 
   getVaccinationInfo(patientID: any): Observable<VaccinationInfo> {
-    return this.http.get<VaccinationInfo>(`${this.url}/Vaccination/${patientID}`,this.addHeaderToken());
+    return this.http.get<VaccinationInfo>(`${this.url}/Vaccination/${patientID}`, this.addHeaderToken());
   }
 
 
   getVaccinationFeedbackByRowID(patientID: any): Observable<any> {
-    return this.http.get<any>(`${this.url}/Vaccination/Feedback/${patientID}`,this.addHeaderToken());
+    return this.http.get<any>(`${this.url}/Vaccination/Feedback/${patientID}`, this.addHeaderToken());
   }
 
 
 
-  postFeedBack(feedback: Feedback, selectedFile:any): Observable<any> {
+  postFeedBack(feedback: Feedback, selectedFile: any): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
-       "Content-Type": "multipart/form-data;boundary {}",
+       'Content-Type': 'multipart/form-data;boundary {}',
       //  "Authorization": `Bearer ${this.decryptData().token}`
-      "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiS2V2aW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiS2V2aW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9jb3VudHJ5IjoiWkEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImlkIjoiMSIsImV4cCI6MTY1OTczMTAzOSwiaXNzIjoid3d3LmdlbXMuZ292LnphIiwiYXVkIjoid3d3LmdlbXMuZ292LnphIn0.g3v6rcB7nT3qC4vxoDHciLJuxmUnuFXoe4ZRFTE3cq4`
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiS2V2aW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiS2V2aW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9jb3VudHJ5IjoiWkEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImlkIjoiMSIsImV4cCI6MTY1OTczMTAzOSwiaXNzIjoid3d3LmdlbXMuZ292LnphIiwiYXVkIjoid3d3LmdlbXMuZ292LnphIn0.g3v6rcB7nT3qC4vxoDHciLJuxmUnuFXoe4ZRFTE3cq4`
       })
     };
 
@@ -208,22 +201,26 @@ export class DataService {
 
     const feedBackData = {
       file: selectedFile
-    }
+    };
 
     const encodedString = encodeURI(JSON.stringify(feedback));
-       console.log(feedback)
-    console.log(encodedString)
+    console.log(feedback);
+    console.log(encodedString);
 
-    return this.http.post<any>(`${this.url}/Vaccination/Feedback?FeedbackString=${encodedString}`, formData,httpOptions);
+    return this.http.post<any>(`${this.url}/Vaccination/Feedback?FeedbackString=${encodedString}`, formData, httpOptions);
   }
 
   postVaccinationInfo(payload: any): any {
     const vacData = {
+      // id: payload.id,
       memberId: payload.memberId,
-      vaccinationSiteId: payload.vaccinationSiteId,
-      vaccinatorid: this.decryptData().id,
-      dosageRecieved: payload.dosageRecieved,
+      vaccinationSiteId: +payload.id,
+      // vaccinatorid: this.decryptData().id,
+      vaccinatorid: 1,
+      dosageRecieved: 'string',
       doseNumber: payload.doseNumber,
+      programId: payload.programId
+
     };
 
     console.log(vacData);
@@ -256,6 +253,28 @@ export class DataService {
   getAllVaccines(): Observable<Vaccine[]> {
     return this.http.get<Vaccine[]>(`${this.url}/Vaccine`);
   }
+
+  getBySiteAndVaccineId(requestVaccinationSiteID: any): any{
+    // return this.http.get<VaccineCentre[]>(`${this.url}/Centre/Vaccines/${siteId}`);
+    const formdata = {
+      vaccineId: requestVaccinationSiteID.vaccineId,
+      sideId: requestVaccinationSiteID.sideId
+    };
+
+    return this.http.post<any>(`${this.url}/VaccinationSite/BySiteAndVaccineId/`, formdata);
+  }
+
+
+
+
+  getProgrammes() {
+    return this.http.get(`${this.url}/Program`);
+  }
+
+  // New Implementation
+  // getVaccinationSite(siteID) {
+  //   return this.http.get(`${this.url}/api/VaccinationSite/${siteID}`);
+  // }
 
 
 }

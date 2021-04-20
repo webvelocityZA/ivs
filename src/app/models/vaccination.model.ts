@@ -44,6 +44,12 @@ export interface VaccineCentre {
 }
 
 export interface getHowManyTimes {
-  isVacinated: true,
-  howMany: 0
+  isVacinated: true;
+  howMany: 0;
+}
+
+
+export interface RequestVaccinationSiteID{
+  vaccineId: number;
+  sideId: number;
 }

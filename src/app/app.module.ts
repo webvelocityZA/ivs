@@ -1,3 +1,4 @@
+import { MaterialModule } from './material-module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -8,6 +9,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { PortalModule } from '@angular/cdk/portal';
+import { MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule} from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -32,10 +35,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatStepperModule } from '@angular/material/stepper';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule} from '@angular/material/radio';
+import {MatDialogModule} from '@angular/material/dialog';
 import { MatTreeModule } from '@angular/material/tree';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RegisterNewPatientComponent } from './pages/register-new-patient/register-new-patient.component';
+import { RegisterNewPatientComponent, IVSDialog } from './pages/register-new-patient/register-new-patient.component';
 import { VaccinationHistoryComponent } from './pages/vaccination-history/vaccination-history.component';
 import { AdminProfileComponent } from './pages/admin-profile/admin-profile.component';
 import { IvsNavbarComponent } from './components/ivs-navbar/ivs-navbar.component';
@@ -58,6 +62,7 @@ import { OtpComponent } from './pages/otp/otp.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { OtpUserCheckComponent } from './pages/otp-user-check/otp-user-check.component';
 import { ThankYouFeebackComponent } from './pages/thank-you-feeback/thank-you-feeback.component';
+import { IvsDialogComponent } from './pages/ivs-dialog/ivs-dialog.component';
 
 
 @NgModule({
@@ -85,43 +90,49 @@ import { ThankYouFeebackComponent } from './pages/thank-you-feeback/thank-you-fe
     BreadcrumbComponent,
     OtpUserCheckComponent,
     ThankYouFeebackComponent,
+    IvsDialogComponent,
+    IVSDialog
   ],
   imports: [
+    MaterialModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    CdkTreeModule,
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatChipsModule,
-    MatDividerModule,
-    MatExpansionModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatMenuModule,
-    MatProgressSpinnerModule,
-    MatPaginatorModule,
-    MatRippleModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatSnackBarModule,
-    MatSortModule,
-    MatTableModule,
-    MatTabsModule,
-    MatToolbarModule,
-    MatFormFieldModule,
-    MatButtonToggleModule,
-    MatTreeModule,
-    OverlayModule,
-    PortalModule,
+    // CdkTreeModule,
+    // MatDatepickerModule,
+    // MatNativeDateModule,
+    // MatAutocompleteModule,
+    // MatButtonModule,
+    // MatCardModule,
+    // MatCheckboxModule,
+    // MatChipsModule,
+    // MatDividerModule,
+    // MatDialogModule,
+    // MatExpansionModule,
+    // MatIconModule,
+    // MatInputModule,
+    // MatListModule,
+    // MatMenuModule,
+    // MatProgressSpinnerModule,
+    // MatPaginatorModule,
+    // MatRippleModule,
+    // MatSelectModule,
+    // MatSidenavModule,
+    // MatSnackBarModule,
+    // MatSortModule,
+    // MatTableModule,
+    // MatTabsModule,
+    // MatToolbarModule,
+    // MatFormFieldModule,
+    // MatButtonToggleModule,
+    // MatTreeModule,
+    // OverlayModule,
+    // PortalModule,
     FormsModule,
     ReactiveFormsModule,
-    MatStepperModule,
-    MatRadioModule,
-    HttpClientModule
+    // MatStepperModule,
+    // MatRadioModule,
+    HttpClientModule,
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

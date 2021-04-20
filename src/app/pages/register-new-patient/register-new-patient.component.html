@@ -40,8 +40,17 @@
 </nav>
 
 
+
 <div *ngIf="!isLoading && screenmode === 0" class="p-4 px-10 md:px-28">
-      <div class="py-4">
+      <div class="py-">
+        <div class="w-full text-center bg-gray-300 p-5 rounded">
+          <span class="block font-bold">This is the official GEMS Vaccination Programme registration portal</span>
+          <ul class="mt-4">
+            <li>&raquo;  Vaccination is voluntary</li>
+            <li>&raquo;  Everyone who registers will be offered vaccination. We will start with people 60 years and older  and move down age groups as quickly as we can</li>
+            <li>&raquo;  When it is your turn, you will receive an SMS with the date , time and place of your vaccination.</li>
+          </ul>
+        </div>
         <form #registerForm="ngForm" class="mt-6" (ngSubmit)='registerPatient(registerForm, $event.preventDefault())'>
 
 
@@ -95,9 +104,19 @@
             </div>
           </div>
 
+          <div class="w-full md:w-full md:px-2 inline-block" *ngIf="!registered && isIDValid">
+            <mat-form-field appearance="outline">
+              <mat-label>Date of Birth</mat-label>
+              <input (focus)="focusFunction()" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Date of Birth" name="dob" ngModel #dobInput="ngModel" (ngModelChange)="onDateChanged($event)" required dob
+                [disabled]="userExists">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="dobInput.hasError('required')">Date of Birth is required</mat-error>
+            </mat-form-field>
+          </div>
 
 
-          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
+          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid && isDOBValid">
             <mat-form-field appearance="outline">
               <mat-label>First Name</mat-label>
               <input matInput placeholder="First Name" name="firstName" ngModel #firstNameInput="ngModel" required
@@ -108,7 +127,7 @@
           </div>
 
 
-          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
+          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid && isDOBValid">
             <mat-form-field appearance="outline">
               <mat-label>Last Name</mat-label>
               <input matInput placeholder="Last Name" name="lastName" ngModel #lastNameInput="ngModel" required lastName
@@ -118,16 +137,9 @@
             </mat-form-field>
           </div>
 
-          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
-            <mat-form-field appearance="outline">
-              <mat-label>Date of Birth</mat-label>
-              <input matInput placeholder="Date of Birth" name="dob" ngModel #dobInput="ngModel" required dob
-                [disabled]="userExists" type="date" [value]="DOB">
-              <mat-error *ngIf="dobInput.hasError('required')">Date of Birth is required</mat-error>
-            </mat-form-field>
-          </div>
 
-          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
+
+          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid && isDOBValid">
             <mat-form-field appearance="outline">
               <mat-label>Member Number</mat-label>
               <input matInput placeholder="Member Number" min="0" name="memberNumber" ngModel
@@ -137,7 +149,7 @@
             </mat-form-field>
           </div>
 
-          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
+          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid && isDOBValid">
             <mat-form-field appearance="outline">
               <mat-label>Select Province</mat-label>
               <input type="text" placeholder="Select your Province *" aria-label="Select your Province" matInput
@@ -153,7 +165,7 @@
           </div>
 
 
-          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
+          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid && isDOBValid">
             <mat-form-field appearance="outline">
               <mat-label>Select Location</mat-label>
               <input type="text" placeholder="Select your location *" aria-label="Select your location" matInput
@@ -169,7 +181,7 @@
             </mat-form-field>
           </div>
 
-          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
+          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid && isDOBValid">
             <mat-form-field appearance="outline">
               <mat-label>Employer</mat-label>
               <input matInput placeholder="Employer" type="text" name="employer" ngModel #employerInput="ngModel"
@@ -178,7 +190,7 @@
               <mat-error *ngIf="employerInput.hasError('required')">Employer is required</mat-error>
             </mat-form-field>
           </div>
-          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
+          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid && isDOBValid">
             <mat-form-field appearance="outline">
               <mat-label>Position</mat-label>
               <input matInput placeholder="Position" type="text" name="position" ngModel #positionInput="ngModel"
@@ -189,18 +201,18 @@
           </div>
 
 
-          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
+          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid && isDOBValid">
             <mat-form-field appearance="outline">
               <mat-label>Mobile Number</mat-label>
-              <input matInput placeholder="Mobile Number" name="mobileNumber" ngModel #mobileNumberInput="ngModel"
-                required mobileNumber [disabled]="userExists">
+              <input matInput placeholder="Mobile Number" type="tel" name="mobileNumber" ngModel #mobileNumberInput="ngModel"
+                required mobileNumber [disabled]="userExists" >
               <mat-icon matSuffix>phone</mat-icon>
               <mat-error *ngIf="mobileNumberInput.hasError('required')">Mobile number is required</mat-error>
             </mat-form-field>
           </div>
 
 
-          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
+          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid && isDOBValid">
             <mat-form-field appearance="outline">
               <mat-label>Email Address</mat-label>
               <input matInput placeholder="Email Address" name="emailAddress" ngModel #emailAddressInput="ngModel"
@@ -210,7 +222,7 @@
             </mat-form-field>
           </div>
 
-          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
+          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid && isDOBValid">
             <mat-form-field appearance="outline">
               <mat-label>Select Scheme Name</mat-label>
               <input type="text" placeholder="Select your Scheme Name *" aria-label="Select your Scheme Name" matInput
@@ -227,7 +239,7 @@
 
 
 
-          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid">
+          <div class="w-full md:w-1/2 md:px-2 inline-block" *ngIf="!registered && isIDValid && isDOBValid">
             <mat-form-field appearance="outline" hideRequiredMarker="false" floatLabel="Are you a Front-Line Worker?">
               <mat-select name='frontline' ngModel #frontlineDescriptionInput="ngModel" required frontline
                 [disabled]="userExists">
@@ -240,7 +252,7 @@
           </div>
 
 
-          <div id="medicalHistory" *ngIf="!registered && isIDValid" class="w-full md:w-1/2 md:px-2 inline-block">
+          <div id="medicalHistory" *ngIf="!registered && isIDValid && isDOBValid" class="w-full md:w-1/2 md:px-2 inline-block">
             <mat-form-field appearance="outline" hideRequiredMarker="false" floatLabel="Allergies & Chronic Condition(s)">
               <mat-select (ngModelChange)="doesPatientHaveAllergies($event)" name="allergies" ngModel
                 #allergiesInput="ngModel" required allergies [disabled]="userExists">
@@ -252,6 +264,8 @@
               <mat-label>Allergies & Chronic Condition(s)</mat-label>
             </mat-form-field>
 
+
+
             <div class="w-full md:w-full block" *ngIf="allergiesInput.value">
               <mat-form-field appearance="outline">
                 <mat-label>Description</mat-label>
@@ -261,7 +275,7 @@
             </div>
           </div>
 
-          <div class="mx-2" *ngIf="!registered && isIDValid">
+          <div class="mx-2" *ngIf="!registered && isIDValid && isDOBValid">
             <button mat-raised-button color="primary" [disabled]='registerForm.invalid'
               (click)="registerPatient(registerForm, $event)" type="button">Complete Registration</button>
           </div>

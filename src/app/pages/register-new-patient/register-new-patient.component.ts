@@ -1,6 +1,11 @@
+// tslint:disable: typedef
+// tslint:disable: variable-name
+// tslint:disable: deprecation
+// tslint:disable: radix
+// tslint:disable: triple-equals
 import {Registration} from './../../models/patient.model';
 import {RegistrationStatus} from '../../enums/enums';
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, NgForm} from '@angular/forms';
 // import {Patient} from 'src/app/models/patient.model';
 import {DataService} from 'src/app/services/data.service';
@@ -12,6 +17,8 @@ import {Observable} from 'rxjs';
 import {CookieService} from 'ngx-cookie-service';
 import {medicalSchemesList} from 'src/app/mocks/medicalSchemesList';
 import {Provinces} from 'src/app/mocks/cities';
+import * as moment from 'moment';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface Province {
   name: string;
@@ -55,9 +62,22 @@ export class RegisterNewPatientComponent implements OnInit {
   chronicMedication = 'Not Applicable';
   currentDate = new Date();
   referenceNumber;
+  isDOBValid = false;
+  @ViewChild('picker') picker;
+  minDate: Date;
+  maxDate: Date;
+  errors: any;
+  errorsMsg: any[]=[];
 
 
-  constructor(public data: DataService, private _snackBar: MatSnackBar, private router: Router, private cookieService: CookieService) {
+  // tslint:disable-next-line: max-line-length
+  constructor(public data: DataService, private _snackBar: MatSnackBar, private cookieService: CookieService, public dialog: MatDialog, private router: Router) {
+    const currentFullYear = moment().year();
+    const currentYear = moment();
+    // this.minDate = currentYear.subtract(160, 'years').toDate();
+    this.minDate = new Date(currentFullYear - 170, 0, 1);
+    this.maxDate = currentYear.subtract(60, 'years').toDate();
+    console.log(this.maxDate);
   }
 
   ngOnInit(): void {
@@ -65,6 +85,7 @@ export class RegisterNewPatientComponent implements OnInit {
     this.loadSchemes();
     this.loadProvinces();
     this.siteName = this.cookieService.get('vaccination-centre-name');
+    this.openDialog();
   }
 
   // tslint:disable-next-line:typedef
@@ -155,10 +176,19 @@ export class RegisterNewPatientComponent implements OnInit {
 
   async postRegToApi(registrationPostData){
     try {
-      let result = await this.data.registerPatient(registrationPostData);
-      this.screenmode = RegistrationStatus.VERIFICATION
+      const result = await this.data.registerPatient(registrationPostData);
+      this.screenmode = RegistrationStatus.VERIFICATION;
     } catch (err) {
-      this.openSnackBar(err.error.message, '');
+// console.log(err.error.errors);
+      this.errors=Object.entries(err.error.errors);
+      // console.log(this.errors);
+
+      this.errors.forEach(element => {
+        (this.errorsMsg).push(element[1]);
+      });
+
+      console.log(this.errorsMsg.toString());
+      this.openSnackBar(this.errorsMsg.toString(), 'Close');
     }
   }
 
@@ -226,7 +256,7 @@ export class RegisterNewPatientComponent implements OnInit {
         return this._filterSchemes(value);
       })
     );
-  };
+  }
 
   private _filterSchemes(value: string): any[] {
     const filterValue = value.toLowerCase();
@@ -250,7 +280,7 @@ export class RegisterNewPatientComponent implements OnInit {
 
 // Provinces
   loadProvinces = () => {
-    console.log(this.filteredProvinceOptions)
+    console.log(this.filteredProvinceOptions);
     this.filteredProvinceOptions = this.provincesControl.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -258,7 +288,7 @@ export class RegisterNewPatientComponent implements OnInit {
         return this._filterProvinces(value);
       })
     );
-  };
+  }
 
   private _filterProvinces(value: string): any[] {
     const filterValue = value.toLowerCase();
@@ -287,21 +317,24 @@ export class RegisterNewPatientComponent implements OnInit {
   getDOB(idNumber) {
 
     // get first 6 digits as a valid date
-    let tempDate = new Date(idNumber.substring(0, 2), idNumber.substring(2, 4), idNumber.substring(4, 6));
-    let id_date = tempDate.getDate();
-    let id_month = tempDate.getMonth();
-    let id_year = tempDate.getFullYear();
+    const tempDate = new Date(idNumber.substring(0, 2), idNumber.substring(2, 4), idNumber.substring(4, 6));
+    const id_date = tempDate.getDate();
+    const id_month = tempDate.getMonth();
+    const id_year = tempDate.getFullYear();
     // let fullDate = id_date + "-" + id_month + 1 + "-" + id_year;
-    let fullDate = `${id_year}-${id_month}-${id_date}`;
+    const fullDate = `${id_year}-${id_month}-${id_date}`;
     // get the gender
-    let genderCode = idNumber.substring(6, 10);
-    let gender = parseInt(genderCode) < 5000 ? 'Female' : 'Male';
+    const genderCode = idNumber.substring(6, 10);
+
+    const gender = parseInt(genderCode) < 5000 ? 'Female' : 'Male';
     this.DOB = new FormControl('2020-09-28');
     // this.DOB = fullDate;
     console.log(fullDate);
     // get country ID for citzenship
-    let citzenship = parseInt(idNumber.substring(10, 11)) == 0 ? 'Yes' : 'No';
+
+    const citzenship = parseInt(idNumber.substring(10, 11)) == 0 ? 'Yes' : 'No';
   }
+
 
   async activateOTP(e: NgForm) {
     if (e.valid === true) {
@@ -313,24 +346,24 @@ export class RegisterNewPatientComponent implements OnInit {
 
     if (e.valid === true) {
       this.isLoading = true;
-      console.log(this.idNumber)
+      console.log(this.idNumber);
       this.data.postOTP(this.idNumber, e.value.otp)
         .pipe(tap((res) => {
           console.log(res);
           this.data.searchByID(this.idNumber).subscribe(ref => {
             this.referenceNumber = ref[0].referenceNumber;
-          })
+          });
           this.screenmode = RegistrationStatus.THANK_YOU;
         }))
         .subscribe(res => {
           this.isLoading = false;
         }, err => {
-          if(err.error) {
+          if (err.error) {
             console.log(err);
-          console.log(err.error.message);
+            console.log(err.error.message);
 
-          this.isLoading = false;
-          this.openSnackBar(err.error.message, 'Close');
+            this.isLoading = false;
+            this.openSnackBar(err.error.message, 'Close');
           }
 
         });
@@ -343,4 +376,52 @@ export class RegisterNewPatientComponent implements OnInit {
 
   }
 
+  focusFunction() {
+    console.log('focised');
+    this.picker.open();
+  }
+
+
+  onDateChanged(e) {
+    this.picker.open();
+    const today = moment();
+    const sixtyYearsAgo = today.subtract(60, 'years');
+    const selectedDOB = moment(e);
+    console.log(selectedDOB.isValid());
+    console.log(selectedDOB.toDate());
+    console.log(sixtyYearsAgo.toDate());
+    console.log(selectedDOB.isBefore(sixtyYearsAgo));
+    if (selectedDOB.isBefore(sixtyYearsAgo)) {
+      console.log('Person is over 60');
+      if (selectedDOB.isValid()) {
+        this.isDOBValid = true;
+      }
+    } else {
+      console.log('Person is under 60');
+      this.isDOBValid = false;
+    }
+
+  }
+  acceptAndContinue() {
+    localStorage.setItem('hasAccepted', 'accepted');
+    this.router.navigateByUrl('/register');
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(IVSDialog, {disableClose: true});
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 }
+
+
+
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'ivs-dialog',
+  templateUrl: './ivs-dialog.html',
+})
+// tslint:disable-next-line: component-class-suffix
+export class IVSDialog {}

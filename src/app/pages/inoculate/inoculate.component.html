@@ -49,12 +49,13 @@
       <div class="pb-4">
         <form #inoculateForm="ngForm" (ngSubmit)="inoculatePatient(inoculateForm)">
 
+<!--          <input type="text" name="vaccinationSiteRowID" ngModel #vaccinationSiteRowIDInput="ngModel" value="{{this.vaccinationSiteRowID}}" vaccinationSiteRowID >-->
+
           <div class="w-full md:w-1/2 md:px-2 inline-block custom">
             <mat-form-field appearance="outline">
               <mat-label><span class="title">Vaccination Site</span><span class="subTitle">
                   {{vaccinationSiteNameCookie}}</span></mat-label>
-              <input matInput name="vaccinationSiteId" ngModel #vaccinationSiteIdInput="ngModel"
-                value="{{vaccinationSiteIDCookie}}" vaccinationSiteId disabled required>
+              <input matInput name="vaccinationSiteId" ngModel #vaccinationSiteIdInput="ngModel" value="{{vaccinationSiteIDCookie}}" vaccinationSiteId disabled required>
             </mat-form-field>
           </div>
 
@@ -109,8 +110,7 @@
                 <mat-select ngModel #programmeInput="ngModel" required programme (ngModelChange)="onChangeProgramme($event)" name="programme"
                   required>
                   <mat-option>Please Select Vaccination Programme</mat-option>
-                  <mat-option value="Sisonke Programme">Sisonke Programme</mat-option>
-                  <mat-option value="Phase Two Rollout Programme">Phase Two Rollout Programme</mat-option>
+                  <mat-option *ngFor="let prog of programmes" [value]="prog">{{prog.name}}</mat-option>
                 </mat-select>
                 <mat-error *ngIf="programmeInput.hasError('required')">Vaccination Programme is required
                 </mat-error>

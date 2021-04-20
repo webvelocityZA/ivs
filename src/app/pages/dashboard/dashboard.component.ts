@@ -37,8 +37,8 @@ export class DashboardComponent implements AfterViewInit, OnInit {
 
 
   ngAfterViewInit() {
-    console.log(this.cookieService.get('vaccination-centre-name'))
-    console.log(this.data.selectedLocation);
+    // console.log(this.cookieService.get('vaccination-centre-name'))
+    // console.log(this.data.selectedLocation);
 
     this.loadPatients();
     this.getDashboardStats();
@@ -65,11 +65,11 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   getDashboardStats() {
 
     const vaccinationSite = this.cookieService.get('vaccination-centre-id');
-    console.log(vaccinationSite);
+    // console.log(vaccinationSite);
 
     this.data.getDashboardStatistics(vaccinationSite)
     .subscribe(res => {
-      console.log(res);
+      console.table(res);
       this.VaccinationSiteStatistics = res;
     });
   }
@@ -77,7 +77,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   getTotalDashboardStats() {
     this.data.getDashboardStatistics(0)
     .subscribe(res => {
-      console.log(res);
+      // console.log(res);
       this.overallTotal = res.totalAvailable;
     });
   }
