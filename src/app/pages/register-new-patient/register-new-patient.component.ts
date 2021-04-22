@@ -346,7 +346,11 @@ export class RegisterNewPatientComponent implements OnInit {
 
     if (e.valid === true) {
       this.isLoading = true;
-      console.log(this.idNumber);
+      // console.log(this.idNumber);
+
+   
+      //Store OTP in LocalStorage for later use
+
       this.data.postOTP(this.idNumber, e.value.otp)
         .pipe(tap((res) => {
           console.log(res);
