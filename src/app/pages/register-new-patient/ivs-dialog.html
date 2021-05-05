@@ -74,8 +74,8 @@
 <p style="margin: 0px;color: rgb(34, 34, 34);font-family: Arial, Helvetica, sans-serif;font-size: small;font-style: normal;font-weight: 400;text-align: start;text-indent: 0px;background-color: rgb(255, 255, 255);line-height: 18pt;vertical-align: top;"><span style="font-size:13px;font-family: Arial, sans-serif;color: rgb(119, 119, 119);">The Laws of the <strong><span style="border: 1pt none windowtext;padding: 0cm;">Republic of South Africa</span></strong> will govern all terms and conditions of any products and services contained in these pages. Should you request products or services through the <strong><span style="border: 1pt none windowtext;padding: 0cm;">GEMS Website</span></strong> you hereby consent and submit to the jurisdiction of the South African courts in regard to all proceedings, actions, applications or the like instituted by each party against the other, and in any way arising from any stated terms and conditions.</span></p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button routerLink="/landing" mat-button mat-flat-button color="warn" mat-dialog-close>Decline</button>
-  <button routerLink="/register" mat-button mat-flat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Accept & Continue</button>
+  <button routerLink="/landing" mat-button mat-flat-button color="warn" mat-dialog-close="declined">Decline</button>
+  <button routerLink="/register" mat-button mat-flat-button color="primary" mat-dialog-close="accepted" cdkFocusInitial>Accept & Continue</button>
 </mat-dialog-actions>
 
 

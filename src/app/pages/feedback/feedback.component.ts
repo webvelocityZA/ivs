@@ -2,9 +2,11 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import {takeWhile, tap} from 'rxjs/operators';
 import {Feedback} from 'src/app/models/feedback.model';
 import {DataService} from 'src/app/services/data.service';
+import { IvsDialogComponent } from '../ivs-dialog/ivs-dialog.component';
 
 @Component({
   selector: 'app-feedback',
@@ -24,11 +26,15 @@ export class FeedbackComponent implements OnInit {
   feedback: string;
   patientRowID: number;
 
-  constructor(private data: DataService, private snackBar: MatSnackBar, private router: Router,) {
+  constructor(private data: DataService, private snackBar: MatSnackBar, private router: Router, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
     this.data.disallowAccessToLoggedOutPages();
+    // if(!this.data.hasUserAcceptedDisclaimer()) {
+    //   this.openDialog();
+    // }
+    this.openDialog();
   }
 
   checkSelectedFeedbackOption(e: any) {
@@ -122,7 +128,7 @@ export class FeedbackComponent implements OnInit {
       // Reset if duplicate image uploaded again
       this.fileInput.nativeElement.value = '';
     } else {
-      this.fileAttr = 'Choose File';
+      this.fileAttr = 'Upload Doctor\'s Note';
     }
   };
 
@@ -131,5 +137,25 @@ export class FeedbackComponent implements OnInit {
       duration: 5000,
     });
   };
+
+  openDialog() {
+    const feedabckDialogRef = this.dialog.open(IvsDialogComponent, {
+      disableClose: true
+    });
+
+    feedabckDialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result === 'accepted') {
+        console.log('User has accepted');
+        this.router.navigateByUrl('/feedback');
+        localStorage.setItem('disclaimer', 'hasAcceptedDisclaimer');
+      } else if (result === 'declined'){
+        console.log('User has declined');
+        this.router.navigateByUrl('/landing');
+      }
+    });
+  }
+
+
 
 }

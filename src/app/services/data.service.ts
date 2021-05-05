@@ -1,10 +1,10 @@
+import { Observable } from 'rxjs';
 // tslint:disable: typedef
 import { Registration } from './../models/patient.model';
 import {Patients} from './../mocks/patients';
 import {Injectable} from '@angular/core';
 import {Patient, VaccinationInfo} from '../models/patient.model';
 import {BehaviorSubject} from 'rxjs';
-import {Observable} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {VaccinationSiteStatistics} from '../models/vaccinationSiteStatistics.model';
 import { Centre } from '../models/centre.model';
@@ -21,7 +21,7 @@ import * as CryptoJS from 'crypto-js';
   providedIn: 'root'
 })
 export class DataService {
-  url = environment.API_ENDPOINT;
+  url = environment.QA_BASEURL;
   currentPatient!: Patient;
   isLoginSubject = new BehaviorSubject<boolean>(this.hasToken());
   selectedLocation: Centre;
@@ -56,6 +56,10 @@ export class DataService {
     if (localStorage.getItem('userObj') != null) {
       this.router.navigateByUrl('/dashboard');
     }
+  }
+
+  hasUserAcceptedDisclaimer() {
+    return !!localStorage.getItem('disclaimer');
   }
 
   async encryptData(dataToEncrypt: any) {
@@ -109,6 +113,24 @@ export class DataService {
     return this.http.post<UserAdmin>(`${this.url}/User/Login/`,  userData );
   }
 
+  fetchUserProfile(ID: number): Observable<UserAdmin>{
+    return this.http.get<UserAdmin>(`${this.url}/User/${ID}`);
+  }
+
+  updataUserProfile(payload): Observable<UserAdmin>{
+    const userData = {
+      id: payload.id,
+      firstName: payload.firstName,
+      surname: payload.surname,
+      username: payload.username,
+      password: payload.password,
+      isAdmin: true
+    };
+    return this.http.put<UserAdmin>(`${this.url}/User/`,  userData );
+  }
+
+
+
 
   registerPatient(registrationPostData: Registration): Promise<any> {
     return this.http.post(`${this.url}/Registration`, registrationPostData).toPromise();
@@ -144,6 +166,11 @@ export class DataService {
     };
     return this.http.post(`${this.url}/Registration/Confirm`, otpData);
   }
+
+// Resend OTP on Registration
+resendOTP(idNumber): Observable<any>{
+  return this.http.get(`${this.url}/Registration/ResendOtp/${idNumber}`);
+}
 
 // OTP Request on Editing Member Profile
  activateProfileEditOTP(idNumber): Observable<any>{

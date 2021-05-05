@@ -8,6 +8,8 @@ import {Centre} from 'src/app/models/centre.model';
 import {CookieService} from 'ngx-cookie-service';
 import {Vaccine} from 'src/app/models/vaccination.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { IvsDialogComponent } from '../ivs-dialog/ivs-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
@@ -27,12 +29,16 @@ export class LoginComponent implements OnInit {
   isFormValid:boolean = false;
 
 
-  constructor(private data: DataService, private router: Router, private _snackBar: MatSnackBar, private cookieService: CookieService) {
+  constructor(private data: DataService, private router: Router, private _snackBar: MatSnackBar, private cookieService: CookieService, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
     this.data.disallowAccessToLoggedOutPages();
     this.loadCentres();
+    // if(!this.data.hasUserAcceptedDisclaimer()) {
+    //   this.openDialog();
+    // }
+    this.openDialog();
   }
 
 
@@ -110,6 +116,24 @@ export class LoginComponent implements OnInit {
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 5000,
+    });
+  }
+
+  openDialog() {
+    const loginDialogRef = this.dialog.open(IvsDialogComponent, {
+      disableClose: true
+    });
+
+    loginDialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result === 'accepted') {
+        console.log('User has accepted');
+        this.router.navigateByUrl('/login');
+        localStorage.setItem('disclaimer', 'hasAcceptedDisclaimer');
+      } else if (result === 'declined'){
+        console.log('User has declined');
+        this.router.navigateByUrl('/landing');
+      }
     });
   }
 
