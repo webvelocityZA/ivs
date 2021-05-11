@@ -66,8 +66,8 @@
     <div class="w-full md:w-1/2 md:px-2 inline-block">
       <mat-form-field appearance="outline">
         <mat-label>Scheme Name</mat-label>
-        <input type="text" placeholder="Scheme Name" type="text" required  matInput [formControl]="myControl" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <input type="text" placeholder="Scheme Name" type="text" required  matInput [formControl]="myControl" [matAutocomplete]="schemeName">
+        <mat-autocomplete #schemeName="matAutocomplete" [displayWith]="displayFn">
           <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
             {{option.name}}
           </mat-option>
@@ -79,9 +79,9 @@
     <div class="w-full md:w-1/2 md:px-2 inline-block">
       <mat-form-field appearance="outline">
         <mat-label>Province</mat-label>
-        <input type="text" placeholder="Province" type="text" required  matInput [formControl]="myControl" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnProvinces">
-          <mat-option *ngFor="let item of filteredOptions | async" [value]="item">
+        <input type="text" placeholder="Province" type="text" required  matInput [formControl]="provincesControl" [matAutocomplete]="province">
+        <mat-autocomplete #province="matAutocomplete" [displayWith]="displayFnProvinces">
+          <mat-option *ngFor="let item of filterProvinces | async" [value]="item">
             {{item.name}}
           </mat-option>
         </mat-autocomplete>

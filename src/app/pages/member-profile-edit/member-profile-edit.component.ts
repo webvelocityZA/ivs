@@ -35,10 +35,15 @@ export class MemberProfileEditComponent implements OnInit {
   dateOfBirth: string;
 
   myControl = new FormControl();
-  options = medicalSchemesListv2;
-  filteredOptions: Observable<any[]>;
+  provincesControl = new FormControl();
 
+  options = medicalSchemesListv2;
   optionsProvinces = Provinces;
+
+  filteredOptions: Observable<any[]>;
+  filterProvinces: Observable<any[]>;
+
+
 
   constructor(private activatedRoute: ActivatedRoute,
               private data: DataService,
@@ -60,7 +65,7 @@ export class MemberProfileEditComponent implements OnInit {
             this.memberNumber = this.member.memberNumber;
             this.allergies = this.member.allergies;
             this.city = this.member.city;
-            // this.province = this.member.province;
+            this.province = this.member.province;
             this.firstName = this.member.firstName;
             this.lastName = this.member.lastName;
             this.mobileNumber = this.member.mobileNumber;
@@ -68,8 +73,8 @@ export class MemberProfileEditComponent implements OnInit {
             this.dateOfBirth = this.member.dateOfBirth;
           }
 
-          this.myControl.setValue({name: this.province}); // Set province from the DB
-          this.filteredOptions = this.myControl.valueChanges
+          this.provincesControl.setValue({name: this.province}); // Set province from the DB
+          this.filterProvinces = this.provincesControl.valueChanges
             .pipe(
               startWith<string | any>(''),
               map(value => typeof value === 'string' ? value : value.name),
@@ -120,28 +125,23 @@ export class MemberProfileEditComponent implements OnInit {
     return scheme ? scheme.name : undefined;
   }
 
-  displayFnProvinces(province?: any): string | undefined {
-    return province ? province.name : undefined;
-  }
-
-
-  
-
   private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
-
     this.schemeName = this.myControl.value.name;
     return this.options.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  // Provinces
-  private _filterProvinces(name: string): any[] {
-    const filterValue = name.toLowerCase();
 
-    this.province = this.myControl.value.name;
-    return this.optionsProvinces.filter(item => item.name.toLowerCase().indexOf(filterValue) === 0);
+ // Provinces
+  displayFnProvinces(province?: any): string | undefined {
+    return province ? province.name : undefined;
   }
 
+  private _filterProvinces(name: string): any[] {
+    const filterProvinceValue = name.toLowerCase();
+    this.province = this.provincesControl.value.name;
+    return this.optionsProvinces.filter(item => item.name.toLowerCase().indexOf(filterProvinceValue) === 0);
+  }
 
 
   openSnackBar = (message: string, action: string) => {

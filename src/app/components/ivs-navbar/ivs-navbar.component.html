@@ -12,19 +12,19 @@
     <span class="ivs-spacer"></span>
 
     <div *ngIf="(isLoggedIn | async)">
-      <button mat-button aria-label="Example icon-button with share icon" routerLink="/register"
-        routerLinkActive="text-blue-700">
+      <button mat-button aria-label="" routerLink="/dashboard" routerLinkActive="text-blue-700">
+        Dashboard
+      </button>
+      <button mat-button aria-label="" routerLink="/register" routerLinkActive="text-blue-700">
         Register New Patient
       </button>
-      <button mat-button aria-label="Example icon-button with share icon" routerLink="/vaccination-history"
-        routerLinkActive="text-blue-700">
+      <button mat-button aria-label="" routerLink="/vaccination-history" routerLinkActive="text-blue-700">
         Vaccination History
       </button>
-      <button mat-button aria-label="Example icon-button with share icon" routerLink="/admin-profile"
-        routerLinkActive="text-blue-700">
+      <button mat-button aria-label="" routerLink="/admin-profile" routerLinkActive="text-blue-700">
         My Profile
       </button>
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="logout()">
+      <button mat-icon-button class="example-icon" aria-label="" (click)="logout()">
         <mat-icon>logout</mat-icon>
       </button>
     </div>
