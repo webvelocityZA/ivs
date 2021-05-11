@@ -12,20 +12,20 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./vaccination-history.component.scss']
 })
 export class VaccinationHistoryComponent implements AfterViewInit {
-  siteVaccinationHistory:SiteVaccinationHistory[] = [];
-  displayedColumns: string[] = ['fullname', 'vaccineName', 'vaccinatedDate', 'siteLocation', 'siteProvince'];
+  siteVaccinationHistory: SiteVaccinationHistory[] = [];
+  displayedColumns: string[] = ['firstname', 'lastname', 'vaccineName', 'vaccinatedDate', 'siteLocation', 'siteProvince'];
   dataSource;
 
 
   constructor(private data: DataService, private _snackBar: MatSnackBar) {}
 
-   
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
     this.loadPatients();
-    
+
   }
 
   loadPatients() {

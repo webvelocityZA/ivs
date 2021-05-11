@@ -1,8 +1,11 @@
-<div *ngIf="(isLoggedIn | async)" class="fixed bottom-0 bg-white w-full z-50" style="z-index: 1000;">
+
+<div class="fixed bottom-0 bg-white w-full z-50" style="z-index: 1000;">
   <img src="assets/img/gems-border-line2.png" alt="" class="w-full h-1">
   <div class="flex justify-between w-full p-4">
-    <span>&copy; Copyright {{currentYear}}. All Rights Reserved</span>
-  <span>Terms Of Use | Fraud</span>
+    <span routerLink="/terms-and-conditions" class="cursor-pointer">&copy; Copyright {{currentYear}}. All Rights Reserved</span>
+   <div>
+    <span routerLink="/terms-and-conditions" class="cursor-pointer">Terms Of Use |&nbsp;</span>
+    <span (click)="reportFraud()"  class="cursor-pointer">Report Fraud</span>
   </div>
-
+  </div>
 </div>

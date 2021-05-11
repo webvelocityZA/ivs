@@ -63,6 +63,7 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
 import { OtpUserCheckComponent } from './pages/otp-user-check/otp-user-check.component';
 import { ThankYouFeebackComponent } from './pages/thank-you-feeback/thank-you-feeback.component';
 import { IvsDialogComponent } from './pages/ivs-dialog/ivs-dialog.component';
+import { TermsAndConditionsComponent } from './pages/terms-and-conditions/terms-and-conditions.component';
 
 
 @NgModule({
@@ -91,7 +92,8 @@ import { IvsDialogComponent } from './pages/ivs-dialog/ivs-dialog.component';
     OtpUserCheckComponent,
     ThankYouFeebackComponent,
     IvsDialogComponent,
-    IVSDialog
+    IVSDialog,
+    TermsAndConditionsComponent
   ],
   imports: [
     MaterialModule,

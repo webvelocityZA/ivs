@@ -127,7 +127,7 @@ export class RegisterNewPatientComponent implements OnInit {
     // if(!this.data.hasUserAcceptedDisclaimer()) {
     //   this.openDialog();
     // }
-    this.openDialog();
+    //this.openDialog();
   }
 
   // tslint:disable-next-line:typedef
@@ -223,7 +223,9 @@ export class RegisterNewPatientComponent implements OnInit {
           this.getDOB(e);
         }
       }, err => {
+        console.log('user not not found error');
         this.registered = false;
+        // this.getDOB(e);
       });
 
   }
@@ -327,7 +329,7 @@ export class RegisterNewPatientComponent implements OnInit {
 
   // Provinces
   loadProvinces = () => {
-    console.log(this.filteredProvinceOptions);
+    // console.log(this.filteredProvinceOptions);
     this.filteredProvinceOptions = this.provincesControl.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -376,7 +378,7 @@ export class RegisterNewPatientComponent implements OnInit {
     const gender = parseInt(genderCode) < 5000 ? 'Female' : 'Male';
     this.DOB = new FormControl('2020-09-28');
     // this.DOB = fullDate;
-    // console.log(fullDate);
+     console.log(fullDate);
     this.memberDateOfBirth = new Date(fullDate);
     this.onDateChanged(this.memberDateOfBirth);
     // get country ID for citzenship

@@ -34,7 +34,7 @@ export class FeedbackComponent implements OnInit {
     // if(!this.data.hasUserAcceptedDisclaimer()) {
     //   this.openDialog();
     // }
-    this.openDialog();
+   // this.openDialog();
   }
 
   checkSelectedFeedbackOption(e: any) {

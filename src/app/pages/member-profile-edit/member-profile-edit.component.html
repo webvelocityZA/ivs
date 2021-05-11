@@ -62,15 +62,6 @@
       </mat-form-field>
     </div>
 
-    <!-- <div class="w-full md:w-1/2 md:px-2 inline-block">
-      <mat-form-field appearance="outline">
-        <mat-label>Scheme Name</mat-label>
-        <input matInput placeholder="Scheme Name" type="text" required [(ngModel)]="schemeName" value="{{schemeName}}">
-        <mat-icon matSuffix>store</mat-icon>
-        <mat-error>Scheme Name is required</mat-error>
-      </mat-form-field>
-    </div> -->
-
 
     <div class="w-full md:w-1/2 md:px-2 inline-block">
       <mat-form-field appearance="outline">
@@ -84,6 +75,20 @@
         <mat-error>Scheme Name is required</mat-error>
       </mat-form-field>
     </div>
+
+    <div class="w-full md:w-1/2 md:px-2 inline-block">
+      <mat-form-field appearance="outline">
+        <mat-label>Province</mat-label>
+        <input type="text" placeholder="Province" type="text" required  matInput [formControl]="myControl" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnProvinces">
+          <mat-option *ngFor="let item of filteredOptions | async" [value]="item">
+            {{item.name}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error>Province is required</mat-error>
+      </mat-form-field>
+    </div>
+
 
 
 
@@ -108,14 +113,14 @@
     </div>
 
 
-    <div class="w-full md:w-1/2 md:px-2 inline-block">
+    <!-- <div class="w-full md:w-1/2 md:px-2 inline-block">
       <mat-form-field appearance="outline">
         <mat-label>Province</mat-label>
         <input matInput placeholder="Province" type="text" required [(ngModel)]="province" value="{{province}}">
         <mat-icon matSuffix>store</mat-icon>
         <mat-error>Province is required</mat-error>
       </mat-form-field>
-    </div>
+    </div> -->
 
 
 

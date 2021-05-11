@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
   isFormValid:boolean = false;
 
 
+
   constructor(private data: DataService, private router: Router, private _snackBar: MatSnackBar, private cookieService: CookieService, public dialog: MatDialog) {
   }
 
@@ -38,7 +39,7 @@ export class LoginComponent implements OnInit {
     // if(!this.data.hasUserAcceptedDisclaimer()) {
     //   this.openDialog();
     // }
-    this.openDialog();
+    //this.openDialog();
   }
 
 
@@ -52,22 +53,23 @@ export class LoginComponent implements OnInit {
         // console.log(option);
         if (filterValue === '') {
           this.data.selectedLocation = null;
+          this.selectedlocation = null;
         } else {
           this.data.selectedLocation = option;
+          this.selectedlocation = option;
         }
 
-        console.log(option);
+        // console.log(option);
         this.cookieService.set('vaccination-centre-name', option.name, 20000);
         this.cookieService.set('vaccination-centre-id', option.id.toString());
-      }
-      ;
+      };
       return option.name.toLowerCase().indexOf(filterValue) === 0;
     });
   }
 
   login(e: NgForm): void {
-    console.log(e);
-    if(e.invalid) {
+    // console.log(e);
+    if(e.invalid || !this.selectedlocation) {
         return
     };
     this.isLoading = true;
@@ -84,7 +86,7 @@ export class LoginComponent implements OnInit {
       this.router.navigateByUrl('dashboard');
      }))
     .subscribe(res=>{
-      console.log(res);
+      // console.log(res);
 
     },
     error =>{
@@ -94,13 +96,13 @@ export class LoginComponent implements OnInit {
     }
     )
 
-    console.log(e.value);
+    // console.log(e.value);
   }
 
   loadCentres() {
     this.data.getAllCentres()
       .subscribe(centres => {
-        console.log(centres);
+        // console.log(centres);
         this.options = centres;
         this.filteredOptions = this.myControl.valueChanges.pipe(
           startWith(''),

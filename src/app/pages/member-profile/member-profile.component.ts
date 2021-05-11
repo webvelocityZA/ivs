@@ -53,8 +53,9 @@ export class MemberProfileComponent implements OnInit {
 
               /* Fetch Patient Vacccination History */
               const patientID = data[0].id;
-              this.getVaccinationInfo(patientID);
-              this.getVaccinationFeedbackByRowID(patientID);
+              // this.getVaccinationInfo(patientID);
+              // this.getVaccinationFeedbackByRowID(patientID);
+              this.getVaccinationFeedbackByRowIDv2(patientID);
 
 
               /* Patient Allergies */
@@ -111,18 +112,18 @@ export class MemberProfileComponent implements OnInit {
   getVaccinationInfo = patientID => {
     this.data.getVaccinationInfo(patientID).subscribe(res => {
       this.patientVaccinationInfo = res;
-      console.table(res);
+      // console.table(res);
     });
   }
 
-  getVaccinationFeedbackByRowID = patientID => {
-    console.log('Feedback requested');
-    this.data.getVaccinationFeedbackByRowID(patientID).subscribe(res => {
-      // this.patientFeedBack = res[0].information;
-      this.patientFeedBack = res;
-      console.log(res)
-    })
-  }
+  // getVaccinationFeedbackByRowID = patientID => {
+  //   console.log('Feedback requested');
+  //   this.data.getVaccinationFeedbackByRowID(patientID).subscribe(res => {
+  //     // this.patientFeedBack = res[0].information;
+  //     this.patientFeedBack = res;
+  //     console.log(res)
+  //   })
+  // }
 
 
   getHowManyTimes = (idNumber) =>{
@@ -133,6 +134,16 @@ export class MemberProfileComponent implements OnInit {
     })
   }
 
+
+
+  getVaccinationFeedbackByRowIDv2 = patientID => {
+    this.data.getVaccinationFeedbackByRowIDv2(patientID).subscribe(res => {
+      // this.patientFeedBack = res[0].information;
+      this.patientVaccinationInfo = res[0];
+      console.table(this.patientVaccinationInfo)
+      console.table(this.patientVaccinationInfo.inoculatedOn);
+    })
+  }
 
 
 }

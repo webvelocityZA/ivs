@@ -17,4 +17,7 @@ export class IvsFooterComponent implements OnInit {
     this.isLoggedIn = this.data.isLoggedIn();
   }
 
+  reportFraud() {
+    window.open('https://www.gems.gov.za/en/Information/Fraud', '_blank');
+  }
 }

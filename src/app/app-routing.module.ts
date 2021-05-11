@@ -1,3 +1,4 @@
+import { TermsAndConditionsComponent } from './pages/terms-and-conditions/terms-and-conditions.component';
 import { ThankYouFeebackComponent } from './pages/thank-you-feeback/thank-you-feeback.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {NgModule} from '@angular/core';
@@ -100,6 +101,10 @@ const routes: Routes = [
   {
     path: 'thank-you-inoculation',
     component: ThankYouInoculationComponent
+  },
+  {
+    path: 'terms-and-conditions',
+    component: TermsAndConditionsComponent
   },
 ];
 

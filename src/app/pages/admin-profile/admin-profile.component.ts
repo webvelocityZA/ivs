@@ -14,9 +14,9 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 
 export class AdminProfileComponent implements OnInit {
 
-  id = 2;  // For demo purposes only
-  firstName: string;
-  lastName: string;
+  id = this.data.decryptData().userId;  // For demo purposes only
+  firstName: string = this.data.decryptData().firstName;
+  lastName: string = this.data.decryptData().surname;
   emailAddress: string =  this.data.decryptData().email;
   username: string = this.data.decryptData().username;
 
@@ -30,24 +30,15 @@ export class AdminProfileComponent implements OnInit {
   ngOnInit(): void {
     // tslint:disable-next-line: no-unused-expression
     this.updataUserProfile;
-
-    // For demo purposes only
-    // if(this.username ==='KEVINM') this.id=1;
-    // if(this.username ==='PALESAP') this.id=2;
-    // if(this.username ==='ABEGAILM') this.id=3;
-    // if(this.username ==='CLEMENTM') this.id=4;
+    console.log(this.data.decryptData())
   }
 
-
-
-  fetchUserProfile = () => {
-  }
 
   updataUserProfile = (e) => {
     const payload: UserAdmin = {
       id: this.id,
-      firstName: 'Kevin',
-      surname: 'Mpofu',
+      firstName: this.firstName,
+      surname: this.lastName,
       username: this.username,
       password: e.value.password,
       isAdmin: true

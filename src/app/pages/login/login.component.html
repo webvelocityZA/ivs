@@ -90,7 +90,7 @@
 
 
       <div class="mx-2 text-right">
-        <button mat-raised-button color="primary" [disabled]="loginForm.invalid" type="submit" (click)="login(loginForm)">Log In</button>
+        <button mat-raised-button color="primary" [disabled]="loginForm.invalid || !selectedlocation" type="submit" (click)="login(loginForm)">Log In</button>
       </div>
     </form>
 

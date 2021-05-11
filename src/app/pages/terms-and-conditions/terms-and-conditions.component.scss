@@ -1,0 +1,15 @@
+.content{
+  ol {
+    counter-reset: item
+  }
+  
+  ol li {
+    display: block;
+    margin-top: 20px;
+  }
+  
+  ol li:before {
+    content: counters(item, ".") " ";
+    counter-increment: item
+  }
+}
