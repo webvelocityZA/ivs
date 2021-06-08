@@ -21,7 +21,7 @@ import * as CryptoJS from 'crypto-js';
   providedIn: 'root'
 })
 export class DataService {
-  url = environment.API_ENDPOINT;
+  url = environment.QA_BASEURL;
   currentPatient!: Patient;
   isLoginSubject = new BehaviorSubject<boolean>(this.hasToken());
   selectedLocation: Centre;
@@ -267,8 +267,8 @@ resendOTP(idNumber): Observable<any>{
     return this.http.get<Centre[]>(`${this.url}/Centre`);
   }
 
-  getSiteVaccinationHistory(): Observable<SiteVaccinationHistory[]> {
-    return this.http.get<SiteVaccinationHistory[]>(`${this.url}/Vaccination/History/0`, this.addHeaderToken());
+  getSiteVaccinationHistory(SITEID: any): Observable<SiteVaccinationHistory[]> {
+    return this.http.get<SiteVaccinationHistory[]>(`${this.url}/Vaccination/History/${SITEID}`, this.addHeaderToken());
   }
 
   getVaccineCentre(siteId: number): Observable<VaccineCentre[]> {
