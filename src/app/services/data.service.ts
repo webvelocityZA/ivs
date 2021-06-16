@@ -21,7 +21,7 @@ import * as CryptoJS from 'crypto-js';
   providedIn: 'root'
 })
 export class DataService {
-  url = environment.QA_BASEURL;
+  url = environment.API_ENDPOINT;
   currentPatient!: Patient;
   isLoginSubject = new BehaviorSubject<boolean>(this.hasToken());
   selectedLocation: Centre;
